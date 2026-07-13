@@ -1,0 +1,3939 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈永华文化AI体验馆 · 集美文脉 两岸传薪</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --gold-dark: #b8941f;
+            --brown-deep: #1a0f0a;
+            --brown-dark: #2d1810;
+            --brown-medium: #4a2c1a;
+            --brown-light: #7a5230;
+            --cream: #f5e6d3;
+            --cream-dark: #e8d5b7;
+            --red: #8b2500;
+            --red-light: #c4302b;
+            --blue: #1e3a5f;
+            --blue-light: #3d6a9f;
+            --jade: #2d5a3d;
+            --jade-light: #4a8c5c;
+            --purple: #4a2c5a;
+        }
+        body {
+            font-family: "Noto Serif SC", "Microsoft YaHei", serif;
+            background: var(--brown-deep);
+            color: var(--cream);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        #particles {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none; z-index: 1;
+        }
+        .music-btn {
+            position: fixed; top: 80px; right: 30px;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: rgba(212,175,55,0.2);
+            border: 2px solid var(--gold);
+            color: var(--gold); font-size: 20px;
+            cursor: pointer; z-index: 200;
+            transition: all 0.3s;
+        }
+        .music-btn:hover { background: var(--gold); color: var(--brown-deep); transform: scale(1.1); }
+        .music-btn.playing { animation: spin 4s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .nav {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: rgba(26,15,10,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+            z-index: 100; padding: 0 30px;
+        }
+        .nav-inner {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; align-items: center; justify-content: space-between;
+            height: 70px;
+        }
+        .nav-logo {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 22px; color: var(--gold);
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-logo-icon {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: flex; align-items: center; justify-content: center;
+            color: var(--brown-deep); font-weight: 900; font-size: 18px;
+        }
+        .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+        .nav-link {
+            padding: 8px 14px; border-radius: 20px;
+            color: var(--cream-dark); cursor: pointer;
+            font-size: 13px; transition: all 0.3s;
+            text-decoration: none;
+        }
+        .nav-link:hover, .nav-link.active {
+            background: rgba(212,175,55,0.15);
+            color: var(--gold);
+        }
+        .main { position: relative; z-index: 2; padding-top: 70px; }
+        .section {
+            max-width: 1200px; margin: 0 auto;
+            padding: 80px 30px;
+        }
+        .section-header {
+            text-align: center; margin-bottom: 60px;
+        }
+        .section-badge {
+            display: inline-block; padding: 6px 20px;
+            background: rgba(212,175,55,0.15);
+            border: 1px solid var(--gold);
+            border-radius: 20px;
+            color: var(--gold); font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .section-title {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 42px; color: var(--cream);
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            font-size: 16px; color: var(--brown-light);
+            max-width: 600px; margin: 0 auto;
+        }
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            text-align: center; position: relative;
+            padding: 100px 30px 80px;
+        }
+        .hero::before {
+            content: ''; position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background:
+                radial-gradient(ellipse at top, rgba(212,175,55,0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom, rgba(139,37,0,0.1) 0%, transparent 50%);
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-badge {
+            display: inline-block; padding: 8px 24px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(139,37,0,0.2));
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            color: var(--gold); font-size: 14px;
+            margin-bottom: 24px;
+        }
+        .hero-title {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 64px; font-weight: 900;
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 16px;
+            line-height: 1.3;
+        }
+        .hero-subtitle {
+            font-size: 24px; color: var(--cream);
+            margin-bottom: 12px; font-weight: 600;
+        }
+        .hero-theme {
+            font-size: 18px; color: var(--gold);
+            margin-bottom: 24px; font-style: italic;
+        }
+        .hero-desc {
+            font-size: 16px; color: var(--brown-light);
+            margin-bottom: 40px; max-width: 700px;
+            margin-left: auto; margin-right: auto;
+        }
+        .hero-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 14px 32px; border-radius: 30px;
+            font-size: 16px; font-weight: 600;
+            cursor: pointer; transition: all 0.3s;
+            border: none; font-family: inherit;
+            display: inline-flex; align-items: center; gap: 8px;
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--brown-deep);
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.3); }
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+        .btn-outline:hover { background: rgba(212,175,55,0.1); transform: translateY(-2px); }
+        .hero-stats {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 30px; margin-top: 60px;
+        }
+        .hero-stat {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            border: 1px solid rgba(212,175,55,0.1);
+            transition: all 0.3s;
+        }
+        .hero-stat:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+        .hero-stat-num {
+            font-size: 36px; font-weight: 900;
+            color: var(--gold); font-family: "ZCOOL XiaoWei", serif;
+        }
+        .hero-stat-label { font-size: 14px; color: var(--brown-light); margin-top: 4px; }
+        /* Feature Grid */
+        .feature-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        .feature-card {
+            padding: 30px; border-radius: 20px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.15);
+            transition: all 0.3s; cursor: pointer;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .feature-icon {
+            width: 60px; height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(139,37,0,0.2));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px; margin-bottom: 20px;
+        }
+        .feature-card h3 { font-size: 18px; margin-bottom: 10px; color: var(--cream); }
+        .feature-card p { font-size: 14px; color: var(--brown-light); line-height: 1.7; }
+        /* Module Container */
+        .module-container {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+        /* Chat Module */
+        .chat-avatar {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 36px; margin: 0 auto 20px;
+            animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+            border: 3px solid rgba(212,175,55,0.3);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .chat-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        .chat-header { text-align: center; margin-bottom: 30px; }
+        .chat-header h2 { font-family: "ZCOOL XiaoWei", serif; font-size: 32px; margin-bottom: 8px; }
+        .chat-header p { color: var(--brown-light); }
+        .chat-tabs {
+            display: flex; gap: 8px; margin-bottom: 20px;
+            justify-content: center; flex-wrap: wrap;
+        }
+        .chat-tab {
+            padding: 8px 20px; border-radius: 20px;
+            background: rgba(255,255,255,0.05);
+            color: var(--brown-light); cursor: pointer;
+            font-size: 14px; transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .chat-tab.active {
+            background: rgba(212,175,55,0.15);
+            color: var(--gold); border-color: var(--gold);
+        }
+        .chat-messages {
+            height: 400px; overflow-y: auto;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            margin-bottom: 20px;
+        }
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); border-radius: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: rgba(212,175,55,0.3); border-radius: 3px; }
+        .message { display: flex; gap: 12px; margin-bottom: 20px; }
+        .message-avatar {
+            width: 40px; height: 40px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; color: var(--brown-deep); flex-shrink: 0;
+            font-size: 14px;
+            overflow: hidden;
+            border: 2px solid rgba(212,175,55,0.3);
+        }
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .message.user { flex-direction: row-reverse; }
+        .message.user .message-avatar { background: linear-gradient(135deg, var(--blue), var(--blue-light)); }
+        .message-bubble {
+            padding: 12px 16px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 0 16px 16px 16px;
+            max-width: 70%;
+            font-size: 14px; line-height: 1.8;
+            white-space: pre-wrap;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message.user .message-bubble {
+            background: rgba(30,58,95,0.3);
+            border-color: rgba(61,106,159,0.3);
+            border-radius: 16px 0 16px 16px;
+        }
+        .chat-input-area { display: flex; gap: 10px; }
+        .chat-input {
+            flex: 1; padding: 14px 20px;
+            border-radius: 30px;
+            border: 1px solid rgba(212,175,55,0.3);
+            background: rgba(0,0,0,0.2);
+            color: var(--cream);
+            font-family: inherit; font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .chat-input:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(212,175,55,0.1); }
+        .quick-questions {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            margin-bottom: 16px; justify-content: center;
+        }
+        .quick-q {
+            padding: 6px 14px; border-radius: 20px;
+            background: rgba(212,175,55,0.1);
+            color: var(--gold); font-size: 13px;
+            cursor: pointer; transition: all 0.3s;
+            border: 1px solid rgba(212,175,55,0.2);
+        }
+        .quick-q:hover { background: rgba(212,175,55,0.2); transform: translateY(-2px); }
+        /* Story Module */
+        .story-container { max-width: 800px; margin: 0 auto; }
+        .story-scene {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(212,175,55,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .story-scene::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+        .story-chapter {
+            display: inline-block;
+            padding: 4px 16px;
+            background: rgba(212,175,55,0.2);
+            color: var(--gold);
+            border-radius: 20px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+        .story-title {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 32px; margin-bottom: 20px;
+            color: var(--gold);
+        }
+        .story-content {
+            font-size: 16px; line-height: 2;
+            color: var(--cream);
+            margin-bottom: 30px;
+            white-space: pre-wrap;
+        }
+        .story-choices { display: flex; flex-direction: column; gap: 12px; }
+        .story-choice {
+            padding: 16px 24px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 12px;
+            color: var(--cream);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+            font-family: inherit;
+            text-align: left;
+        }
+        .story-choice:hover {
+            background: rgba(212,175,55,0.1);
+            border-color: var(--gold);
+            transform: translateX(5px);
+        }
+        .story-progress {
+            display: flex; gap: 6px; justify-content: center;
+            margin-bottom: 30px;
+        }
+        .story-dot {
+            width: 10px; height: 10px; border-radius: 50%;
+            background: rgba(212,175,55,0.2);
+            transition: all 0.3s;
+        }
+        .story-dot.active { background: var(--gold); transform: scale(1.3); box-shadow: 0 0 10px rgba(212,175,55,0.5); }
+        /* Film Camp Banner */
+        .film-camp-banner {
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(139,37,0,0.2), rgba(74,44,90,0.2));
+            border-radius: 16px;
+            border: 1px solid rgba(196,48,43,0.3);
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 24px;
+            align-items: center;
+        }
+        .film-camp-icon {
+            font-size: 64px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .fade-in-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .film-camp-content h4 {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 22px; color: var(--gold);
+            margin-bottom: 8px;
+        }
+        .film-camp-content p { color: var(--brown-light); font-size: 14px; }
+        .film-camp-tags {
+            display: flex; gap: 6px; margin-top: 10px; flex-wrap: wrap;
+        }
+        .film-camp-tag {
+            padding: 4px 12px;
+            background: rgba(212,175,55,0.15);
+            color: var(--gold);
+            border-radius: 12px;
+            font-size: 12px;
+        }
+        /* Script Generator */
+        .script-generator {
+            margin-top: 40px; padding-top: 40px;
+            border-top: 1px solid rgba(212,175,55,0.2);
+        }
+        .script-generator h3 {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 24px; color: var(--gold);
+            margin-bottom: 10px; text-align: center;
+        }
+        .script-generator-desc {
+            text-align: center;
+            color: var(--brown-light);
+            margin-bottom: 24px;
+            font-size: 14px;
+        }
+        .script-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        .script-step {
+            text-align: center;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.1);
+        }
+        .script-step-num {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--brown-deep);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700;
+            margin: 0 auto 10px;
+        }
+        .script-step-title { font-size: 13px; color: var(--cream); font-weight: 600; }
+        .script-step-desc { font-size: 11px; color: var(--brown-light); margin-top: 4px; }
+        .script-form {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 16px; margin-bottom: 20px;
+        }
+        .script-form .full { grid-column: 1 / -1; }
+        .script-input label {
+            display: block; font-size: 13px;
+            color: var(--gold); margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .script-input input, .script-input select, .script-input textarea {
+            width: 100%; padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(212,175,55,0.3);
+            background: rgba(0,0,0,0.2);
+            color: var(--cream);
+            font-family: inherit; font-size: 14px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        .script-input input:focus, .script-input select:focus, .script-input textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 15px rgba(212,175,55,0.1);
+        }
+        .script-input textarea { min-height: 80px; resize: vertical; }
+        .script-result {
+            background: rgba(0,0,0,0.3);
+            border-radius: 12px;
+            padding: 30px;
+            border: 1px solid rgba(212,175,55,0.2);
+            display: none;
+            margin-top: 20px;
+        }
+        .script-result.show { display: block; animation: fadeIn 0.5s ease; }
+        .script-title {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 24px; color: var(--gold);
+            text-align: center; margin-bottom: 10px;
+        }
+        .script-meta {
+            text-align: center; color: var(--brown-light);
+            font-size: 13px; margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px dashed rgba(212,175,55,0.2);
+        }
+        .script-scene { margin-bottom: 24px; }
+        .script-scene-title {
+            font-size: 16px; font-weight: 700;
+            color: var(--gold); margin-bottom: 8px;
+            padding-left: 12px;
+            border-left: 3px solid var(--gold);
+        }
+        .script-dialogue {
+            padding-left: 20px;
+            border-left: 3px solid rgba(212,175,55,0.3);
+            margin-bottom: 12px;
+        }
+        .script-char {
+            font-weight: 700; color: var(--cream);
+            font-size: 14px;
+        }
+        .script-line {
+            font-size: 14px; color: var(--brown-light);
+            line-height: 1.8; margin-top: 4px;
+        }
+        .script-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        /* AIGC Module */
+        .aigc-tabs {
+            display: flex; gap: 8px; margin-bottom: 30px;
+            flex-wrap: wrap; justify-content: center;
+        }
+        .aigc-tab {
+            padding: 10px 18px; border-radius: 25px;
+            background: rgba(255,255,255,0.05);
+            color: var(--brown-light); cursor: pointer;
+            font-size: 13px; transition: all 0.3s;
+            border: 1px solid transparent;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .aigc-tab.active {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(139,37,0,0.2));
+            color: var(--gold); border-color: var(--gold);
+        }
+        .aigc-workspace {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        .aigc-controls { display: flex; flex-direction: column; gap: 16px; }
+        .aigc-input-group label {
+            display: block; font-size: 14px;
+            color: var(--gold); margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .aigc-input-group textarea,
+        .aigc-input-group input[type="text"] {
+            width: 100%; padding: 12px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.3);
+            background: rgba(0,0,0,0.2);
+            color: var(--cream);
+            font-family: inherit; font-size: 14px;
+            outline: none; resize: vertical;
+            min-height: 80px;
+            transition: all 0.3s;
+        }
+        .aigc-input-group textarea:focus,
+        .aigc-input-group input:focus { border-color: var(--gold); box-shadow: 0 0 20px rgba(212,175,55,0.1); }
+        .file-upload {
+            border: 2px dashed rgba(212,175,55,0.3);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .file-upload:hover {
+            border-color: var(--gold);
+            background: rgba(212,175,55,0.05);
+        }
+        .file-upload-icon { font-size: 28px; margin-bottom: 8px; }
+        .file-upload-text { font-size: 13px; color: var(--brown-light); }
+        .style-picker {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .style-option {
+            padding: 10px 6px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+        .style-option:hover { background: rgba(212,175,55,0.1); transform: translateY(-2px); }
+        .style-option.active {
+            border-color: var(--gold);
+            background: rgba(212,175,55,0.1);
+        }
+        .style-option-icon { font-size: 20px; margin-bottom: 4px; }
+        .style-option-name { font-size: 11px; color: var(--cream); }
+        .generate-btn {
+            padding: 16px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--brown-deep);
+            border: none; border-radius: 12px;
+            font-size: 16px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
+            font-family: inherit;
+        }
+        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(212,175,55,0.3); }
+        .aigc-preview {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.2);
+            min-height: 500px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            padding: 30px; position: relative;
+            overflow: hidden;
+        }
+        .aigc-preview-placeholder {
+            text-align: center; color: var(--brown-light);
+        }
+        .aigc-preview-icon { font-size: 64px; margin-bottom: 16px; opacity: 0.3; }
+        .artwork-canvas {
+            width: 100%; height: 100%;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            border-radius: 16px;
+            padding: 30px;
+            position: relative;
+        }
+        .artwork-icon-big {
+            font-size: 100px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+        }
+        .artwork-title {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 24px; margin: 10px 0;
+        }
+        .artwork-desc { font-size: 14px; opacity: 0.85; text-align: center; line-height: 1.8; }
+        .artwork-tag {
+            display: inline-block;
+            padding: 6px 16px;
+            border: 2px solid currentColor;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 20px;
+        }
+        .artwork-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 10px; margin-top: 20px;
+            width: 100%;
+        }
+        .artwork-pattern {
+            aspect-ratio: 1;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 28px;
+            border: 2px solid rgba(255,255,255,0.2);
+            transition: all 0.3s;
+        }
+        .artwork-pattern:hover {
+            transform: scale(1.05);
+            border-color: currentColor;
+        }
+        .heritage-intro {
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border-left: 3px solid var(--gold);
+        }
+        .heritage-intro h5 {
+            color: var(--gold);
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+        .heritage-intro p {
+            color: var(--brown-light);
+            font-size: 12px;
+            line-height: 1.7;
+        }
+        .real-work-gallery {
+            margin-top: 16px;
+            padding: 14px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border-left: 3px solid var(--jade-light);
+        }
+        .real-work-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 8px;
+        }
+        .real-work-item {
+            aspect-ratio: 1;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(212,175,55,0.1);
+            overflow: hidden;
+            font-size: 24px;
+            position: relative;
+        }
+        .real-work-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .real-work-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .real-work-item span {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            color: var(--cream);
+            font-size: 10px;
+            padding: 12px 4px 4px;
+            text-align: center;
+            z-index: 2;
+        }
+        @media (max-width: 768px) {
+            .real-work-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        /* Seal Module */
+        .seal-container {
+            display: flex; align-items: center;
+            justify-content: center; gap: 30px;
+            flex-wrap: wrap;
+        }
+        .seal-side { text-align: center; flex: 1; min-width: 200px; max-width: 280px; }
+        .seal-side h3 {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 24px; margin-bottom: 20px;
+            color: var(--gold);
+        }
+        .seal-canvas {
+            width: 160px; height: 160px;
+            margin: 0 auto 20px;
+            border: 3px solid var(--red);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(139,37,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            cursor: pointer;
+        }
+        .seal-canvas:hover { transform: scale(1.05); }
+        .seal-canvas.stamped {
+            background: var(--red);
+            box-shadow: 0 0 30px rgba(139,37,0,0.5);
+            animation: stampBounce 0.5s ease;
+        }
+        @keyframes stampBounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .seal-text {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 42px; font-weight: 900;
+            color: var(--red);
+            transition: all 0.3s;
+            writing-mode: vertical-rl;
+        }
+        .seal-canvas.stamped .seal-text { color: var(--cream); }
+        .seal-stamp {
+            display: inline-block;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--red), #6b1a00);
+            color: var(--cream);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px; font-weight: 600;
+            transition: all 0.3s;
+            border: none; font-family: inherit;
+        }
+        .seal-stamp:hover { transform: scale(1.05); box-shadow: 0 5px 20px rgba(139,37,0,0.4); }
+        .seal-side p { color: var(--brown-light); font-size: 13px; margin-top: 12px; line-height: 1.7; }
+        .seal-bridge {
+            display: flex; flex-direction: column;
+            align-items: center; gap: 10px;
+            padding: 20px;
+        }
+        .bridge-icon { font-size: 32px; animation: wave 2s ease-in-out infinite; }
+        @keyframes wave {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+        .bridge-text {
+            text-align: center; color: var(--gold);
+            font-size: 14px; line-height: 2;
+        }
+        .seal-unite-btn {
+            display: block;
+            margin: 40px auto 0;
+            padding: 16px 40px;
+            background: linear-gradient(135deg, var(--gold), var(--red));
+            color: var(--cream);
+            border: none; border-radius: 30px;
+            font-size: 18px; font-weight: 700;
+            cursor: pointer; transition: all 0.3s;
+            font-family: inherit;
+        }
+        .seal-unite-btn:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(212,175,55,0.4); }
+        .seal-story {
+            margin-top: 40px;
+            padding: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            border-left: 4px solid var(--gold);
+        }
+        .seal-story h4 {
+            font-family: "ZCOOL XiaoWei", serif;
+            color: var(--gold);
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+        .seal-story p {
+            color: var(--brown-light);
+            font-size: 14px;
+            line-height: 2;
+        }
+        /* Game Module */
+        .game-tabs {
+            display: flex; gap: 8px; margin-bottom: 30px;
+            justify-content: center; flex-wrap: wrap;
+        }
+        .game-tab {
+            padding: 10px 22px; border-radius: 25px;
+            background: rgba(255,255,255,0.05);
+            color: var(--brown-light); cursor: pointer;
+            font-size: 14px; transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .game-tab.active {
+            background: rgba(212,175,55,0.15);
+            color: var(--gold); border-color: var(--gold);
+        }
+        .game-stats {
+            display: flex; justify-content: center; gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .game-stat {
+            text-align: center;
+            padding: 10px 20px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 12px;
+            min-width: 100px;
+        }
+        .game-stat-label { font-size: 12px; color: var(--brown-light); }
+        .game-stat-value { font-size: 20px; font-weight: 700; color: var(--gold); }
+        /* Memory Game */
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 500px; margin: 0 auto;
+        }
+        .memory-card {
+            aspect-ratio: 1;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+        .memory-card-inner {
+            position: relative;
+            width: 100%; height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        .memory-card.flipped .memory-card-inner { transform: rotateY(180deg); }
+        .memory-card-front, .memory-card-back {
+            position: absolute;
+            width: 100%; height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 32px;
+        }
+        .memory-card-front {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--brown-deep);
+            font-size: 24px; font-weight: 900;
+        }
+        .memory-card-back {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid var(--gold);
+            transform: rotateY(180deg);
+        }
+        .memory-card.matched .memory-card-back {
+            background: rgba(74,140,92,0.3);
+            border-color: var(--jade-light);
+            animation: matchPulse 0.5s ease;
+        }
+        @keyframes matchPulse {
+            0% { transform: rotateY(180deg) scale(1); }
+            50% { transform: rotateY(180deg) scale(1.1); }
+            100% { transform: rotateY(180deg) scale(1); }
+        }
+        /* Puzzle Game */
+        .puzzle-game {
+            text-align: center;
+            max-width: 600px; margin: 0 auto;
+        }
+        .puzzle-target {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 18px; color: var(--gold);
+            margin-bottom: 20px;
+        }
+        .puzzle-slots {
+            display: flex; justify-content: center; gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .puzzle-slot {
+            width: 55px; height: 55px;
+            border: 2px dashed rgba(212,175,55,0.3);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 26px; font-weight: 700;
+            color: var(--gold);
+            transition: all 0.3s;
+        }
+        .puzzle-slot.filled {
+            border-style: solid;
+            border-color: var(--gold);
+            background: rgba(212,175,55,0.1);
+            animation: slotFill 0.3s ease;
+        }
+        @keyframes slotFill {
+            0% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        .puzzle-characters {
+            display: flex; justify-content: center; gap: 10px;
+            flex-wrap: wrap;
+        }
+        .puzzle-char {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--brown-deep);
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 24px; font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .puzzle-char:hover { transform: scale(1.1); box-shadow: 0 5px 15px rgba(212,175,55,0.3); }
+        .puzzle-char.used { opacity: 0.3; cursor: not-allowed; transform: none; }
+        /* Quiz Game */
+        .quiz-container { max-width: 600px; margin: 0 auto; }
+        .quiz-question {
+            font-size: 18px; font-weight: 600;
+            margin-bottom: 24px;
+            color: var(--cream);
+            line-height: 1.7;
+        }
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+        .quiz-option {
+            padding: 14px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(212,175,55,0.2);
+            border-radius: 12px;
+            color: var(--cream);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 15px;
+        }
+        .quiz-option:hover { background: rgba(212,175,55,0.1); border-color: var(--gold); transform: translateX(5px); }
+        .quiz-option.correct { background: rgba(74,140,92,0.3); border-color: var(--jade-light); }
+        .quiz-option.wrong { background: rgba(196,48,43,0.3); border-color: var(--red-light); }
+        .quiz-feedback {
+            margin-top: 20px; padding: 16px;
+            background: rgba(212,175,55,0.1);
+            border-radius: 12px;
+            font-size: 14px;
+            line-height: 1.8;
+            display: none;
+        }
+        .quiz-feedback.show { display: block; animation: fadeIn 0.3s ease; }
+        .quiz-next {
+            margin-top: 20px; text-align: center;
+        }
+        /* 家训闯关 */
+        .mountain-game {
+            max-width: 700px; margin: 0 auto;
+            position: relative;
+        }
+        .mountain-path {
+            display: flex; flex-direction: column;
+            gap: 10px;
+        }
+        .mountain-step {
+            display: flex; align-items: center; gap: 16px;
+            padding: 16px 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .mountain-step:hover { background: rgba(255,255,255,0.06); }
+        .mountain-step.current {
+            background: rgba(212,175,55,0.1);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(212,175,55,0.1);
+        }
+        .mountain-step.completed {
+            background: rgba(74,140,92,0.1);
+            border-color: var(--jade-light);
+        }
+        .step-num {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: rgba(212,175,55,0.2);
+            color: var(--gold);
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 14px;
+            flex-shrink: 0;
+            transition: all 0.3s;
+        }
+        .mountain-step.completed .step-num {
+            background: var(--jade-light);
+            color: var(--brown-deep);
+        }
+        .step-title {
+            flex: 1; font-size: 15px;
+            color: var(--cream);
+        }
+        .step-status { font-size: 13px; color: var(--brown-light); }
+        .mountain-step.completed .step-status { color: var(--jade-light); }
+        .family-instruction {
+            margin-top: 30px; padding: 30px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+            border-left: 4px solid var(--gold);
+            animation: slideUp 0.5s ease;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .family-instruction h4 {
+            color: var(--gold); font-size: 18px;
+            margin-bottom: 16px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .family-instruction p {
+            font-size: 15px; line-height: 2;
+            color: var(--cream);
+            font-style: italic;
+        }
+        .instruction-source {
+            margin-top: 12px; font-size: 13px;
+            color: var(--brown-light);
+            text-align: right;
+        }
+        .exhibition-map {
+            margin-top: 30px;
+            padding: 24px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 16px;
+        }
+        .exhibition-map h4 {
+            font-family: "ZCOOL XiaoWei", serif;
+            color: var(--gold);
+            font-size: 18px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        .exhibition-zones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+        .exhibition-zone {
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.1);
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .exhibition-zone:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+        .exhibition-zone-icon { font-size: 28px; margin-bottom: 8px; }
+        .exhibition-zone-title { font-size: 13px; color: var(--cream); font-weight: 600; }
+        .exhibition-zone-desc { font-size: 11px; color: var(--brown-light); margin-top: 4px; }
+        /* Chen Jinnan Section */
+        .jinnan-container {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 40px; align-items: center;
+        }
+        .jinnan-content h3 {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 28px; color: var(--red-light);
+            margin-bottom: 16px;
+        }
+        .jinnan-content p {
+            font-size: 15px; line-height: 2;
+            color: var(--brown-light);
+            margin-bottom: 16px;
+        }
+        .jinnan-highlights {
+            display: grid; grid-template-columns: repeat(2, 1fr);
+            gap: 12px; margin-top: 24px;
+        }
+        .jinnan-highlight {
+            padding: 16px;
+            background: rgba(139,37,0,0.1);
+            border: 1px solid rgba(196,48,43,0.3);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .jinnan-highlight:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(139,37,0,0.2);
+        }
+        .jinnan-highlight-icon { font-size: 28px; margin-bottom: 8px; }
+        .jinnan-highlight-title {
+            font-size: 14px; font-weight: 600;
+            color: var(--red-light); margin-bottom: 4px;
+        }
+        .jinnan-highlight-desc { font-size: 12px; color: var(--brown-light); }
+        .jinnan-visual {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, rgba(139,37,0,0.3), rgba(74,44,90,0.3));
+            border-radius: 24px;
+            border: 2px solid rgba(196,48,43,0.3);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .jinnan-visual::before {
+            content: '天地會';
+            position: absolute;
+            font-size: 100px;
+            font-family: "ZCOOL XiaoWei", serif;
+            color: rgba(196,48,43,0.1);
+            font-weight: 900;
+            transform: rotate(-15deg);
+            animation: floatBg 6s ease-in-out infinite;
+        }
+        @keyframes floatBg {
+            0%, 100% { transform: rotate(-15deg) translateY(0); }
+            50% { transform: rotate(-15deg) translateY(-20px); }
+        }
+        .jinnan-big-icon { font-size: 80px; margin-bottom: 20px; position: relative; z-index: 1; }
+        .jinnan-visual-title {
+            font-family: "ZCOOL XiaoWei", serif;
+            font-size: 28px; color: var(--red-light);
+            position: relative; z-index: 1;
+        }
+        .jinnan-visual-sub {
+            font-size: 14px; color: var(--brown-light);
+            margin-top: 8px; position: relative; z-index: 1;
+        }
+        .wuxia-quote {
+            margin-top: 24px;
+            padding: 20px;
+            background: rgba(139,37,0,0.1);
+            border-radius: 12px;
+            border-left: 4px solid var(--red-light);
+        }
+        .wuxia-quote p {
+            color: var(--cream);
+            font-style: italic;
+            font-size: 16px;
+            text-align: center;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .wuxia-quote .quote-source {
+            text-align: right;
+            color: var(--brown-light);
+            font-size: 13px;
+            margin-top: 10px;
+            font-style: normal;
+        }
+        /* Offline Exhibition */
+        .offline-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        .offline-card {
+            border-radius: 16px;
+            overflow: hidden;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.15);
+            transition: all 0.3s;
+        }
+        .offline-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+        .offline-img {
+            aspect-ratio: 4/3;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 64px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.15), rgba(139,37,0,0.15));
+            position: relative;
+            overflow: hidden;
+        }
+        .offline-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        .offline-card:hover .offline-img img {
+            transform: scale(1.08);
+        }
+        .offline-img::before {
+            content: '';
+            position: absolute;
+            top: 8px; left: 8px; right: 8px; bottom: 8px;
+            border: 2px solid rgba(212,175,55,0.3);
+            border-radius: 4px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .offline-img::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+            transition: left 0.6s;
+            z-index: 3;
+            pointer-events: none;
+        }
+        .offline-card:hover .offline-img::after { left: 100%; }
+        .offline-img-label {
+            position: absolute;
+            bottom: 12px; right: 12px;
+            padding: 6px 14px;
+            background: linear-gradient(135deg, rgba(139,37,0,0.9), rgba(100,25,0,0.9));
+            color: var(--gold);
+            font-size: 12px;
+            border-radius: 2px;
+            backdrop-filter: blur(5px);
+            z-index: 4;
+            border: 1px solid rgba(212,175,55,0.3);
+            font-family: 'ZCOOL XiaoWei', serif;
+            letter-spacing: 1px;
+        }
+        .offline-img-label::before,
+        .offline-img-label::after {
+            content: '';
+            position: absolute;
+            width: 8px; height: 8px;
+            border: 1px solid var(--gold);
+        }
+        .offline-img-label::before {
+            top: -1px; left: -1px;
+            border-right: none;
+            border-bottom: none;
+        }
+        .offline-img-label::after {
+            bottom: -1px; right: -1px;
+            border-left: none;
+            border-top: none;
+        }
+        .offline-info { padding: 20px; }
+        .offline-info h4 { font-size: 16px; margin-bottom: 8px; color: var(--cream); }
+        .offline-info p { font-size: 13px; color: var(--brown-light); line-height: 1.7; }
+        .offline-tags { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+        .offline-tag {
+            padding: 3px 10px;
+            background: rgba(212,175,55,0.1);
+            color: var(--gold);
+            border-radius: 10px;
+            font-size: 11px;
+        }
+        .offline-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(212,175,55,0.1);
+        }
+        .offline-duration {
+            font-size: 12px;
+            color: var(--brown-light);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .offline-btn {
+            font-size: 12px;
+            padding: 4px 12px;
+            background: rgba(212,175,55,0.15);
+            color: var(--gold);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .offline-btn:hover { background: var(--gold); color: var(--brown-deep); }
+        /* Toast */
+        .toast {
+            position: fixed; bottom: 40px; left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            padding: 14px 28px;
+            background: rgba(26,15,10,0.95);
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            border-radius: 30px;
+            font-size: 14px; font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        /* Footer */
+        .footer {
+            text-align: center; padding: 40px 30px;
+            border-top: 1px solid rgba(212,175,55,0.1);
+            color: var(--brown-light); font-size: 13px;
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .hero-title { font-size: 42px; }
+            .hero-stats { grid-template-columns: repeat(2, 1fr); }
+            .feature-grid { grid-template-columns: repeat(2, 1fr); }
+            .aigc-workspace { grid-template-columns: 1fr; }
+            .jinnan-container { grid-template-columns: 1fr; }
+            .offline-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 32px; }
+            .nav-links { display: none; }
+            .script-steps { grid-template-columns: repeat(2, 1fr); }
+            .exhibition-zones { grid-template-columns: repeat(2, 1fr); }
+            .film-camp-banner { grid-template-columns: 1fr; text-align: center; }
+            .film-camp-icon { font-size: 48px; }
+        }
+        @media (max-width: 600px) {
+            .hero-title { font-size: 32px; }
+            .feature-grid { grid-template-columns: 1fr; }
+            .memory-grid { grid-template-columns: repeat(3, 1fr); }
+            .script-form { grid-template-columns: 1fr; }
+            .style-picker { grid-template-columns: repeat(2, 1fr); }
+            .exhibition-zones { grid-template-columns: 1fr; }
+            .script-steps { grid-template-columns: 1fr; }
+            .hero-stats { grid-template-columns: 1fr 1fr; }
+            .module-container { padding: 24px; }
+            .section { padding: 60px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()">🎵</button>
+
+    <nav class="nav">
+        <div class="nav-inner">
+            <div class="nav-logo">
+                <div class="nav-logo-icon">陈</div>
+                <span>陈永华文化AI体验馆</span>
+            </div>
+            <div class="nav-links">
+                <a class="nav-link active" onclick="scrollToSection('hero')">首页</a>
+                <a class="nav-link" onclick="scrollToSection('chat')">AI对话</a>
+                <a class="nav-link" onclick="scrollToSection('story')">时空穿越</a>
+                <a class="nav-link" onclick="scrollToSection('aigc')">AI文创</a>
+                <a class="nav-link" onclick="scrollToSection('seal')">霞憩双印</a>
+                <a class="nav-link" onclick="scrollToSection('game')">闯关乐园</a>
+                <a class="nav-link" onclick="scrollToSection('jinnan')">陈近南</a>
+                <a class="nav-link" onclick="scrollToSection('offline')">线下展</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main">
+        <!-- Hero -->
+        <section class="hero" id="hero">
+            <div class="hero-content">
+                <div class="hero-badge">🌊 集美文脉 · 两岸传薪</div>
+                <h1 class="hero-title">陈永华文化AI体验馆</h1>
+                <p class="hero-subtitle">穿越时空 · 对话先贤 · 传承文脉</p>
+                <p class="hero-theme">—— 从集美到台南，文脉相连，初心不改 ——</p>
+                <p class="hero-desc">
+                    以AI活化历史，用科技连接两岸。跟随陈永华先生的足迹，
+                    开启一场跨越时空的文化之旅。AI对话先贤、共创短片剧本、
+                    生成非遗文创、体验文化闯关，沉浸式感受中华文脉的深厚底蕴。
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('chat')">
+                        <span>🎭</span> 开始对话
+                    </button>
+                    <button class="btn btn-outline" onclick="scrollToSection('story')">
+                        <span>⏳</span> 穿越时空
+                    </button>
+                    <button class="btn btn-outline" onclick="scrollToSection('aigc')">
+                        <span>🎨</span> AI文创
+                    </button>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">8+</div>
+                        <div class="hero-stat-label">体验模块</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">6</div>
+                        <div class="hero-stat-label">非遗工艺</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">6</div>
+                        <div class="hero-stat-label">剧情场景</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-num">∞</div>
+                        <div class="hero-stat-label">文创生成</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Feature Grid -->
+        <section class="section" id="features">
+            <div class="section-header">
+                <div class="section-badge">✨ 八大核心模块</div>
+                <h2 class="section-title">沉浸式文化体验</h2>
+                <p class="section-subtitle">从对话到创作，从游戏到研学，全方位感受陈永华文化魅力</p>
+            </div>
+            <div class="feature-grid">
+                <div class="feature-card" onclick="scrollToSection('chat')">
+                    <div class="feature-icon">🎭</div>
+                    <h3>AI先贤对话</h3>
+                    <p>与AI化身的陈永华先生对话，了解其生平事迹、教育理念与家国情怀</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('story')">
+                    <div class="feature-icon">🎬</div>
+                    <h3>时空穿越·剧本创作</h3>
+                    <p>互动剧情体验+AI短片剧本生成，中学生影视集训营核心课程</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('aigc')">
+                    <div class="feature-icon">🎨</div>
+                    <h3>AI文创图纸生成</h3>
+                    <p>六大非遗工艺+卡通角色+啃蹄马印+专属银票，AI辅助创作</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('seal')">
+                    <div class="feature-icon">💮</div>
+                    <h3>霞憩双印</h3>
+                    <p>霞城印与憩园印融合，生成专属啃蹄马印章，两岸文化纽带</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('game')">
+                    <div class="feature-icon">🎮</div>
+                    <h3>文化展闯关乐园</h3>
+                    <p>陈氏家训闯关+陈永华文化展+记忆翻牌+知识问答，边玩边学</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('jinnan')">
+                    <div class="feature-icon">⚔️</div>
+                    <h3>陈近南探秘</h3>
+                    <p>天地会总舵主原型，武侠文化与历史人物的奇妙交融</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('aigc')">
+                    <div class="feature-icon">🧵</div>
+                    <h3>非遗工艺传承</h3>
+                    <p>珠绣、宋锦、漆线雕、拼豆、剪瓷，五大非遗AI设计</p>
+                </div>
+                <div class="feature-card" onclick="scrollToSection('offline')">
+                    <div class="feature-icon">📸</div>
+                    <h3>线下互动体验</h3>
+                    <p>AI影视集训营、文化展闯关、非遗工坊，线上线下联动</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- AI Chat -->
+        <section class="section" id="chat">
+            <div class="section-header">
+                <div class="section-badge">🎭 AI先贤对话</div>
+                <h2 class="section-title">对话陈永华先生</h2>
+                <p class="section-subtitle">穿越时空，与先贤面对面交流，感受一代大儒的智慧与风骨</p>
+            </div>
+            <div class="module-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">
+                        <img src="images/chen-avatar.jpg" alt="陈永华" onerror="this.style.display='none';this.parentElement.innerHTML='陈';">
+                    </div>
+                    <h2>陈永华先生</h2>
+                    <p>字复甫，厦门集美后溪下店人氏，台湾文教之父</p>
+                </div>
+                <div class="chat-tabs">
+                    <div class="chat-tab active" onclick="setChatMode('normal')">💬 日常对话</div>
+                    <div class="chat-tab" onclick="setChatMode('education')">🎓 教育理念</div>
+                    <div class="chat-tab" onclick="setChatMode('crossstrait')">🌊 两岸文化</div>
+                    <div class="chat-tab" onclick="setChatMode('youth')">🌟 青年寄语</div>
+                </div>
+                <div class="quick-questions">
+                    <span class="quick-q" onclick="setPrompt('您的生平经历是怎样的？')">📖 生平经历</span>
+                    <span class="quick-q" onclick="setPrompt('您的教育理念是什么？')">🎓 教育理念</span>
+                    <span class="quick-q" onclick="setPrompt('对两岸文化的看法')">🌊 两岸文化</span>
+                    <span class="quick-q" onclick="setPrompt('对年轻人的期望')">🌟 青年寄语</span>
+                    <span class="quick-q" onclick="setPrompt('啃蹄马印章的来历')">💮 啃蹄马印</span>
+                    <span class="quick-q" onclick="setPrompt('陈氏家训有哪些？')">📜 陈氏家训</span>
+                    <span class="quick-q" onclick="setPrompt('陈近南与您的关系？')">⚔️ 陈近南</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-avatar">
+                            <img src="images/chen-avatar.jpg" alt="陈" onerror="this.style.display='none';this.parentElement.innerHTML='陈';">
+                        </div>
+                        <div class="message-bubble">
+                            后生可畏！吾乃陈永华，字复甫，厦门集美后溪下店人氏。
+                            <br><br>
+                            昔年随延平郡王郑成功渡台，在台推行教化，建孔庙、设学校、定礼制，开启台湾文教之先河。
+                            <br><br>
+                            今日借助AI之术与汝等对话，甚感欣慰。海峡虽宽，文脉相连。汝辈有何疑问，尽管道来。
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="输入你想说的话..." onkeypress="handleKeyPress(event)">
+                    <button class="btn btn-primary" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story + Script -->
+        <section class="section" id="story">
+            <div class="section-header">
+                <div class="section-badge">⏳ 时空穿越 · 剧本生成</div>
+                <h2 class="section-title">穿越时空 · 共创剧本</h2>
+                <p class="section-subtitle">亲历陈永华先生的传奇人生，并与IP人物共同创作专属短片剧本</p>
+            </div>
+            <div class="module-container">
+                <!-- 时空穿越故事 -->
+                <div class="story-container">
+                    <div class="story-progress" id="storyProgress"></div>
+                    <div class="story-scene" id="storyScene">
+                        <div class="story-chapter" id="storyChapter">序章</div>
+                        <h2 class="story-title" id="storyTitle">缘起·集美故里</h2>
+                        <div class="story-content" id="storyContent">
+明万历三十四年，厦门集美后溪下店。
+
+陈家宅院内，一声啼哭划破了清晨的宁静。一个男婴降生了，取名永华，字复甫。
+
+谁也不曾想到，这个孩子日后会渡海赴台，开启台湾文教的新篇章。
+
+时光荏苒，少年陈永华聪慧好学，博览群书，立下了济世安民的志向。
+
+此刻，青年陈永华正站在集美城外的渡口，望着远方的大海。
+                        </div>
+                        <div class="story-choices" id="storyChoices">
+                            <button class="story-choice" onclick="makeChoice(0)">📚 继续苦读，以待天时</button>
+                            <button class="story-choice" onclick="makeChoice(1)">⛵ 出海游历，增长见闻</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 影视集训营介绍 -->
+                <div class="film-camp-banner">
+                    <div class="film-camp-icon">🎬</div>
+                    <div class="film-camp-content">
+                        <h4>🎥 中学生AI影视集训营</h4>
+                        <p>用AI创作剧本，演绎剧本角色，学习拍摄微电影，剪辑成片。五天时间，从0到1完成一部属于自己的短片！</p>
+                        <div class="film-camp-tags">
+                            <span class="film-camp-tag">AI剧本创作</span>
+                            <span class="film-camp-tag">角色演绎</span>
+                            <span class="film-camp-tag">拍摄技巧</span>
+                            <span class="film-camp-tag">剪辑成片</span>
+                            <span class="film-camp-tag">5天集训</span>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="scrollToScriptGenerator()">
+                        开始创作 →
+                    </button>
+                </div>
+
+                <!-- Script Generator -->
+                <div class="script-generator" id="scriptGen">
+                    <h3>📝 我的专属短片剧本</h3>
+                    <p class="script-generator-desc">
+                        输入你的角色和故事主题，与陈永华先生一起创作一部专属短片剧本
+                    </p>
+
+                    <!-- 影视集训营课程 -->
+                    <div style="margin-bottom: 30px; padding: 24px; background: rgba(212,175,55,0.05); border-radius: 16px; border: 1px solid rgba(212,175,55,0.15);">
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; text-align: center;">🎥 中学生AI影视集训营 · 五大核心课程</h4>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;">
+                            <div style="text-align: center; padding: 16px 8px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">📝</div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">AI剧本创作</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">AI辅助剧本写作</div>
+                            </div>
+                            <div style="text-align: center; padding: 16px 8px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">🎭</div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">角色演绎</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">表演技巧训练</div>
+                            </div>
+                            <div style="text-align: center; padding: 16px 8px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">🎥</div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">拍摄技巧</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">运镜构图灯光</div>
+                            </div>
+                            <div style="text-align: center; padding: 16px 8px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">✂️</div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">剪辑成片</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">后期剪辑调色</div>
+                            </div>
+                            <div style="text-align: center; padding: 16px 8px; background: rgba(255,255,255,0.03); border-radius: 12px;">
+                                <div style="font-size: 28px; margin-bottom: 8px;">🏆</div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">影展颁奖</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">作品展示评选</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="script-steps">
+                        <div class="script-step">
+                            <div class="script-step-num">1</div>
+                            <div class="script-step-title">设定角色</div>
+                            <div class="script-step-desc">你的名字和身份</div>
+                        </div>
+                        <div class="script-step">
+                            <div class="script-step-num">2</div>
+                            <div class="script-step-title">选择主题</div>
+                            <div class="script-step-desc">故事类型和风格</div>
+                        </div>
+                        <div class="script-step">
+                            <div class="script-step-num">3</div>
+                            <div class="script-step-title">生成剧本</div>
+                            <div class="script-step-desc">AI自动创作</div>
+                        </div>
+                        <div class="script-step">
+                            <div class="script-step-num">4</div>
+                            <div class="script-step-title">拍摄成片</div>
+                            <div class="script-step-desc">演绎+拍摄+剪辑</div>
+                        </div>
+                    </div>
+                    <div class="script-form">
+                        <div class="script-input">
+                            <label>你的角色名字</label>
+                            <input type="text" id="scriptName" placeholder="输入你的名字" value="小书生">
+                        </div>
+                        <div class="script-input">
+                            <label>你的角色身份</label>
+                            <select id="scriptRole">
+                                <option value="student">求学书生</option>
+                                <option value="reporter">现代记者</option>
+                                <option value="traveler">时空旅者</option>
+                                <option value="apprentice">入室弟子</option>
+                                <option value="general">军中将领</option>
+                                <option value="scholar">文人墨客</option>
+                            </select>
+                        </div>
+                        <div class="script-input">
+                            <label>故事主题</label>
+                            <select id="scriptTheme">
+                                <option value="study">求学问道</option>
+                                <option value="crossstrait">两岸情缘</option>
+                                <option value="adventure">冒险奇遇</option>
+                                <option value="culture">文化传承</option>
+                                <option value="wuxia">武侠天地</option>
+                                <option value="mystery">历史探秘</option>
+                                <option value="family">家风家训</option>
+                                <option value="seal">印章传奇</option>
+                            </select>
+                        </div>
+                        <div class="script-input">
+                            <label>场景设定</label>
+                            <select id="scriptScene">
+                                <option value="jiemei">集美故里</option>
+                                <option value="tainan">台南孔庙</option>
+                                <option value="sea">渡海途中</option>
+                                <option value="academy">书院讲学</option>
+                                <option value="temple">孔庙祭祀</option>
+                                <option value="garden">憩园雅集</option>
+                                <option value="camp">军营大帐</option>
+                                <option value="xiacheng">霞城古城</option>
+                            </select>
+                        </div>
+                        <div class="script-input">
+                            <label>影片时长</label>
+                            <select id="scriptLength">
+                                <option value="short">3分钟短片</option>
+                                <option value="medium">5分钟短片</option>
+                                <option value="long">10分钟短片</option>
+                            </select>
+                        </div>
+                        <div class="script-input">
+                            <label>剧情风格</label>
+                            <select id="scriptStyle">
+                                <option value="warm">温馨感人</option>
+                                <option value="humor">幽默风趣</option>
+                                <option value="epic">史诗大气</option>
+                                <option value="suspense">悬疑探秘</option>
+                                <option value="inspirational">励志向上</option>
+                            </select>
+                        </div>
+                        <div class="script-input full">
+                            <label>你想说的第一句话</label>
+                            <textarea id="scriptLine" placeholder="你见到陈永华先生说的第一句话...">先生，晚辈仰慕您已久，特来请教！</textarea>
+                        </div>
+                    </div>
+
+                    <!-- 拍摄指南 -->
+                    <div style="margin-top: 24px; padding: 20px; background: rgba(74,44,90,0.1); border-radius: 12px; border-left: 3px solid var(--purple);">
+                        <h5 style="color: var(--gold); margin-bottom: 12px;">📖 拍摄小贴士</h5>
+                        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; font-size: 12px; color: var(--brown-light); line-height: 1.8;">
+                            <div>🎬 景别：远景交代环境，近景表现表情，特写突出细节</div>
+                            <div>💡 灯光：自然光最自然，补光减少阴影，逆光营造氛围</div>
+                            <div>🎤 收音：靠近声源录制，环境音要清晰，后期可配音乐</div>
+                            <div>✂️ 剪辑：按逻辑顺序，节奏有张有弛，转场自然流畅</div>
+                            <div>🎭 表演：台词要清晰，表情要自然，动作要到位</div>
+                            <div>🎵 音乐：选合适配乐，音量不盖人声，首尾呼应主题</div>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 24px;">
+                        <button class="btn btn-primary" onclick="generateScript()">
+                            <span>🎬</span> 生成我的剧本
+                        </button>
+                    </div>
+                    <div class="script-result" id="scriptResult">
+                        <div class="script-title" id="scriptTitle">剧本标题</div>
+                        <div class="script-meta" id="scriptMeta">编剧：你 & 陈永华先生</div>
+                        <div id="scriptScenes"></div>
+                        <div class="script-actions">
+                            <button class="btn btn-outline" onclick="copyScript()">📋 复制剧本</button>
+                            <button class="btn btn-outline" onclick="downloadScript()">💾 下载剧本</button>
+                            <button class="btn btn-outline" onclick="generateStoryboard()">🎞️ 生成分镜</button>
+                            <button class="btn btn-primary" onclick="scrollToSection('aigc')">🎨 生成文创海报</button>
+                        </div>
+                        <div id="storyboardDiv" style="display:none; margin-top: 24px; padding: 20px; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                            <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; text-align: center;">🎞️ 分镜脚本</h4>
+                            <div id="storyboardContent" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- AIGC -->
+        <section class="section" id="aigc">
+            <div class="section-header">
+                <div class="section-badge">🎨 AI文创图纸生成器</div>
+                <h2 class="section-title">AI赋能 文创设计</h2>
+                <p class="section-subtitle">
+                    八大文创类型 + 四大艺术风格，上传参考图，生成你的专属文创设计图
+                </p>
+            </div>
+            <div class="module-container">
+                <div class="aigc-tabs">
+                    <div class="aigc-tab active" onclick="setAigcType('cartoon')">
+                        <span>👤</span> 卡通角色
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('seal')">
+                        <span>💮</span> 啃蹄马印
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('zhuxiu')">
+                        <span>🧵</span> 珠绣
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('songjin')">
+                        <span>🎀</span> 宋锦拼布
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('qixian')">
+                        <span>🏮</span> 漆线雕
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('pindou')">
+                        <span>🔴</span> 拼豆图纸
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('jianci')">
+                        <span>🏺</span> 剪瓷
+                    </div>
+                    <div class="aigc-tab" onclick="setAigcType('yinpiao')">
+                        <span>🎫</span> 游戏银票
+                    </div>
+                </div>
+                <div class="aigc-workspace">
+                    <div class="aigc-controls">
+                        <div class="aigc-input-group">
+                            <label>📝 创意描述</label>
+                            <textarea id="aigcInput" placeholder="描述你想要生成的文创设计...">陈永华先生儒雅的形象，手持书卷，背景是孔庙</textarea>
+                        </div>
+                        <div class="aigc-input-group">
+                            <label>📷 上传参考图（可选）</label>
+                            <div class="file-upload" onclick="document.getElementById('refImage').click()">
+                                <div class="file-upload-icon">🖼️</div>
+                                <div class="file-upload-text">点击上传参考图片<br>支持JPG/PNG格式</div>
+                                <input type="file" id="refImage" accept="image/*" style="display:none" onchange="handleImageUpload(event)">
+                            </div>
+                        </div>
+                        <div class="aigc-input-group">
+                            <label>🎨 风格选择</label>
+                            <div class="style-picker" id="stylePicker">
+                                <div class="style-option active" onclick="setStyle(0)">
+                                    <div class="style-option-icon">🖌️</div>
+                                    <div class="style-option-name">水墨丹青</div>
+                                </div>
+                                <div class="style-option" onclick="setStyle(1)">
+                                    <div class="style-option-icon">🏮</div>
+                                    <div class="style-option-name">剪纸红印</div>
+                                </div>
+                                <div class="style-option" onclick="setStyle(2)">
+                                    <div class="style-option-icon">💎</div>
+                                    <div class="style-option-name">青玉雕刻</div>
+                                </div>
+                                <div class="style-option" onclick="setStyle(3)">
+                                    <div class="style-option-icon">✨</div>
+                                    <div class="style-option-name">金线描边</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="heritageIntro" class="heritage-intro">
+                            <h5>📚 非遗小知识</h5>
+                            <p>珠绣是闽南地区传统刺绣工艺，以珠子、亮片等材料在布面上绣制各种图案，色彩绚丽，立体感强，常用于服饰、挂饰等装饰。</p>
+                        </div>
+                        <div class="real-work-gallery">
+                            <h5 style="color: var(--gold); margin-bottom: 12px; font-size: 14px; font-family: 'ZCOOL XiaoWei', serif;">🖼️ 真实作品参考</h5>
+                            <div class="real-work-grid">
+                                <div class="real-work-item" onclick="setAigcType('beadwork')">
+                                    <img src="images/beadwork-sample.jpg" alt="珠绣作品" onerror="this.style.display='none';this.parentElement.innerHTML='🧿<div style=\\'font-size:11px;color:var(--brown-light);margin-top:4px;\\'>珠绣</div>';">
+                                    <span>珠绣</span>
+                                </div>
+                                <div class="real-work-item" onclick="setAigcType('songjin')">
+                                    <img src="images/songjin-sample.jpg" alt="宋锦作品" onerror="this.style.display='none';this.parentElement.innerHTML='🧵<div style=\\'font-size:11px;color:var(--brown-light);margin-top:4px;\\'>宋锦</div>';">
+                                    <span>宋锦</span>
+                                </div>
+                                <div class="real-work-item" onclick="setAigcType('lacquer')">
+                                    <img src="images/lacquer-sample.jpg" alt="漆线雕作品" onerror="this.style.display='none';this.parentElement.innerHTML='🪡<div style=\\'font-size:11px;color:var(--brown-light);margin-top:4px;\\'>漆线雕</div>';">
+                                    <span>漆线雕</span>
+                                </div>
+                                <div class="real-work-item" onclick="setAigcType('bean')">
+                                    <img src="images/bean-sample.jpg" alt="拼豆作品" onerror="this.style.display='none';this.parentElement.innerHTML='🔘<div style=\\'font-size:11px;color:var(--brown-light);margin-top:4px;\\'>拼豆</div>';">
+                                    <span>拼豆</span>
+                                </div>
+                                <div class="real-work-item" onclick="setAigcType('porcelain')">
+                                    <img src="images/porcelain-sample.jpg" alt="剪瓷作品" onerror="this.style.display='none';this.parentElement.innerHTML='🏺<div style=\\'font-size:11px;color:var(--brown-light);margin-top:4px;\\'>剪瓷</div>';">
+                                    <span>剪瓷</span>
+                                </div>
+                                <div class="real-work-item" onclick="setAigcType('seal')">
+                                    <img src="images/seal-sample.jpg" alt="啃蹄马印章" onerror="this.style.display='none';this.parentElement.innerHTML='💮<div style=\\'font-size:11px;color:var(--brown-light);margin-top:4px;\\'>印章</div>';">
+                                    <span>印章</span>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="generate-btn" onclick="generateArt()">
+                            ✨ 生成文创设计
+                        </button>
+                    </div>
+                    <div class="aigc-preview" id="aigcPreview">
+                        <div id="artworkPlaceholder" class="aigc-preview-placeholder">
+                            <div class="aigc-preview-icon">🎨</div>
+                            <p>输入创意描述，点击生成<br>你的专属文创设计将在这里呈现</p>
+                        </div>
+                        <div id="artwork" style="display:none; width:100%;">
+                            <div class="artwork-canvas" id="artworkCanvas">
+                                <div class="artwork-icon-big" id="artworkIcon">🎨</div>
+                                <div class="artwork-title" id="artworkTitle">作品标题</div>
+                                <div class="artwork-desc" id="artworkDesc">作品描述</div>
+                                <div class="artwork-grid" id="artworkGrid"></div>
+                                <div class="artwork-tag" id="artworkTag">风格标签</div>
+                            </div>
+                            <div id="artworkDetails" style="margin-top: 24px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px;">
+                                <div style="padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px; border-left: 3px solid var(--gold);">
+                                    <h5 style="color: var(--gold); margin-bottom: 10px; font-size: 14px;">🎨 配色方案</h5>
+                                    <div id="colorPalette" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+                                </div>
+                                <div style="padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px; border-left: 3px solid var(--jade-light);">
+                                    <h5 style="color: var(--jade-light); margin-bottom: 10px; font-size: 14px;">📐 设计规格</h5>
+                                    <div id="designSpecs" style="font-size: 12px; color: var(--brown-light); line-height: 2;"></div>
+                                </div>
+                                <div style="padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px; border-left: 3px solid var(--red-light);">
+                                    <h5 style="color: var(--red-light); margin-bottom: 10px; font-size: 14px;">🔧 制作步骤</h5>
+                                    <div id="craftSteps" style="font-size: 12px; color: var(--brown-light); line-height: 2;"></div>
+                                </div>
+                                <div style="padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px; border-left: 3px solid var(--blue-light);">
+                                    <h5 style="color: var(--blue-light); margin-bottom: 10px; font-size: 14px;">💡 创意延伸</h5>
+                                    <div id="creativeIdeas" style="font-size: 12px; color: var(--brown-light); line-height: 2;"></div>
+                                </div>
+                            </div>
+                            <div style="margin-top: 20px; text-align: center;">
+                                <button class="btn btn-outline" onclick="downloadDesign()" style="margin-right: 8px;">📥 下载设计图</button>
+                                <button class="btn btn-primary" onclick="saveToGallery()">⭐ 收藏到作品库</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seal Module -->
+        <section class="section" id="seal">
+            <div class="section-header">
+                <div class="section-badge">💮 霞憩双印</div>
+                <h2 class="section-title">霞城印 · 憩园印 · 啃蹄马</h2>
+                <p class="section-subtitle">双印合璧，生成专属啃蹄马印章，连接两岸文化根脉</p>
+            </div>
+            <div class="module-container">
+                <p style="text-align:center; color: var(--brown-light); margin-bottom: 40px; line-height: 2;">
+                    陈永华先生的「啃蹄马」印章，是两岸文化交流的重要信物。<br>
+                    点击两侧印章，见证霞城印与憩园印的融合
+                </p>
+                <div class="seal-container">
+                    <div class="seal-side">
+                        <h3>霞城 · 故里</h3>
+                        <div class="seal-canvas" id="sealLeft" onclick="stampLeft()">
+                            <div class="seal-text" id="sealLeftText">霞</div>
+                        </div>
+                        <button class="seal-stamp" id="stampLeft" onclick="stampLeft()">
+                            盖霞城印
+                        </button>
+                        <p>厦门集美霞城<br>陈氏祖居之地<br>文脉之源</p>
+                    </div>
+                    <div class="seal-bridge">
+                        <div class="bridge-icon">🌊</div>
+                        <div class="bridge-text">
+                            一衣带水<br>
+                            同根同源<br>
+                            文脉相承<br>
+                            两岸同心
+                        </div>
+                        <div class="bridge-icon">🌊</div>
+                    </div>
+                    <div class="seal-side">
+                        <h3>憩园 · 传薪</h3>
+                        <div class="seal-canvas" id="sealRight" onclick="stampRight()">
+                            <div class="seal-text" id="sealRightText">憩</div>
+                        </div>
+                        <button class="seal-stamp" id="stampRight" onclick="stampRight()">
+                            盖憩园印
+                        </button>
+                        <p>台南憩园<br>文教传薪之地<br>文脉之流</p>
+                    </div>
+                </div>
+                <button class="seal-unite-btn" onclick="uniteSeal()">
+                    💮 双印合璧 · 生成啃蹄马印
+                </button>
+
+                <div class="seal-story">
+                    <h4>📖 啃蹄马印的故事</h4>
+                    <p>
+                        「啃蹄马」印章，是陈永华先生的传家信物。蹄者，足也，象征脚踏实地、稳步前行；马者，千里之驹，象征志存高远、奔腾不息。
+                        <br><br>
+                        啃蹄之意，乃马自啃其蹄，提醒自己：欲行千里，必先顾其足；欲成大事，必先修其身。
+                        <br><br>
+                        此印随陈永华先生渡海赴台，见证了两岸文教之兴。霞城印象征着集美故里的根，憩园印象征着台南传薪的魂，双印合璧，便是完整的中华文化传承之路。
+                    </p>
+                </div>
+
+                <div style="margin-top: 30px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="padding: 24px; background: rgba(139,37,0,0.1); border-radius: 16px; text-align: center; border: 1px solid rgba(196,48,43,0.2);">
+                        <div style="font-size: 48px; margin-bottom: 12px;">🏠</div>
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--red-light); margin-bottom: 8px;">霞城 · 根</h4>
+                        <p style="font-size: 13px; color: var(--brown-light); line-height: 1.8;">
+                            厦门集美霞城，陈氏祖居之地。陈永华生于斯、长于斯，少时聪颖好学，立下济世安民之志。这里是文脉的源头，是永远的故乡。
+                        </p>
+                    </div>
+                    <div style="padding: 24px; background: rgba(212,175,55,0.1); border-radius: 16px; text-align: center; border: 1px solid rgba(212,175,55,0.2);">
+                        <div style="font-size: 48px; margin-bottom: 12px;">🌊</div>
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 8px;">海峡 · 脉</h4>
+                        <p style="font-size: 13px; color: var(--brown-light); line-height: 1.8;">
+                            一衣带水，同根同源。海峡虽宽，割不断文化的根脉。陈永华渡海赴台，带去的不仅是儒家教化，更是中华文化的火种。
+                        </p>
+                    </div>
+                    <div style="padding: 24px; background: rgba(74,140,92,0.1); border-radius: 16px; text-align: center; border: 1px solid rgba(74,140,92,0.2);">
+                        <div style="font-size: 48px; margin-bottom: 12px;">🏛️</div>
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--jade-light); margin-bottom: 8px;">憩园 · 魂</h4>
+                        <p style="font-size: 13px; color: var(--brown-light); line-height: 1.8;">
+                            台南憩园，文教传薪之地。陈永华在这里建孔庙、设学校、开科举，让中华文脉在台湾扎根发芽、开花结果。
+                        </p>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 24px; background: rgba(0,0,0,0.2); border-radius: 16px;">
+                    <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; text-align: center;">💮 印章文化小知识</h4>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; text-align: center;">
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">📜</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">印章起源</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">始于商周，盛于秦汉</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">🎨</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">印章种类</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">名章闲章肖形印</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">💎</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">印章材质</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">石印玉印铜印木印</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 8px;">🖌️</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">书法篆刻</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">诗书画印四绝</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Game Module -->
+        <section class="section" id="game">
+            <div class="section-header">
+                <div class="section-badge">🎮 陈永华文化展闯关乐园</div>
+                <h2 class="section-title">文化展闯关 边玩边学</h2>
+                <p class="section-subtitle">陈氏家训闯关+陈永华文化展+趣味游戏，在游戏中感受文化魅力</p>
+            </div>
+            <div class="module-container">
+                <!-- 文化展分区 -->
+                <div class="exhibition-map">
+                    <h4>🏛️ 陈永华文化展 · 六大展区</h4>
+                    <div class="exhibition-zones">
+                        <div class="exhibition-zone" onclick="setGame('mountain')">
+                            <div class="exhibition-zone-icon">📜</div>
+                            <div class="exhibition-zone-title">家训展区</div>
+                            <div class="exhibition-zone-desc">陈氏家训闯关</div>
+                        </div>
+                        <div class="exhibition-zone" onclick="setGame('quiz')">
+                            <div class="exhibition-zone-icon">❓</div>
+                            <div class="exhibition-zone-title">历史展区</div>
+                            <div class="exhibition-zone-desc">知识问答挑战</div>
+                        </div>
+                        <div class="exhibition-zone" onclick="setGame('memory')">
+                            <div class="exhibition-zone-icon">🧠</div>
+                            <div class="exhibition-zone-title">文创展区</div>
+                            <div class="exhibition-zone-desc">记忆翻牌游戏</div>
+                        </div>
+                        <div class="exhibition-zone" onclick="setGame('puzzle')">
+                            <div class="exhibition-zone-icon">🧩</div>
+                            <div class="exhibition-zone-title">汉字展区</div>
+                            <div class="exhibition-zone-desc">汉字拼图挑战</div>
+                        </div>
+                        <div class="exhibition-zone" onclick="scrollToSection('aigc')">
+                            <div class="exhibition-zone-icon">🎨</div>
+                            <div class="exhibition-zone-title">非遗展区</div>
+                            <div class="exhibition-zone-desc">AI文创体验</div>
+                        </div>
+                        <div class="exhibition-zone" onclick="scrollToSection('seal')">
+                            <div class="exhibition-zone-icon">💮</div>
+                            <div class="exhibition-zone-title">印章展区</div>
+                            <div class="exhibition-zone-desc">啃蹄马印DIY</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <div class="game-tabs">
+                        <div class="game-tab active" onclick="setGame('mountain')">🏔️ 家训闯关</div>
+                        <div class="game-tab" onclick="setGame('quiz')">📝 知识问答</div>
+                        <div class="game-tab" onclick="setGame('memory')">🧠 记忆翻牌</div>
+                        <div class="game-tab" onclick="setGame('puzzle')">🧩 汉字拼图</div>
+                        <div class="game-tab" onclick="setGame('dianming')">📋 点名录</div>
+                        <div class="game-tab" onclick="setGame('calligraphy')">🖌️ 书法临摹</div>
+                    </div>
+
+                    <!-- 点名录游戏 -->
+                    <div id="gameDianming" style="display:none;">
+                        <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                            <div style="padding: 40px; background: rgba(0,0,0,0.2); border-radius: 20px; margin-bottom: 20px;">
+                                <div style="font-family: 'ZCOOL XiaoWei', serif; font-size: 28px; color: var(--gold); margin-bottom: 20px;">📋 陈永华文化展 · 点名录</div>
+                                <div style="font-size: 64px; margin-bottom: 20px;" id="dianmingName">陈永华</div>
+                                <div style="font-size: 16px; color: var(--brown-light); margin-bottom: 20px;">点击正确的应答方式</div>
+                                <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                                    <button class="story-choice" onclick="dianmingAnswer(0)">到！</button>
+                                    <button class="story-choice" onclick="dianmingAnswer(1)">在！</button>
+                                    <button class="story-choice" onclick="dianmingAnswer(2)">喏！</button>
+                                    <button class="story-choice" onclick="dianmingAnswer(3)">有！</button>
+                                </div>
+                            </div>
+                            <div class="game-stats" style="justify-content: center;">
+                                <div class="game-stat">
+                                    <div class="game-stat-label">已点人数</div>
+                                    <div class="game-stat-value" id="dianmingCount">0 / 10</div>
+                                </div>
+                                <div class="game-stat">
+                                    <div class="game-stat-label">正确率</div>
+                                    <div class="game-stat-value" id="dianmingCorrect">100%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 书法临摹 -->
+                    <div id="gameCalligraphy" style="display:none;">
+                        <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                            <div style="padding: 30px; background: rgba(0,0,0,0.2); border-radius: 20px; margin-bottom: 20px;">
+                                <div style="font-family: 'ZCOOL XiaoWei', serif; font-size: 24px; color: var(--gold); margin-bottom: 20px;">🖌️ 书法临摹 · 陈氏家训</div>
+                                <div style="padding: 40px; background: var(--cream); color: var(--brown-deep); font-family: 'ZCOOL XiaoWei', serif; font-size: 48px; border-radius: 12px; margin-bottom: 20px; letter-spacing: 20px; line-height: 1.8;" id="calligraphyText">
+                                    孝悌为本
+                                </div>
+                                <div style="font-size: 14px; color: var(--brown-light); margin-bottom: 16px;">选择你喜欢的家训进行临摹练习</div>
+                                <div style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;">
+                                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;" onclick="setCalligraphy('孝悌为本')">孝悌为本</button>
+                                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;" onclick="setCalligraphy('勤学励志')">勤学励志</button>
+                                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;" onclick="setCalligraphy('修身立德')">修身立德</button>
+                                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;" onclick="setCalligraphy('济世安民')">济世安民</button>
+                                    <button class="btn btn-outline" style="padding: 8px 16px; font-size: 13px;" onclick="setCalligraphy('文脉传承')">文脉传承</button>
+                                </div>
+                                <div style="margin-top: 24px; padding: 20px; background: rgba(212,175,55,0.05); border-radius: 12px; border: 1px dashed rgba(212,175,55,0.3);">
+                                    <div style="font-size: 13px; color: var(--gold); margin-bottom: 10px;">💡 书法小知识</div>
+                                    <div style="font-size: 12px; color: var(--brown-light); line-height: 2;">
+                                        中国书法有篆、隶、楷、行、草五种书体。<br>
+                                        练习书法可以静心养性，是传统文化的重要组成部分。<br>
+                                        陈永华先生便是一位书法大家，其字端正刚毅，如其人一般。
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mountain Game -->
+                    <div id="gameMountain">
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <div class="game-stat-label">当前关卡</div>
+                                <div class="game-stat-value" id="mountainLevel">1 / 5</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="game-stat-label">已学家训</div>
+                                <div class="game-stat-value" id="mountainScore">0</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="game-stat-label">称号</div>
+                                <div class="game-stat-value" id="mountainTitle" style="font-size: 16px;">初学者</div>
+                            </div>
+                        </div>
+                        <div class="mountain-game">
+                            <div class="mountain-path" id="mountainPath">
+                                <div class="mountain-step current" data-level="0" onclick="jumpToLevel(0)">
+                                    <div class="step-num">1</div>
+                                    <div class="step-title">孝悌为本</div>
+                                    <div class="step-status">进行中</div>
+                                </div>
+                                <div class="mountain-step" data-level="1" onclick="jumpToLevel(1)">
+                                    <div class="step-num">2</div>
+                                    <div class="step-title">勤学励志</div>
+                                    <div class="step-status">未解锁</div>
+                                </div>
+                                <div class="mountain-step" data-level="2" onclick="jumpToLevel(2)">
+                                    <div class="step-num">3</div>
+                                    <div class="step-title">修身立德</div>
+                                    <div class="step-status">未解锁</div>
+                                </div>
+                                <div class="mountain-step" data-level="3" onclick="jumpToLevel(3)">
+                                    <div class="step-num">4</div>
+                                    <div class="step-title">济世安民</div>
+                                    <div class="step-status">未解锁</div>
+                                </div>
+                                <div class="mountain-step" data-level="4" onclick="jumpToLevel(4)">
+                                    <div class="step-num">5</div>
+                                    <div class="step-title">文脉传承</div>
+                                    <div class="step-status">未解锁</div>
+                                </div>
+                            </div>
+                            <div class="family-instruction" id="instructionBox">
+                                <h4>📜 陈氏家训 · 孝悌为本</h4>
+                                <p id="instructionText">
+「弟子入则孝，出则悌，谨而信，泛爱众，而亲仁。行有余力，则以学文。」
+<br><br>
+孝悌乃为人之本。在家孝顺父母，出外尊敬兄长，为人谨慎守信，博爱众人，亲近仁者。这些都做到之后，还有余力的话，就去学习文化知识。
+<br><br>
+陈永华先生一生践行此道，侍奉双亲至孝，对待兄长至悌，是为后辈之楷模。
+                                </p>
+                                <div class="instruction-source" id="instructionSource">—— 源自《论语·学而》</div>
+                            </div>
+                            <div style="text-align:center; margin-top: 30px;">
+                                <button class="btn btn-primary" onclick="nextMountainLevel()">
+                                    ✅ 我已学会，进入下一关
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Memory Game -->
+                    <div id="gameMemory" style="display:none;">
+                        <div class="game-stats">
+                            <div class="game-stat">
+                                <div class="game-stat-label">步数</div>
+                                <div class="game-stat-value" id="memoryMoves">0</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="game-stat-label">配对</div>
+                                <div class="game-stat-value" id="memoryPairs">0 / 8</div>
+                            </div>
+                            <div class="game-stat">
+                                <div class="game-stat-label">时间</div>
+                                <div class="game-stat-value" id="memoryTime">0s</div>
+                            </div>
+                        </div>
+                        <div class="memory-grid" id="memoryGrid"></div>
+                        <div style="text-align:center; margin-top: 30px;">
+                            <button class="btn btn-outline" onclick="initMemoryGame()">🔄 重新开始</button>
+                        </div>
+                    </div>
+
+                    <!-- Puzzle Game -->
+                    <div id="gamePuzzle" style="display:none;">
+                        <div class="puzzle-game">
+                            <div class="game-stats" style="justify-content: center;">
+                                <div class="game-stat">
+                                    <div class="game-stat-label">目标</div>
+                                    <div class="game-stat-value" style="font-size: 16px;">陈永华传文脉</div>
+                                </div>
+                            </div>
+                            <div class="puzzle-target">请将下方汉字按正确顺序放入空格</div>
+                            <div class="puzzle-slots" id="puzzleSlots">
+                                <div class="puzzle-slot" data-index="0"></div>
+                                <div class="puzzle-slot" data-index="1"></div>
+                                <div class="puzzle-slot" data-index="2"></div>
+                                <div class="puzzle-slot" data-index="3"></div>
+                                <div class="puzzle-slot" data-index="4"></div>
+                                <div class="puzzle-slot" data-index="5"></div>
+                                <div class="puzzle-slot" data-index="6"></div>
+                            </div>
+                            <div class="puzzle-characters" id="puzzleChars"></div>
+                            <div style="margin-top: 30px;">
+                                <button class="btn btn-outline" onclick="initPuzzleGame()">🔄 重新开始</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quiz Game -->
+                    <div id="gameQuiz" style="display:none;">
+                        <div class="quiz-container">
+                            <div class="game-stats" style="justify-content: center;">
+                                <div class="game-stat">
+                                    <div class="game-stat-label">题目</div>
+                                    <div class="game-stat-value" id="quizNum">1 / 10</div>
+                                </div>
+                                <div class="game-stat">
+                                    <div class="game-stat-label">得分</div>
+                                    <div class="game-stat-value" id="quizScore">0</div>
+                                </div>
+                                <div class="game-stat">
+                                    <div class="game-stat-label">连对</div>
+                                    <div class="game-stat-value" id="quizStreak">0</div>
+                                </div>
+                            </div>
+                            <div class="quiz-question" id="quizQuestion">加载中...</div>
+                            <div class="quiz-options" id="quizOptions"></div>
+                            <div class="quiz-feedback" id="quizFeedback"></div>
+                            <div class="quiz-next" id="quizNext" style="display:none;">
+                                <button class="btn btn-primary" onclick="nextQuiz()">下一题 →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chen Jinnan -->
+        <section class="section" id="jinnan">
+            <div class="section-header">
+                <div class="section-badge">⚔️ 陈近南探秘</div>
+                <h2 class="section-title">天地会总舵主原型</h2>
+                <p class="section-subtitle">
+                    武侠小说中的传奇人物，历史上的真实身影——
+                    陈近南与陈永华的奇妙渊源
+                </p>
+            </div>
+            <div class="module-container">
+                <div class="jinnan-container">
+                    <div class="jinnan-content">
+                        <h3>平生不见陈近南，便称英雄也枉然</h3>
+                        <p>
+                            在金庸先生的武侠小说《鹿鼎记》中，陈近南是天地会总舵主，
+                            江湖上人尽皆知的英雄豪杰。而这位传奇人物的历史原型，
+                            正是我们的陈永华先生。
+                        </p>
+                        <p>
+                            陈永华，字复甫，号永华。金庸先生取"永华"二字，
+                            化名为"陈近南"，取"永在近南"之意——永远在南方郑成功身边，
+                            永远心怀大明，永远不忘故土。
+                        </p>
+                        <p>
+                            小说中的陈近南，武功高强，义薄云天，领导天地会反清复明；
+                            历史上的陈永华，文韬武略，治理台湾，推行教化，
+                            被誉为"台湾文化教育之父"。
+                        </p>
+                        <p>
+                            无论是武侠中的陈近南，还是历史上的陈永华，
+                            都代表着中华文化中"忠义"二字的最高境界。
+                        </p>
+                        <div class="wuxia-quote">
+                            <p>「侠之大者，为国为民」</p>
+                            <p class="quote-source">—— 金庸</p>
+                        </div>
+                        <div class="jinnan-highlights">
+                            <div class="jinnan-highlight">
+                                <div class="jinnan-highlight-icon">📖</div>
+                                <div class="jinnan-highlight-title">鹿鼎记原型</div>
+                                <div class="jinnan-highlight-desc">金庸笔下天地会总舵主</div>
+                            </div>
+                            <div class="jinnan-highlight">
+                                <div class="jinnan-highlight-icon">⚔️</div>
+                                <div class="jinnan-highlight-title">文韬武略</div>
+                                <div class="jinnan-highlight-desc">上马治军 下马治民</div>
+                            </div>
+                            <div class="jinnan-highlight">
+                                <div class="jinnan-highlight-icon">🏛️</div>
+                                <div class="jinnan-highlight-title">文教之父</div>
+                                <div class="jinnan-highlight-desc">建孔庙 设学校 开科举</div>
+                            </div>
+                            <div class="jinnan-highlight">
+                                <div class="jinnan-highlight-icon">💎</div>
+                                <div class="jinnan-highlight-title">忠义无双</div>
+                                <div class="jinnan-highlight-desc">一生肝胆 万世楷模</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="jinnan-visual">
+                        <div class="jinnan-big-icon">⚔️</div>
+                        <div class="jinnan-visual-title">陈近南</div>
+                        <div class="jinnan-visual-sub">天地会总舵主 · 陈永华原型</div>
+                        <div style="margin-top: 30px; text-align: center; position: relative; z-index: 1;">
+                            <div style="color: var(--brown-light); font-size: 13px; margin-bottom: 10px;">天地会暗号</div>
+                            <div style="color: var(--red-light); font-family: 'ZCOOL XiaoWei', serif; font-size: 16px;">
+                                地震高冈，一脉溪山千古秀<br>
+                                门朝大海，三合河水万年流
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Wuxia Interactive Section -->
+                <div style="margin-top: 40px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="padding: 24px; background: rgba(139,37,0,0.08); border-radius: 16px; border: 1px solid rgba(196,48,43,0.2);">
+                        <div style="font-size: 36px; text-align: center; margin-bottom: 12px;">🗣️</div>
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--red-light); text-align: center; margin-bottom: 12px;">江湖黑话猜猜看</h4>
+                        <div style="padding: 16px; background: rgba(0,0,0,0.2); border-radius: 8px; margin-bottom: 12px; text-align: center;">
+                            <div style="font-size: 14px; color: var(--brown-light); margin-bottom: 4px;">「风紧，扯呼！」是什么意思？</div>
+                        </div>
+                        <button class="btn btn-outline" style="width: 100%; padding: 8px; font-size: 12px;" onclick="wuxiaGuess(0, this)">A. 风很大，快跑</button>
+                        <button class="btn btn-outline" style="width: 100%; padding: 8px; font-size: 12px; margin-top: 6px;" onclick="wuxiaGuess(1, this)">B. 形势不妙，撤退</button>
+                        <button class="btn btn-outline" style="width: 100%; padding: 8px; font-size: 12px; margin-top: 6px;" onclick="wuxiaGuess(2, this)">C. 刮风了，收衣服</button>
+                    </div>
+                    <div style="padding: 24px; background: rgba(212,175,55,0.08); border-radius: 16px; border: 1px solid rgba(212,175,55,0.2);">
+                        <div style="font-size: 36px; text-align: center; margin-bottom: 12px;">🏯</div>
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); text-align: center; margin-bottom: 12px;">天地会组织结构</h4>
+                        <div style="font-size: 13px; color: var(--brown-light); line-height: 2.2;">
+                            <div>🔴 总舵主 · 陈近南</div>
+                            <div>🟠 香主 · 各分舵首领</div>
+                            <div>🟡 堂主 · 各堂负责人</div>
+                            <div>🟢 舵主 · 各地分舵</div>
+                            <div>🔵 会员 · 普通会众</div>
+                        </div>
+                        <div style="margin-top: 12px; padding: 12px; background: rgba(0,0,0,0.15); border-radius: 8px; font-size: 11px; color: var(--brown-light);">
+                            💡 历史上的天地会又称洪门，是明末清初的民间秘密结社组织，以反清复明为宗旨。
+                        </div>
+                    </div>
+                    <div style="padding: 24px; background: rgba(74,140,92,0.08); border-radius: 16px; border: 1px solid rgba(74,140,92,0.2);">
+                        <div style="font-size: 36px; text-align: center; margin-bottom: 12px;">📜</div>
+                        <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--jade-light); text-align: center; margin-bottom: 12px;">陈近南武学修为</h4>
+                        <div style="font-size: 13px; color: var(--cream); line-height: 2;">
+                            <div>🗡️ 武功等级：深不可测</div>
+                            <div>🛡️ 内功心法：混元功</div>
+                            <div>⚔️ 绝技：凝血神抓</div>
+                            <div>🏆 江湖地位：天下第一</div>
+                            <div>📚 才智：运筹帷幄</div>
+                        </div>
+                        <div style="margin-top: 12px; padding: 12px; background: rgba(0,0,0,0.15); border-radius: 8px; font-size: 11px; color: var(--brown-light);">
+                            💡 历史上陈永华以文治著称，而金庸先生赋予他高强的武功，表达了民间对这位英雄的敬仰。
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; padding: 30px; background: linear-gradient(135deg, rgba(139,37,0,0.1), rgba(196,48,43,0.05)); border-radius: 20px; border: 1px solid rgba(196,48,43,0.2);">
+                    <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; text-align: center;">⚔️ 鹿鼎记中的陈近南经典事迹</h4>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;">
+                        <div style="text-align: center; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                            <div style="font-size: 28px; margin-bottom: 8px;">👶</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">收徒韦小宝</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">机缘巧合收韦香主</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                            <div style="font-size: 28px; margin-bottom: 8px;">🏰</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">领导天地会</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">总舵主号令天下</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                            <div style="font-size: 28px; margin-bottom: 8px;">🛡️</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">保护韦小宝</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">师徒情深共患难</div>
+                        </div>
+                        <div style="text-align: center; padding: 16px; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                            <div style="font-size: 28px; margin-bottom: 8px;">💀</div>
+                            <div style="font-size: 13px; font-weight: 600; color: var(--cream); margin-bottom: 4px;">忠义殉难</div>
+                            <div style="font-size: 11px; color: var(--brown-light);">被郑克塽暗算身亡</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offline Exhibition -->
+        <section class="section" id="offline">
+            <div class="section-header">
+                <div class="section-badge">📸 线下互动体验展</div>
+                <h2 class="section-title">线上线下 联动体验</h2>
+                <p class="section-subtitle">
+                    AI影视集训营、文化展闯关、非遗手工体验...
+                    让文化在真实互动中活起来
+                </p>
+            </div>
+            <div class="offline-grid">
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/film-camp.jpg" alt="AI影视集训营" onerror="this.style.display='none';this.parentElement.innerHTML='🎬<span class=\'offline-img-label\'>AI影视营</span>'+this.parentElement.innerHTML;">
+                        <span class="offline-img-label">AI影视营</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>中学生AI影视集训营</h4>
+                        <p>用AI创作剧本，演绎剧本角色，学习拍摄微电影，剪辑成片。五天时间，完成一部属于自己的短片。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">AI剧本</span>
+                            <span class="offline-tag">拍摄</span>
+                            <span class="offline-tag">剪辑</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 5天集训</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/culture-exhibition.jpg" alt="陈永华文化展">
+                        <span class="offline-img-label">文化展</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>陈永华文化展闯关</h4>
+                        <p>设置六大互动展区，陈氏家训、历史知识、非遗体验...通关者获得"文化传承人"证书。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">闯关游戏</span>
+                            <span class="offline-tag">互动体验</span>
+                            <span class="offline-tag">证书</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 半天体验</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/craft-workshop.jpg" alt="非遗手工体验坊">
+                        <span class="offline-img-label">非遗工坊</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>非遗手工体验坊</h4>
+                        <p>珠绣、宋锦拼布、漆线雕、拼豆、剪瓷...五大非遗工艺，亲手体验传统文化之美。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">珠绣</span>
+                            <span class="offline-tag">漆线雕</span>
+                            <span class="offline-tag">剪瓷</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 2小时/项</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/seal-diy.jpg" alt="啃蹄马印章DIY">
+                        <span class="offline-img-label">印章DIY</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>啃蹄马印章DIY</h4>
+                        <p>亲手雕刻属于自己的啃蹄马印章，感受传统篆刻艺术的魅力，带走专属文化纪念品。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">篆刻</span>
+                            <span class="offline-tag">DIY</span>
+                            <span class="offline-tag">纪念品</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 1.5小时</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/hanfu-photo.jpg" alt="汉服穿越照相馆">
+                        <span class="offline-img-label">汉服体验</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>汉服穿越照相馆</h4>
+                        <p>穿上汉服，化身古代书生/仕女，在仿古建筑中拍照留念，体验一回穿越时空的感觉。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">汉服</span>
+                            <span class="offline-tag">拍照</span>
+                            <span class="offline-tag">穿越</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 1小时</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/research-course.jpg" alt="陈永华研学课程">
+                        <span class="offline-img-label">研学课</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>陈永华研学课程</h4>
+                        <p>系统性研学课程，从历史人物到文化传承，从AI技术到文创设计，深度沉浸式学习。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">研学</span>
+                            <span class="offline-tag">课程</span>
+                            <span class="offline-tag">深度</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 1-3天</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/campus-game.jpg" alt="校园文化闯关赛">
+                        <span class="offline-img-label">闯关赛</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>校园文化闯关赛</h4>
+                        <p>走进校园，陈永华文化展闯关游戏，让学生在游戏中学习历史文化知识，激发学习兴趣。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">校园</span>
+                            <span class="offline-tag">比赛</span>
+                            <span class="offline-tag">互动</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 半天</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/festival.jpg" alt="传统文化节庆活动">
+                        <span class="offline-img-label">节庆活动</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>传统文化节庆活动</h4>
+                        <p>孔子诞辰、中秋、春节等传统节日，举办主题文化活动，体验传统习俗，感受文化魅力。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">节庆</span>
+                            <span class="offline-tag">传统</span>
+                            <span class="offline-tag">体验</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 节日限定</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="offline-card">
+                    <div class="offline-img">
+                        <img src="images/parent-child.jpg" alt="亲子文化体验营">
+                        <span class="offline-img-label">亲子营</span>
+                    </div>
+                    <div class="offline-info">
+                        <h4>亲子文化体验营</h4>
+                        <p>家长和孩子一起参与，共同体验传统文化，AI文创手工，增进亲子关系，传承文化根脉。</p>
+                        <div class="offline-tags">
+                            <span class="offline-tag">亲子</span>
+                            <span class="offline-tag">手工</span>
+                            <span class="offline-tag">互动</span>
+                        </div>
+                        <div class="offline-meta">
+                            <span class="offline-duration">⏱️ 1天</span>
+                            <span class="offline-btn">了解详情</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 活动流程展示 -->
+            <div style="margin-top: 50px; padding: 40px; background: rgba(212,175,55,0.05); border-radius: 20px; border: 1px solid rgba(212,175,55,0.15);">
+                <h3 style="font-family: 'ZCOOL XiaoWei', serif; font-size: 24px; color: var(--gold); text-align: center; margin-bottom: 30px;">🎯 一日研学体验流程</h3>
+                <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; position: relative;">
+                    <div style="text-align: center; position: relative;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--red-light), var(--red-deep)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; color: white;">09:00</div>
+                        <div style="font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 6px;">开营仪式</div>
+                        <div style="font-size: 12px; color: var(--brown-light); line-height: 1.6;">
+                            破冰互动<br>发放研学手册<br>认识陈永华
+                        </div>
+                    </div>
+                    <div style="text-align: center; position: relative;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--gold), var(--brown-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; color: white;">10:30</div>
+                        <div style="font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 6px;">文化展闯关</div>
+                        <div style="font-size: 12px; color: var(--brown-light); line-height: 1.6;">
+                            六大展区打卡<br>陈氏家训闯关<br>赢取通关印章
+                        </div>
+                    </div>
+                    <div style="text-align: center; position: relative;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, var(--jade-light), var(--jade-deep)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; color: white;">14:00</div>
+                        <div style="font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 6px;">非遗工坊</div>
+                        <div style="font-size: 12px; color: var(--brown-light); line-height: 1.6;">
+                            珠绣/漆线雕体验<br>啃蹄马印章DIY<br>AI文创生成
+                        </div>
+                    </div>
+                    <div style="text-align: center; position: relative;">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #8b5cf6, #6d28d9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; color: white;">16:30</div>
+                        <div style="font-size: 14px; font-weight: 600; color: var(--cream); margin-bottom: 6px;">结营分享</div>
+                        <div style="font-size: 12px; color: var(--brown-light); line-height: 1.6;">
+                            作品展示分享<br>颁发结业证书<br>合影留念
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 参与者评价 -->
+            <div style="margin-top: 40px;">
+                <h3 style="font-family: 'ZCOOL XiaoWei', serif; font-size: 24px; color: var(--gold); text-align: center; margin-bottom: 30px;">💬 参与者评价</h3>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div style="padding: 24px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid rgba(212,175,55,0.1);">
+                        <div style="color: var(--gold); margin-bottom: 12px;">★★★★★</div>
+                        <div style="font-size: 13px; color: var(--brown-light); line-height: 1.8; margin-bottom: 16px;">
+                            "孩子参加了AI影视集训营，五天时间拍出了自己的微电影！不仅学到了拍摄剪辑技能，还了解了陈永华的故事，太有意义了！"
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--red-light), var(--red-deep)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 12px;">👩</div>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream);">林女士</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">学员家长</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 24px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid rgba(212,175,55,0.1);">
+                        <div style="color: var(--gold); margin-bottom: 12px;">★★★★★</div>
+                        <div style="font-size: 13px; color: var(--brown-light); line-height: 1.8; margin-bottom: 16px;">
+                            "文化展闯关设计得太巧妙了！孩子在游戏中就学到了陈氏家训和历史知识，比死记硬背强多了。珠绣体验也很棒，孩子带回家的作品我都裱起来了。"
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--jade-light), var(--jade-deep)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 12px;">👨</div>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream);">王先生</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">研学团领队</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="padding: 24px; background: rgba(255,255,255,0.03); border-radius: 16px; border: 1px solid rgba(212,175,55,0.1);">
+                        <div style="color: var(--gold); margin-bottom: 12px;">★★★★★</div>
+                        <div style="font-size: 13px; color: var(--brown-light); line-height: 1.8; margin-bottom: 16px;">
+                            "作为一名老师，我觉得这个项目非常有教育意义。AI+传统文化的结合方式很新颖，孩子们都很投入。啃蹄马印章DIY环节让大家都带走了专属的纪念品。"
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 40px; height: 40px; background: linear-gradient(135deg, var(--gold), var(--brown-light)); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; margin-right: 12px;">👩‍🏫</div>
+                            <div>
+                                <div style="font-size: 13px; font-weight: 600; color: var(--cream);">李老师</div>
+                                <div style="font-size: 11px; color: var(--brown-light);">中学历史教师</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <div class="footer">
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-bottom: 30px; text-align: left;">
+                <div>
+                    <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; font-size: 18px;">🏛️ 关于我们</h4>
+                    <p style="font-size: 13px; color: var(--brown-light); line-height: 1.8;">
+                        陈永华文化AI体验馆，致力于用AI技术活化历史文化，让传统文化在新时代焕发新生。
+                    </p>
+                    <div style="margin-top: 16px; display: flex; gap: 12px;">
+                        <span style="width: 36px; height: 36px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">📱</span>
+                        <span style="width: 36px; height: 36px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">💬</span>
+                        <span style="width: 36px; height: 36px; background: rgba(212,175,55,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px;">📧</span>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; font-size: 18px;">🔗 快速导航</h4>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                        <a style="font-size: 13px; color: var(--brown-light); cursor: pointer;" onclick="scrollToSection('chat')">AI对话先贤</a>
+                        <a style="font-size: 13px; color: var(--brown-light); cursor: pointer;" onclick="scrollToSection('story')">时空穿越故事</a>
+                        <a style="font-size: 13px; color: var(--brown-light); cursor: pointer;" onclick="scrollToSection('aigc')">AI文创生成</a>
+                        <a style="font-size: 13px; color: var(--brown-light); cursor: pointer;" onclick="scrollToSection('game')">文化闯关乐园</a>
+                        <a style="font-size: 13px; color: var(--brown-light); cursor: pointer;" onclick="scrollToSection('offline')">线下互动体验</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 style="font-family: 'ZCOOL XiaoWei', serif; color: var(--gold); margin-bottom: 16px; font-size: 18px;">📍 联系我们</h4>
+                    <div style="font-size: 13px; color: var(--brown-light); line-height: 2;">
+                        <div>🏠 故里：厦门市集美区后溪镇下店里</div>
+                        <div>🏛️ 台南：承天府孔庙 · 憩园</div>
+                        <div>📞 合作热线：欢迎洽谈合作</div>
+                        <div>🎯 主营业务：研学/展陈/文创</div>
+                    </div>
+                </div>
+            </div>
+            <div style="border-top: 1px solid rgba(212,175,55,0.1); padding-top: 24px;">
+                <p>陈永华文化AI体验馆 · 集美文脉 两岸传薪</p>
+                <p style="margin-top: 8px;">用AI活化历史，让文化触手可及</p>
+                <p style="margin-top: 12px; font-size: 12px; color: var(--brown-light);">
+                    © 2024 陈永华文化IP · 传承中华文脉 · 促进两岸交流
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.02;
+            }
+            update() {
+                this.y -= this.speed;
+                this.wobble += this.wobbleSpeed;
+                this.x += Math.sin(this.wobble) * 0.3;
+                if (this.y < -10) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Scroll Animation Observer
+        function initScrollAnimations() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.section, .module-container, .offline-card').forEach(el => {
+                el.classList.add('fade-in-up');
+                observer.observe(el);
+            });
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initScrollAnimations);
+        } else {
+            initScrollAnimations();
+        }
+
+        // Music
+        let audioCtx = null;
+        let musicPlaying = false;
+        let musicInterval = null;
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        function playNote(freq, duration, type = 'sine') {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.value = freq;
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        function playClick() {
+            initAudio();
+            playNote(800, 0.1, 'sine');
+        }
+        function playSuccess() {
+            initAudio();
+            setTimeout(() => playNote(523, 0.15), 0);
+            setTimeout(() => playNote(659, 0.15), 150);
+            setTimeout(() => playNote(784, 0.3), 300);
+        }
+        const melody = [523, 587, 659, 698, 784, 880, 784, 698, 659, 587, 523, 587, 659, 784, 880, 784];
+        let melodyIndex = 0;
+        function toggleMusic() {
+            initAudio();
+            const btn = document.getElementById('musicBtn');
+            musicPlaying = !musicPlaying;
+            if (musicPlaying) {
+                btn.classList.add('playing');
+                musicInterval = setInterval(() => {
+                    playNote(melody[melodyIndex], 0.4, 'triangle');
+                    melodyIndex = (melodyIndex + 1) % melody.length;
+                }, 500);
+                showToast('🎵 背景音乐已开启');
+            } else {
+                btn.classList.remove('playing');
+                clearInterval(musicInterval);
+                showToast('背景音乐已关闭');
+            }
+        }
+
+        // Toast
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // Scroll
+        function scrollToSection(id) {
+            playClick();
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        }
+        function scrollToScriptGenerator() {
+            playClick();
+            document.getElementById('scriptGen').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        window.addEventListener('scroll', () => {
+            const sections = ['hero', 'chat', 'story', 'aigc', 'seal', 'game', 'jinnan', 'offline'];
+            let current = 'hero';
+            sections.forEach(s => {
+                const el = document.getElementById(s);
+                if (el && el.getBoundingClientRect().top <= 100) current = s;
+            });
+            document.querySelectorAll('.nav-link').forEach((l, i) => {
+                l.classList.toggle('active', i === sections.indexOf(current));
+            });
+        });
+
+        // Chat
+        const chatResponses = {
+            '生平': '吾生于明万历三十四年，厦门集美后溪下店人氏。少时聪慧，喜读书，有大志。\n\n明亡之后，吾不甘做亡国之奴，遂投延平郡王郑成功麾下。延平郡王见吾有才干，甚为器重，军国大事多与吾商议。\n\n永历十五年，吾随延平郡王渡海收复台湾。彼时台湾蛮荒未开，土番杂处，文教未兴。延平郡王命吾主持台湾政务，推行教化。\n\n此乃吾人生之重大转折也。',
+            '教育': '吾以为，教育乃立国之本。《礼记》有云：「建国君民，教学为先。」\n\n教育之道，首在「立德」，次在「立言」，再次在「立功」。\n\n对少年子弟，当教以孝悌忠信、礼义廉耻，使其明是非、知善恶、辨美丑。此乃做人之根本。\n\n对成年学子，当教以经世济民之学，使其学有所成，报效国家、造福社会。\n\n教育之法，当因材施教、循序渐进，不可一蹴而就。又当以身作则，言传不如身教。\n\n今日有AI等新技术，教学之法日新月异，但教育的根本之道——立德树人，是永远不会变的。',
+            '两岸': '台湾与大陆，一水之隔，同文同种，血脉相连。\n\n当年随延平郡王渡台者，皆为闽南、粤东子弟，带去的是中华几千年的文化根脉。\n\n吾在台推行的，亦是孔孟之道、圣贤之学，与中土一脉相承。台湾的语言、风俗、信仰、建筑，无一不源自大陆。\n\n虽说海峡相隔，但文化的根是割不断的。正如这印章，虽分两岸，印出的是同一个「中国」。\n\n希望汝辈年轻人，能多了解历史，珍视这份文化纽带。两岸同胞同根同源，理应携手共进。',
+            '青年': '后生可畏，焉知来者之不如今也？\n\n吾对汝辈年轻人，有三点期望：\n\n一曰「立志」。志不立，天下无可成之事。当立大志，做大事，不为一己之私，而为天下苍生，为民族复兴。\n\n二曰「勤学」。书山有路勤为径，学海无涯苦作舟。今日有AI等新科技辅助学习，条件远胜吾辈，更当珍惜时光，发愤读书。\n\n三曰「担当」。士不可以不弘毅，任重而道远。国家兴亡，匹夫有责。汝辈当以天下为己任，为中华之崛起而读书。\n\n勉之！勉之！',
+            '啃蹄马': '此「啃蹄马」印，乃吾之信物也。\n\n蹄者，足也，象征脚踏实地、稳步前行；马者，千里之驹，象征志存高远、奔腾不息。\n\n啃蹄之意，乃马自啃其蹄，提醒自己：欲行千里，必先顾其足；欲成大事，必先修其身。\n\n此印随吾渡海赴台，见证了两岸文教之兴。每盖此印，便想起故土集美，想起文脉传承之重任。\n\n今日汝辈能见此印，亦是有缘。愿汝等如啃蹄马一般，脚踏实地，志存高远，传承文脉，振兴中华。',
+            '家训': '陈氏家训，源远流长，吾辈当谨记：\n\n一曰孝悌：入则孝，出则悌，百善孝为先。\n二曰勤学：书山有路勤为径，学海无涯苦作舟。\n三曰修身：吾日三省吾身，见贤思齐焉。\n四曰忠义：言必信，行必果，义之所在，身不由己。\n五曰济世：达则兼济天下，穷则独善其身。\n六曰传家：诗书传家远，忠厚继世长。\n\n此六条，乃吾陈氏家风之精髓。汝辈能做到几条？',
+            '陈近南': '哈哈，汝说的是金庸先生笔下的陈近南吧？\n\n不错，那陈近南的原型，正是老夫我。金庸先生取「永华」二字，化名为「近南」，取「永在近南」之意——永远在南方，永远追随延平郡王，永远心怀故土。\n\n小说中的陈近南，武功高强，是天地会总舵主；历史上的我，虽不会武功，但也算得上文韬武略。\n\n不过，有一点是相同的——我们都是忠义之士，都有一颗为国为民的心。\n\n「平生不见陈近南，便称英雄也枉然。」哈哈，这话说得太夸张了。'
+        };
+        const defaultResponses = [
+            '善哉善哉，汝之所问，甚有深意。',
+            '此问甚好，容吾细细道来...',
+            '后生可畏，能想到此问题，已是难得。',
+            '汝之所言，令吾想起当年之事...',
+            '大道至简，天下之理，皆在其中。'
+        ];
+        let chatMode = 'normal';
+        function setChatMode(mode) {
+            playClick();
+            chatMode = mode;
+            document.querySelectorAll('.chat-tab').forEach((t, i) => {
+                t.classList.toggle('active', ['normal','education','crossstrait','youth'][i] === mode);
+            });
+        }
+        function setPrompt(text) {
+            document.getElementById('chatInput').value = text;
+        }
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addMessage(text, 'user');
+            input.value = '';
+            setTimeout(() => {
+                let response = null;
+                if (text.includes('生平') || text.includes('经历') || text.includes('介绍') || text.includes('是谁')) response = chatResponses['生平'];
+                else if (text.includes('教育') || text.includes('理念') || text.includes('教学')) response = chatResponses['教育'];
+                else if (text.includes('两岸') || text.includes('台湾') || text.includes('大陆')) response = chatResponses['两岸'];
+                else if (text.includes('青年') || text.includes('期望') || text.includes('年轻人')) response = chatResponses['青年'];
+                else if (text.includes('印') || text.includes('章') || text.includes('啃蹄马')) response = chatResponses['啃蹄马'];
+                else if (text.includes('家训') || text.includes('家风') || text.includes('祖训')) response = chatResponses['家训'];
+                else if (text.includes('陈近南') || text.includes('近南') || text.includes('天地会') || text.includes('鹿鼎记')) response = chatResponses['陈近南'];
+                else response = defaultResponses[Math.floor(Math.random() * defaultResponses.length)] + '\n\n汝可问吾关于生平、教育理念、两岸文化、青年寄语、啃蹄马印章、陈氏家训、陈近南等问题。';
+                addMessage(response, 'bot');
+            }, 800);
+        }
+        function addMessage(text, type) {
+            const container = document.getElementById('chatMessages');
+            const div = document.createElement('div');
+            div.className = 'message ' + type;
+            const avatar = type === 'bot' ? '陈' : '我';
+            div.innerHTML = `
+                <div class="message-avatar">${avatar}</div>
+                <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+            `;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        // Story
+        const storyScenes = [
+            {
+                chapter: '序章',
+                title: '缘起·集美故里',
+                content: '明万历三十四年，厦门集美后溪下店。\n\n陈家宅院内，一声啼哭划破了清晨的宁静。一个男婴降生了，取名永华，字复甫。\n\n谁也不曾想到，这个孩子日后会渡海赴台，开启台湾文教的新篇章。\n\n时光荏苒，少年陈永华聪慧好学，博览群书，立下了济世安民的志向。\n\n此刻，青年陈永华正站在集美城外的渡口，望着远方的大海。',
+                choices: [
+                    { text: '📚 继续苦读，以待天时', next: 1 },
+                    { text: '⛵ 出海游历，增长见闻', next: 2 }
+                ]
+            },
+            {
+                chapter: '第一章',
+                title: '投笔从戎·追随延平',
+                content: '陈永华隐居读书，静观天下大势。\n\n明亡之后，清兵入关，山河破碎。陈永华痛心疾首，立志抗清复明。\n\n闻延平郡王郑成功在厦门招兵买马，陈永华毅然前往投奔。延平郡王与陈永华一番长谈，大喜过望：「复甫乃当今之卧龙也！」\n\n自此，陈永华成为郑成功的重要谋士，参与军国大事。',
+                choices: [
+                    { text: '⚔️ 协助延平郡王整军备战', next: 3 },
+                    { text: '📜 为延平郡王出谋划策', next: 3 }
+                ]
+            },
+            {
+                chapter: '第一章',
+                title: '游历四方·开阔眼界',
+                content: '陈永华乘船出海，游历了沿海诸地。\n\n一路上，他见识了海上贸易的繁华，也看到了百姓生计的艰难。更听闻台湾岛土地肥沃、尚待开发。\n\n游历归来，陈永华的眼界大为开阔。他意识到，大海之外，还有更广阔的天地。\n\n不久后，他得知延平郡王郑成功在厦门招贤纳士，便欣然前往。',
+                choices: [
+                    { text: '🚪 投奔延平郡王', next: 3 }
+                ]
+            },
+            {
+                chapter: '第二章',
+                title: '渡海复台·开疆拓土',
+                content: '永历十五年，延平郡王郑成功率大军东征，收复被荷兰人占据的台湾。\n\n陈永华随军出征，参与谋划。大军历经艰险，终于登陆台湾，围攻热兰遮城。\n\n经过数月激战，荷兰人投降，台湾重回中华版图。\n\n延平郡王设承天府（今台南），治理台湾。然台湾蛮荒未开，百废待兴。',
+                choices: [
+                    { text: '🏛️ 建议兴文教、建孔庙', next: 4 },
+                    { text: '🌾 建议发展农业生产', next: 4 }
+                ]
+            },
+            {
+                chapter: '第三章',
+                title: '文教兴台·千年基业',
+                content: '延平郡王采纳陈永华的建议，命他主持台湾文教事务。\n\n陈永华在承天府择地建孔庙、设明伦堂，又令各社设学校，劝子弟入学。他还亲自主持考试，选拔人才。\n\n渐渐地，台湾文风日盛，读书向学之风兴起。民众皆知礼义廉耻，民风为之一变。\n\n后人赞曰：「陈永华建学立师，台人自是始知读书。」\n\n这是陈永华一生中最引以为傲的成就。',
+                choices: [
+                    { text: '🌊 眺望海峡，思念故土', next: 5 },
+                    { text: '📖 继续推行教化事业', next: 5 }
+                ]
+            },
+            {
+                chapter: '终章',
+                title: '文脉永存·两岸同心',
+                content: '陈永华晚年，常常登上台南的高处，眺望海峡对岸的方向。\n\n那里是他的故乡集美，是他生长的地方。\n\n他知道，自己有生之年或许再难回到故土。但他相信，文化的根脉是割不断的。\n\n他在台湾推行的儒家教化，他建立的孔庙学院，都将成为连接两岸的文化纽带。\n\n三百年过去了，陈永华的预言成真——两岸同根同源，文脉相连，从未断绝。\n\n今天，借助AI技术，我们得以与先贤对话，感受这份跨越时空的文化传承。',
+                choices: [
+                    { text: '🎭 与陈永华先生对话', action: 'chat' },
+                    { text: '💮 体验霞憩双印', action: 'seal' },
+                    { text: '🎬 创作我的剧本', action: 'script' },
+                    { text: '🔄 重新开始故事', action: 'restart' }
+                ]
+            }
+        ];
+        let currentScene = 0;
+        function initStory() {
+            updateStoryProgress();
+            showScene(0);
+        }
+        function updateStoryProgress() {
+            const progress = document.getElementById('storyProgress');
+            progress.innerHTML = '';
+            for (let i = 0; i < 6; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'story-dot' + (i <= currentScene ? ' active' : '');
+                progress.appendChild(dot);
+            }
+        }
+        function showScene(index) {
+            const scene = storyScenes[index];
+            document.getElementById('storyChapter').textContent = scene.chapter;
+            document.getElementById('storyTitle').textContent = scene.title;
+            document.getElementById('storyContent').textContent = scene.content;
+            const choicesDiv = document.getElementById('storyChoices');
+            choicesDiv.innerHTML = '';
+            scene.choices.forEach((choice, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'story-choice';
+                btn.textContent = choice.text;
+                btn.onclick = () => makeChoice(i);
+                choicesDiv.appendChild(btn);
+            });
+        }
+        function makeChoice(index) {
+            playClick();
+            const scene = storyScenes[currentScene];
+            const choice = scene.choices[index];
+            if (choice.action === 'chat') {
+                scrollToSection('chat');
+            } else if (choice.action === 'seal') {
+                scrollToSection('seal');
+            } else if (choice.action === 'script') {
+                scrollToScriptGenerator();
+            } else if (choice.action === 'restart') {
+                currentScene = 0;
+                updateStoryProgress();
+                showScene(0);
+            } else if (choice.next !== undefined) {
+                currentScene = choice.next;
+                updateStoryProgress();
+                showScene(currentScene);
+                playSuccess();
+            }
+        }
+        initStory();
+
+        // Script Generator
+        const scriptTemplates = {
+            study: {
+                title: '《求学问道》',
+                scenes: [
+                    { title: '第一幕：集美故里', char: '小书生', line: '先生，晚辈仰慕您已久，特来请教！', char2: '陈永华', line2: '后生可畏！汝来求学，所为何事？' },
+                    { title: '第二幕：书院论道', char: '小书生', line: '晚辈想知道，如何才能成为有用之人？', char2: '陈永华', line2: '志存高远，脚踏实地。先立德，再立言，后立功。' },
+                    { title: '第三幕：传承文脉', char: '小书生', line: '晚辈明白了！定当谨遵先生教诲。', char2: '陈永华', line2: '善哉！文脉传承，便在汝辈身上。' }
+                ]
+            },
+            crossstrait: {
+                title: '《两岸情缘》',
+                scenes: [
+                    { title: '第一幕：渡口离别', char: '小书生', line: '先生，此去台湾，不知何日能归？', char2: '陈永华', line2: '海峡虽宽，文脉相连。吾去台湾，亦是传播中华文化。' },
+                    { title: '第二幕：台南讲学', char: '小书生', line: '先生在台湾建孔庙、设学校，真是功德无量！', char2: '陈永华', line2: '教育乃立国之本。台湾虽远，亦是中华之地。' },
+                    { title: '第三幕：文脉永存', char: '小书生', line: '三百年后，两岸同胞依然同根同源。', char2: '陈永华', line2: '善哉！文化的根，永远割不断。' }
+                ]
+            },
+            adventure: {
+                title: '《冒险奇遇》',
+                scenes: [
+                    { title: '第一幕：意外穿越', char: '小书生', line: '哇！这是什么地方？我怎么穿着古装？', char2: '陈永华', line2: '汝是何人？为何穿得如此怪异？' },
+                    { title: '第二幕：随军征台', char: '小书生', line: '先生，我来自未来，我知道您会成为台湾文教之父！', char2: '陈永华', line2: '哦？未来之事，不可尽信。但汝既有心，便随吾同行。' },
+                    { title: '第三幕：见证历史', char: '小书生', line: '太神奇了！我亲眼见证了历史！', char2: '陈永华', line2: '历史由人书写。汝辈当珍惜当下，创造未来。' }
+                ]
+            },
+            culture: {
+                title: '《文化传承》',
+                scenes: [
+                    { title: '第一幕：初识非遗', char: '小书生', line: '先生，珠绣、宋锦、漆线雕这些都是什么？', char2: '陈永华', line2: '此皆中华传统工艺，是非遗瑰宝，汝当了解。' },
+                    { title: '第二幕：匠心独运', char: '小书生', line: '原来这些工艺这么精美！我也想学。', char2: '陈永华', line2: '传统文化需要传承，更需要创新。AI时代，亦可有新玩法。' },
+                    { title: '第三幕：创新传承', char: '小书生', line: '我要用AI设计新的文创产品！', char2: '陈永华', line2: '善哉！古法新技，融合创新，文脉方能永存。' }
+                ]
+            },
+            wuxia: {
+                title: '《武侠天地》',
+                scenes: [
+                    { title: '第一幕：偶遇总舵主', char: '小书生', line: '您...您是陈近南总舵主？！', char2: '陈永华', line2: '哈哈，汝说的是金庸笔下的人物吧？那是小说，不是真的。' },
+                    { title: '第二幕：忠义之道', char: '小书生', line: '那天地会是真的吗？您真的是总舵主？', char2: '陈永华', line2: '天地会确有其事，但吾主要还是治理台湾、推行文教。' },
+                    { title: '第三幕：侠之大者', char: '小书生', line: '先生您才是真正的侠之大者，为国为民！', char2: '陈永华', line2: '侠之本义，在于忠义二字。汝辈当铭记于心。' }
+                ]
+            },
+            mystery: {
+                title: '《历史探秘》',
+                scenes: [
+                    { title: '第一幕：啃蹄马印之谜', char: '小书生', line: '先生，这啃蹄马印章有什么来历吗？', char2: '陈永华', line2: '此印乃吾传家信物，寓意脚踏实地，志存高远。' },
+                    { title: '第二幕：霞城与憩园', char: '小书生', line: '霞城印和憩园印又是什么？', char2: '陈永华', line2: '霞城是故里，憩园是台湾。双印合璧，便是两岸同心。' },
+                    { title: '第三幕：文脉真相', char: '小书生', line: '原来如此！我终于懂了！', char2: '陈永华', line2: '文化的真相，便在传承之中。汝辈当继续发扬光大。' }
+                ]
+            },
+            family: {
+                title: '《家风家训》',
+                scenes: [
+                    { title: '第一幕：陈氏家训', char: '小书生', line: '先生，陈氏家训最看重的是什么？', char2: '陈永华', line2: '孝悌为本，勤学励志，修身立德，济世安民。' },
+                    { title: '第二幕：言传身教', char: '小书生', line: '如何才能做到这些呢？', char2: '陈永华', line2: '吾日三省吾身，见贤思齐，见不贤而内自省。' },
+                    { title: '第三幕：传家之本', char: '小书生', line: '晚辈明白了！诗书传家远，忠厚继世长！', char2: '陈永华', line2: '善哉！家风传承，便在汝辈身上。' }
+                ]
+            },
+            seal: {
+                title: '《印章传奇》',
+                scenes: [
+                    { title: '第一幕：初见宝印', char: '小书生', line: '先生，这枚啃蹄马印真是精美！', char2: '陈永华', line2: '此印随吾多年，渡海赴台，见证了多少风雨。' },
+                    { title: '第二幕：双印合璧', char: '小书生', line: '霞城印与憩园印，真能合成啃蹄马印吗？', char2: '陈永华', line2: '霞城是根，憩园是枝。根深枝茂，方得始终。' },
+                    { title: '第三幕：传承之印', char: '小书生', line: '我也要有一枚属于自己的印章！', char2: '陈永华', line2: '善哉！印者，信也。印在心间，行在脚下。' }
+                ]
+            }
+        };
+        const storyboardTemplates = [
+            { shot: '远景', desc: '交代故事发生的环境背景', duration: '5-8秒' },
+            { shot: '中景', desc: '人物出场，展示人物关系', duration: '8-10秒' },
+            { shot: '近景', desc: '对话场景，突出表情神态', duration: '10-15秒' },
+            { shot: '特写', desc: '重要道具或关键表情', duration: '3-5秒' },
+            { shot: '过肩', desc: '增强对话代入感', duration: '5-8秒' },
+            { shot: '空镜', desc: '转场或情绪铺垫', duration: '3-5秒' }
+        ];
+        function generateScript() {
+            playClick();
+            const name = document.getElementById('scriptName').value || '小书生';
+            const theme = document.getElementById('scriptTheme').value;
+            const scene = document.getElementById('scriptScene').value;
+            const length = document.getElementById('scriptLength').value;
+            const line = document.getElementById('scriptLine').value || '先生，晚辈仰慕您已久，特来请教！';
+            const template = scriptTemplates[theme];
+            const resultDiv = document.getElementById('scriptResult');
+            document.getElementById('scriptTitle').textContent = template.title;
+            document.getElementById('scriptMeta').textContent = `编剧：${name} & 陈永华先生 | 场景：${document.getElementById('scriptScene').options[document.getElementById('scriptScene').selectedIndex].text}`;
+            const scenesDiv = document.getElementById('scriptScenes');
+            scenesDiv.innerHTML = '';
+            template.scenes.forEach((s, i) => {
+                const sceneDiv = document.createElement('div');
+                sceneDiv.className = 'script-scene';
+                sceneDiv.innerHTML = `
+                    <div class="script-scene-title">${s.title}</div>
+                    <div class="script-dialogue">
+                        <div class="script-char">${name}：</div>
+                        <div class="script-line">${i === 0 ? line : s.line.replace('小书生', name)}</div>
+                    </div>
+                    <div class="script-dialogue">
+                        <div class="script-char">陈永华：</div>
+                        <div class="script-line">${s.line2}</div>
+                    </div>
+                `;
+                scenesDiv.appendChild(sceneDiv);
+            });
+            resultDiv.classList.add('show');
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            playSuccess();
+            showToast('🎉 剧本生成成功！');
+        }
+        function copyScript() {
+            playClick();
+            const text = document.getElementById('scriptTitle').textContent + '\n\n' +
+                document.getElementById('scriptMeta').textContent + '\n\n' +
+                document.getElementById('scriptScenes').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('📋 剧本已复制到剪贴板');
+                playSuccess();
+            });
+        }
+        function downloadScript() {
+            playClick();
+            const text = document.getElementById('scriptTitle').textContent + '\n\n' +
+                document.getElementById('scriptMeta').textContent + '\n\n' +
+                document.getElementById('scriptScenes').innerText;
+            const blob = new Blob([text], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = '我的短片剧本.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('💾 剧本已下载');
+            playSuccess();
+        }
+        function generateStoryboard() {
+            playClick();
+            const storyboardDiv = document.getElementById('storyboardDiv');
+            const contentDiv = document.getElementById('storyboardContent');
+            const scenes = document.querySelectorAll('.script-scene');
+            contentDiv.innerHTML = '';
+            let shotIndex = 0;
+            scenes.forEach((scene, i) => {
+                const title = scene.querySelector('.script-scene-title').textContent;
+                [0, 1].forEach(j => {
+                    const template = storyboardTemplates[shotIndex % storyboardTemplates.length];
+                    const card = document.createElement('div');
+                    card.style.cssText = 'background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); border-radius: 12px; padding: 16px; text-align: center;';
+                    card.innerHTML = `
+                        <div style="aspect-ratio: 16/9; background: rgba(0,0,0,0.3); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 10px;">
+                            ${['🏞️', '👥', '💬', '👁️', '🎬', '🌅'][shotIndex % 6]}
+                        </div>
+                        <div style="font-size: 13px; font-weight: 600; color: var(--gold); margin-bottom: 4px;">镜头${shotIndex + 1}：${template.shot}</div>
+                        <div style="font-size: 11px; color: var(--brown-light);">${title}</div>
+                        <div style="font-size: 11px; color: var(--brown-light); margin-top: 4px;">时长：${template.duration}</div>
+                    `;
+                    contentDiv.appendChild(card);
+                    shotIndex++;
+                });
+            });
+            storyboardDiv.style.display = 'block';
+            storyboardDiv.style.animation = 'fadeIn 0.5s ease';
+            playSuccess();
+            showToast('🎞️ 分镜脚本生成成功！');
+        }
+
+        // AIGC Generator
+        const aigcTemplates = {
+            cartoon: {
+                name: '陈永华卡通角色',
+                icons: ['🧑‍🏫', '👨‍💼', '🦸', '🧙', '👨‍🎓', '🤴'],
+                titles: ['儒雅书生', '忠义之士', '抗清英雄', '智慧导师', '文教先驱', '一代大儒'],
+                descs: ['陈永华先生卡通形象，手持书卷，温文尔雅，展现一代大儒的风范',
+                    'Q版陈永华造型，正气凛然，义薄云天，天地会总舵主风采',
+                    '陈永华少年形象，聪慧好学，胸怀大志，集美故里的读书郎'],
+                patterns: ['📚', '🎓', '⚔️', '🏛️', '📜', '💮'],
+                heritage: '陈永华卡通形象设计，结合现代Q版风格与传统文化元素，让历史人物更加生动有趣，适合年轻人和儿童了解历史文化。'
+            },
+            seal: {
+                name: '啃蹄马印章',
+                icons: ['💮', '🐴', '🏮', '📜', '✨', '🎴'],
+                titles: ['啃蹄马印', '传家印章', '文脉信物', '两岸同心', '脚踏实地', '志存高远'],
+                descs: ['啃蹄马印章设计，蹄者足也，象征脚踏实地；马者千里驹，象征志存高远',
+                    '传统篆刻风格的啃蹄马印章，古朴典雅，文化底蕴深厚',
+                    '霞憩双印融合设计，连接两岸文化根脉的信物'],
+                patterns: ['🐴', '🐎', '🏇', '💮', '🌸', '⚫'],
+                heritage: '「啃蹄马」印章是陈永华先生的传家信物。啃蹄之意，乃马自啃其蹄，提醒自己：欲行千里，必先顾其足；欲成大事，必先修其身。'
+            },
+            zhuxiu: {
+                name: '珠绣设计',
+                icons: ['🧵', '💎', '✨', '🌟', '💠', '🔮'],
+                titles: ['珠绣挂饰', '珠绣团扇', '珠绣香囊', '珠绣壁画', '珠绣服饰', '珠绣首饰'],
+                descs: ['珠绣工艺设计，以彩珠、亮片绣制陈永华形象与啃蹄马图案',
+                    '传统珠绣技法结合现代审美，色彩绚丽，立体感强',
+                    '闽南珠绣非遗工艺，每一针都凝聚着匠人的心血'],
+                patterns: ['💎', '🔴', '🟡', '🟢', '🔵', '🟣'],
+                heritage: '珠绣是闽南地区传统刺绣工艺，以珠子、亮片等材料在布面上绣制各种图案，色彩绚丽，立体感强，常用于服饰、挂饰等装饰，是国家级非物质文化遗产。'
+            },
+            songjin: {
+                name: '宋锦拼布',
+                icons: ['🎀', '🧶', '🎨', '🪡', '🧵', '📿'],
+                titles: ['宋锦书皮', '宋锦笔袋', '宋锦香囊', '宋锦桌旗', '宋锦靠垫', '宋锦挂画'],
+                descs: ['宋锦拼布设计，以传统宋锦面料拼接陈永华文化主题图案',
+                    '宋锦质地精美，图案典雅，有"锦绣之冠"的美誉',
+                    '传统宋锦工艺与现代设计结合，既实用又美观'],
+                patterns: ['◼️', '◻️', '🔳', '🔲', '⬛', '⬜'],
+                heritage: '宋锦是中国传统丝制工艺品，始产于宋代，有中国"锦绣之冠"之称。其质地精美，图案典雅，色彩古雅，是国家级非物质文化遗产，常用于书画装裱、服饰等。'
+            },
+            qixian: {
+                name: '漆线雕',
+                icons: ['🏮', '🎊', '🐉', '🪔', '🏺', '🔱'],
+                titles: ['漆线雕摆件', '漆线雕挂盘', '漆线雕花瓶', '漆线雕首饰盒', '漆线雕屏风', '漆线雕匾额'],
+                descs: ['漆线雕工艺设计，以漆线缠绕塑造陈永华与啃蹄马立体形象',
+                    '厦门漆线雕传统工艺，线条流畅，立体感强',
+                    '漆线雕是闽南独有的民间工艺，已有数百年历史'],
+                patterns: ['🐉', '🐴', '🌸', '💮', '🏮', '🔆'],
+                heritage: '漆线雕是厦门独有的民间工艺，源于闽南佛像雕塑的"妆佛"工艺，已有三百多年历史。它以漆线缠绕塑造各种图案，立体感强，金碧辉煌，是国家级非物质文化遗产。'
+            },
+            pindou: {
+                name: '拼豆图纸',
+                icons: ['🔴', '🟡', '🟢', '🔵', '🟣', '🟠'],
+                titles: ['陈永华拼豆', '啃蹄马拼豆', '印章拼豆', '孔庙拼豆', '家训拼豆', '汉服拼豆'],
+                descs: ['拼豆手工制作图纸，陈永华卡通形象拼豆设计',
+                    '啃蹄马印章拼豆图案，简单易做，适合儿童',
+                    '拼豆是一种简单有趣的手工DIY，老少皆宜'],
+                patterns: ['🔴', '🟡', '🟢', '🔵', '🟣', '⬛'],
+                heritage: '拼豆是一种流行的手工DIY活动，通过将小豆子按图案排列，熨烫成型。虽然是现代手工，但可以用来传承传统文化图案，让年轻人在动手过程中了解文化。'
+            },
+            jianci: {
+                name: '剪瓷雕',
+                icons: ['🏺', '🏛️', '🗿', '🎭', '🏯', '⛩️'],
+                titles: ['剪瓷壁挂', '剪瓷摆件', '剪瓷相框', '剪瓷花瓶', '剪瓷挂盘', '剪瓷屏风'],
+                descs: ['剪瓷雕工艺设计，以碎瓷片拼贴陈永华形象与传统图案',
+                    '潮汕剪瓷雕传统工艺，色彩鲜艳，永不褪色',
+                    '剪瓷雕是闽南古建筑装饰艺术的瑰宝'],
+                patterns: ['🏺', '🔴', '🔵', '🟡', '🟢', '⚪'],
+                heritage: '剪瓷雕是闽南地区传统建筑装饰工艺，以碎瓷片拼贴成各种人物、花鸟图案，色彩鲜艳，历久弥新。常用于寺庙、祠堂等古建筑的屋脊装饰，是国家级非物质文化遗产。'
+            },
+            yinpiao: {
+                name: '游戏银票',
+                icons: ['🎫', '💰', '💴', '🎟️', '🏅', '🎖️'],
+                titles: ['文化银票', '闯关银票', '纪念银票', '研学银票', '非遗银票', '两岸银票'],
+                descs: ['专属游戏银票设计，融合陈永华文化元素与现代游戏玩法',
+                    '完成文化闯关任务即可获得银票奖励',
+                    '可兑换文创产品、体验课程等，寓教于乐'],
+                patterns: ['💰', '💎', '⭐', '🏆', '🎖️', '📜'],
+                heritage: '游戏银票是将传统文化与现代游戏化学习相结合的创新方式。通过完成文化任务获得银票奖励，激发学习兴趣，让传统文化更加生动有趣。'
+            }
+        };
+        const styleData = [
+            { name: '水墨丹青', color: '#2d1810', bg: 'linear-gradient(135deg, rgba(45,24,16,0.3), rgba(26,15,10,0.5))', icon: '🖌️' },
+            { name: '剪纸红印', color: '#c4302b', bg: 'linear-gradient(135deg, rgba(196,48,43,0.2), rgba(139,37,0,0.3))', icon: '🏮' },
+            { name: '青玉雕刻', color: '#4a8c5c', bg: 'linear-gradient(135deg, rgba(74,140,92,0.2), rgba(45,90,61,0.3))', icon: '💎' },
+            { name: '金线描边', color: '#d4af37', bg: 'linear-gradient(135deg, rgba(212,175,55,0.2), rgba(184,148,31,0.3))', icon: '✨' }
+        ];
+        let currentAigcType = 'cartoon';
+        let currentStyle = 0;
+        function setAigcType(type) {
+            playClick();
+            currentAigcType = type;
+            document.querySelectorAll('.aigc-tab').forEach((t, i) => {
+                t.classList.toggle('active', ['cartoon','seal','zhuxiu','songjin','qixian','pindou','jianci','yinpiao'][i] === type);
+            });
+            const template = aigcTemplates[type];
+            document.getElementById('heritageIntro').innerHTML = `
+                <h5>📚 ${template.name} · 非遗小知识</h5>
+                <p>${template.heritage}</p>
+            `;
+            document.getElementById('aigcInput').placeholder = `描述你想要的${template.name}设计...`;
+        }
+        function setStyle(index) {
+            playClick();
+            currentStyle = index;
+            document.querySelectorAll('.style-option').forEach((s, i) => {
+                s.classList.toggle('active', i === index);
+            });
+        }
+        function handleImageUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                showToast('🖼️ 参考图已上传');
+                playSuccess();
+            }
+        }
+        function generateArt() {
+            playClick();
+            const input = document.getElementById('aigcInput').value;
+            const template = aigcTemplates[currentAigcType];
+            const style = styleData[currentStyle];
+            const placeholder = document.getElementById('artworkPlaceholder');
+            const artwork = document.getElementById('artwork');
+            placeholder.style.display = 'none';
+            artwork.style.display = 'none';
+            showToast('✨ AI正在生成中...');
+            setTimeout(() => {
+                const randomIcon = template.icons[Math.floor(Math.random() * template.icons.length)];
+                const randomTitle = template.titles[Math.floor(Math.random() * template.titles.length)];
+                const randomDesc = template.descs[Math.floor(Math.random() * template.descs.length)];
+                document.getElementById('artworkIcon').textContent = randomIcon;
+                document.getElementById('artworkTitle').textContent = randomTitle;
+                document.getElementById('artworkDesc').textContent = input ? `${input}\n\n${randomDesc}` : randomDesc;
+                document.getElementById('artworkTag').textContent = style.name;
+                document.getElementById('artworkTag').style.color = style.color;
+                document.getElementById('artworkCanvas').style.background = style.bg;
+                const grid = document.getElementById('artworkGrid');
+                grid.innerHTML = '';
+                template.patterns.forEach(p => {
+                    const div = document.createElement('div');
+                    div.className = 'artwork-pattern';
+                    div.style.color = style.color;
+                    div.style.borderColor = style.color + '40';
+                    div.textContent = p;
+                    grid.appendChild(div);
+                });
+                const colorPalette = document.getElementById('colorPalette');
+                const colors = [
+                    { name: '主色', color: style.color },
+                    { name: '辅色', color: '#d4af37' },
+                    { name: '点缀', color: '#c4302b' },
+                    { name: '底色', color: '#2d1810' },
+                    { name: '提亮', color: '#f5e6d3' }
+                ];
+                colorPalette.innerHTML = colors.map(c => `
+                    <div style="text-align: center;">
+                        <div style="width: 36px; height: 36px; border-radius: 50%; background: ${c.color}; border: 2px solid rgba(255,255,255,0.2); margin-bottom: 4px;"></div>
+                        <div style="font-size: 10px; color: var(--brown-light);">${c.name}</div>
+                    </div>
+                `).join('');
+                const specs = {
+                    cartoon: '尺寸：1080×1080px<br>格式：PNG透明底<br>分辨率：300DPI<br>用途：头像/表情包/周边',
+                    seal: '尺寸：60×60mm<br>材质：寿山石/铜印<br>字体：篆书<br>用途：藏书章/落款章',
+                    zhuxiu: '尺寸：20×20cm<br>材质：真丝缎面<br>工艺：手工珠绣<br>工时：约8小时',
+                    songjin: '尺寸：30×40cm<br>材质：真丝宋锦<br>工艺：传统织锦<br>用途：书皮/香囊',
+                    qixian: '尺寸：15×15cm<br>材质：樟木胎+漆线<br>工艺：传统漆线雕<br>工时：约3天',
+                    pindou: '尺寸：29×29珠<br>材质：融合拼豆<br>工艺：熨烫成型<br>难度：★★☆☆☆',
+                    jianci: '尺寸：30×30cm<br>材质：碎瓷片+水泥<br>工艺：剪瓷镶嵌<br>用途：壁挂/装饰',
+                    yinpiao: '尺寸：180×80mm<br>材质：铜版纸<br>工艺：UV印刷<br>面值：100文银票'
+                };
+                document.getElementById('designSpecs').innerHTML = specs[currentAigcType];
+                const steps = {
+                    cartoon: '1. 确定角色形象风格<br>2. 绘制线稿草图<br>3. 上色细化细节<br>4. 添加背景装饰<br>5. 导出多种格式',
+                    seal: '1. 设计印文内容<br>2. 篆刻印面文字<br>3. 修饰印边细节<br>4. 试印调整效果<br>5. 打磨上蜡成品',
+                    zhuxiu: '1. 设计绣稿图案<br>2. 选配色珠子<br>3. 打底绷布定位<br>4. 手工串珠刺绣<br>5. 整理装裱成品',
+                    songjin: '1. 设计图案纹样<br>2. 选配色丝线<br>3. 上机织造<br>4. 裁剪缝制<br>5. 熨烫定型',
+                    qixian: '1. 制作木胎底<br>2. 调制漆线材料<br>3. 手工盘绕线条<br>4. 贴金箔上彩<br>5. 上漆保护成品',
+                    pindou: '1. 准备拼豆模板<br>2. 按图摆放豆子<br>3. 熨斗加热定型<br>4. 冷却固化<br>5. 添加配件',
+                    jianci: '1. 设计图案底稿<br>2. 选配色瓷片<br>3. 剪瓷造型<br>4. 镶嵌粘贴<br>5. 填缝打磨',
+                    yinpiao: '1. 设计票面版式<br>2. 选择图案元素<br>3. 排版文字内容<br>4. 添加防伪纹<br>5. 印刷裁切'
+                };
+                document.getElementById('craftSteps').innerHTML = steps[currentAigcType];
+                const ideas = {
+                    cartoon: '• 做成微信表情包<br>• 印在T恤帆布袋<br>• 制作钥匙扣挂件<br>• 定制手机壳<br>• 生成动态GIF',
+                    seal: '• 定制专属藏书章<br>• 制作文创周边<br>• 篆刻情侣对章<br>• 企业礼品定制<br>• 书法落款章',
+                    zhuxiu: '• 做成团扇书签<br>• 制作耳饰项链<br>• 装饰手机壳<br>• 绣在汉服上<br>• 做文创礼品',
+                    songjin: '• 制作书衣笔袋<br>• 缝制香囊荷包<br>• 做杯垫桌旗<br>• 包装礼盒<br>• 汉服镶边',
+                    qixian: '• 做盘龙摆件<br>• 制作挂盘装饰<br>• 定制首饰盒<br>• 佛像装饰<br>• 匾额装饰',
+                    pindou: '• 做钥匙扣挂件<br>• 做冰箱贴<br>• 拼豆画装裱<br>• 耳环饰品<br>• 亲子手工',
+                    jianci: '• 做装饰壁挂<br>• 花瓶装饰<br>• 相框装饰<br>• 屋顶装饰<br>• 文化墙设计',
+                    yinpiao: '• 闯关游戏奖励<br>• 文创市集代币<br>• 纪念收藏品<br>• 活动邀请函<br>• 红包封面'
+                };
+                document.getElementById('creativeIdeas').innerHTML = ideas[currentAigcType];
+                artwork.style.display = 'block';
+                artwork.style.animation = 'fadeIn 0.5s ease';
+                playSuccess();
+                showToast('🎉 文创设计生成成功！');
+            }, 1500);
+        }
+        function downloadDesign() {
+            playClick();
+            showToast('📥 设计图下载中...');
+            setTimeout(() => {
+                playSuccess();
+                showToast('🎉 设计图已下载！');
+            }, 1000);
+        }
+        function saveToGallery() {
+            playClick();
+            playSuccess();
+            showToast('⭐ 已收藏到作品库！');
+        }
+
+        // Seal Module
+        let leftStamped = false;
+        let rightStamped = false;
+        function stampLeft() {
+            if (leftStamped) return;
+            playClick();
+            leftStamped = true;
+            document.getElementById('sealLeft').classList.add('stamped');
+            document.getElementById('stampLeft').textContent = '已盖章';
+            document.getElementById('stampLeft').style.opacity = '0.6';
+            playSuccess();
+            checkBothStamped();
+        }
+        function stampRight() {
+            if (rightStamped) return;
+            playClick();
+            rightStamped = true;
+            document.getElementById('sealRight').classList.add('stamped');
+            document.getElementById('stampRight').textContent = '已盖章';
+            document.getElementById('stampRight').style.opacity = '0.6';
+            playSuccess();
+            checkBothStamped();
+        }
+        function checkBothStamped() {
+            if (leftStamped && rightStamped) {
+                showToast('💮 双印均已盖章，可以合璧了！');
+            }
+        }
+        function uniteSeal() {
+            if (!leftStamped || !rightStamped) {
+                showToast('请先盖霞城印与憩园印');
+                return;
+            }
+            playClick();
+            setTimeout(() => {
+                playSuccess();
+                showToast('🎉 双印合璧成功！');
+                setTimeout(() => {
+                    alert('💮 霞憩双印 · 啃蹄马印\n\n霞城印与憩园印融合，生成专属「啃蹄马」印章！\n\n蹄者，足也，象征脚踏实地；马者，千里驹，象征志存高远。\n\n愿君如啃蹄马一般，脚踏实地，志存高远，传承文脉，振兴中华！');
+                    resetSeal();
+                }, 500);
+            }, 500);
+        }
+        function resetSeal() {
+            leftStamped = false;
+            rightStamped = false;
+            document.getElementById('sealLeft').classList.remove('stamped');
+            document.getElementById('sealRight').classList.remove('stamped');
+            document.getElementById('stampLeft').textContent = '盖霞城印';
+            document.getElementById('stampLeft').style.opacity = '1';
+            document.getElementById('stampRight').textContent = '盖憩园印';
+            document.getElementById('stampRight').style.opacity = '1';
+        }
+
+        // Games
+        const mountainLevels = [
+            { title: '孝悌为本', instruction: '「弟子入则孝，出则悌，谨而信，泛爱众，而亲仁。行有余力，则以学文。」', source: '—— 源自《论语·学而》',
+                detail: '孝悌乃为人之本。在家孝顺父母，出外尊敬兄长，为人谨慎守信，博爱众人，亲近仁者。这些都做到之后，还有余力的话，就去学习文化知识。\n\n陈永华先生一生践行此道，侍奉双亲至孝，对待兄长至悌，是为后辈之楷模。' },
+            { title: '勤学励志', instruction: '「书山有路勤为径，学海无涯苦作舟。」', source: '—— 古训',
+                detail: '勤奋是学习的唯一路径。陈永华先生少年时便聪颖好学，博览群书，立下济世安民之志。\n\n他常说：「业精于勤荒于嬉，行成于思毁于随。」正是因为勤学苦读，他才能成为郑成功的重要谋士，成为台湾文教之父。' },
+            { title: '修身立德', instruction: '「吾日三省吾身：为人谋而不忠乎？与朋友交而不信乎？传不习乎？」', source: '—— 源自《论语·学而》',
+                detail: '修身立德是做人的根本。每天多次反省自己：替人办事是否尽心？与朋友交往是否守信？老师传授的知识是否复习？\n\n陈永华先生一生严于律己，宽以待人，品德高尚，受人敬仰。' },
+            { title: '济世安民', instruction: '「达则兼济天下，穷则独善其身。」', source: '—— 源自《孟子·尽心上》',
+                detail: '得志时要造福天下，不得志时也要修养自身。陈永华先生便是如此——\n\n在台湾，他推行教化，发展经济，造福百姓；即使面对困境，他也坚守信念，不改初心。\n\n他用一生诠释了什么是「济世安民」。' },
+            { title: '文脉传承', instruction: '「为天地立心，为生民立命，为往圣继绝学，为万世开太平。」', source: '—— 张载「横渠四句」',
+                detail: '这是中国知识分子的最高理想。陈永华先生在台湾建孔庙、设学校、推行教化，正是在践行这一理想。\n\n他将中华文化的火种带到台湾，让文脉在海岛延续。三百年后，两岸同根同源，文脉相连，这便是传承的力量。' }
+        ];
+        let mountainCurrent = 0;
+        let mountainCompleted = 0;
+        function jumpToLevel(level) {
+            if (level > mountainCompleted) {
+                showToast('请先完成前面的关卡');
+                return;
+            }
+            playClick();
+            mountainCurrent = level;
+            updateMountainUI();
+        }
+        function updateMountainUI() {
+            document.getElementById('mountainLevel').textContent = `${mountainCurrent + 1} / 5`;
+            document.getElementById('mountainScore').textContent = mountainCompleted;
+            const titles = ['初学者', '小学童', '秀才', '举人', '进士', '状元'];
+            document.getElementById('mountainTitle').textContent = titles[mountainCompleted];
+            document.querySelectorAll('.mountain-step').forEach((step, i) => {
+                step.classList.remove('current', 'completed');
+                if (i < mountainCompleted) step.classList.add('completed');
+                if (i === mountainCurrent) step.classList.add('current');
+                const status = step.querySelector('.step-status');
+                if (i < mountainCompleted) status.textContent = '已完成';
+                else if (i === mountainCurrent) status.textContent = '进行中';
+                else status.textContent = '未解锁';
+            });
+            const level = mountainLevels[mountainCurrent];
+            document.querySelector('.family-instruction h4').textContent = `📜 陈氏家训 · ${level.title}`;
+            document.getElementById('instructionText').innerHTML = level.instruction.replace(/\n/g, '<br><br>') + '<br><br>' + level.detail.replace(/\n/g, '<br>');
+            document.getElementById('instructionSource').textContent = level.source;
+        }
+        function nextMountainLevel() {
+            playClick();
+            if (mountainCurrent >= mountainCompleted) {
+                mountainCompleted = Math.min(mountainCompleted + 1, 5);
+            }
+            if (mountainCurrent < 4) {
+                mountainCurrent++;
+                playSuccess();
+                showToast('🎉 恭喜过关！');
+            } else {
+                playSuccess();
+                showToast('🏆 恭喜完成所有关卡！');
+            }
+            updateMountainUI();
+        }
+
+        // Memory Game
+        const memoryPairs = ['📚', '💮', '🎓', '⚔️', '🏛️', '🐴', '📜', '🎨'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let memoryMoves = 0;
+        let memoryTime = 0;
+        let memoryTimer = null;
+        function initMemoryGame() {
+            playClick();
+            matchedPairs = 0;
+            memoryMoves = 0;
+            memoryTime = 0;
+            flippedCards = [];
+            if (memoryTimer) clearInterval(memoryTimer);
+            memoryCards = [...memoryPairs, ...memoryPairs];
+            for (let i = memoryCards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [memoryCards[i], memoryCards[j]] = [memoryCards[j], memoryCards[i]];
+            }
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            memoryCards.forEach((card, i) => {
+                const div = document.createElement('div');
+                div.className = 'memory-card';
+                div.dataset.index = i;
+                div.innerHTML = `
+                    <div class="memory-card-inner">
+                        <div class="memory-card-front">陈</div>
+                        <div class="memory-card-back">${card}</div>
+                    </div>
+                `;
+                div.onclick = () => flipCard(i);
+                grid.appendChild(div);
+            });
+            updateMemoryStats();
+            memoryTimer = setInterval(() => {
+                memoryTime++;
+                document.getElementById('memoryTime').textContent = memoryTime + 's';
+            }, 1000);
+        }
+        function flipCard(index) {
+            const card = document.querySelectorAll('.memory-card')[index];
+            if (card.classList.contains('flipped') || card.classList.contains('matched') || flippedCards.length >= 2) return;
+            playClick();
+            card.classList.add('flipped');
+            flippedCards.push({ index, value: memoryCards[index] });
+            if (flippedCards.length === 2) {
+                memoryMoves++;
+                updateMemoryStats();
+                if (flippedCards[0].value === flippedCards[1].value) {
+                    setTimeout(() => {
+                        document.querySelectorAll('.memory-card')[flippedCards[0].index].classList.add('matched');
+                        document.querySelectorAll('.memory-card')[flippedCards[1].index].classList.add('matched');
+                        matchedPairs++;
+                        flippedCards = [];
+                        updateMemoryStats();
+                        if (matchedPairs === memoryPairs.length) {
+                            clearInterval(memoryTimer);
+                            playSuccess();
+                            showToast(`🎉 恭喜通关！用时${memoryTime}秒，${memoryMoves}步`);
+                        }
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        document.querySelectorAll('.memory-card')[flippedCards[0].index].classList.remove('flipped');
+                        document.querySelectorAll('.memory-card')[flippedCards[1].index].classList.remove('flipped');
+                        flippedCards = [];
+                    }, 1000);
+                }
+            }
+        }
+        function updateMemoryStats() {
+            document.getElementById('memoryMoves').textContent = memoryMoves;
+            document.getElementById('memoryPairs').textContent = `${matchedPairs} / ${memoryPairs.length}`;
+        }
+
+        // Puzzle Game
+        const puzzleTargets = [
+            { target: '陈永华传文脉', chars: ['陈', '永', '华', '传', '文', '脉', '化'] },
+            { target: '孝悌忠信礼义', chars: ['孝', '悌', '忠', '信', '礼', '义', '仁'] },
+            { target: '文脉两岸同心', chars: ['文', '脉', '两', '岸', '同', '心', '源'] },
+            { target: '啃蹄马志千里', chars: ['啃', '蹄', '马', '志', '千', '里', '行'] }
+        ];
+        let currentPuzzle = 0;
+        let puzzleSlots = [];
+        function initPuzzleGame() {
+            playClick();
+            currentPuzzle = Math.floor(Math.random() * puzzleTargets.length);
+            const puzzle = puzzleTargets[currentPuzzle];
+            puzzleSlots = new Array(puzzle.target.length).fill(null);
+            const chars = [...puzzle.chars];
+            for (let i = chars.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [chars[i], chars[j]] = [chars[j], chars[i]];
+            }
+            document.querySelector('.puzzle-target span')?.remove();
+            const targetSpan = document.createElement('span');
+            targetSpan.textContent = `目标：${puzzle.target}`;
+            document.querySelector('.game-stat-value').textContent = puzzle.target;
+            const slotsDiv = document.getElementById('puzzleSlots');
+            slotsDiv.innerHTML = '';
+            for (let i = 0; i < puzzle.target.length; i++) {
+                const slot = document.createElement('div');
+                slot.className = 'puzzle-slot';
+                slot.dataset.index = i;
+                slot.onclick = () => removeFromSlot(i);
+                slotsDiv.appendChild(slot);
+            }
+            const charsDiv = document.getElementById('puzzleChars');
+            charsDiv.innerHTML = '';
+            chars.forEach((char, i) => {
+                const div = document.createElement('div');
+                div.className = 'puzzle-char';
+                div.dataset.char = char;
+                div.dataset.index = i;
+                div.textContent = char;
+                div.onclick = () => placeChar(char, div);
+                charsDiv.appendChild(div);
+            });
+        }
+        function placeChar(char, element) {
+            if (element.classList.contains('used')) return;
+            const emptyIndex = puzzleSlots.findIndex(s => s === null);
+            if (emptyIndex === -1) return;
+            playClick();
+            puzzleSlots[emptyIndex] = char;
+            element.classList.add('used');
+            const slot = document.querySelectorAll('.puzzle-slot')[emptyIndex];
+            slot.textContent = char;
+            slot.classList.add('filled');
+            checkPuzzleComplete();
+        }
+        function removeFromSlot(index) {
+            if (!puzzleSlots[index]) return;
+            playClick();
+            const char = puzzleSlots[index];
+            puzzleSlots[index] = null;
+            const slot = document.querySelectorAll('.puzzle-slot')[index];
+            slot.textContent = '';
+            slot.classList.remove('filled');
+            document.querySelectorAll('.puzzle-char').forEach(el => {
+                if (el.dataset.char === char && el.classList.contains('used')) {
+                    el.classList.remove('used');
+                }
+            });
+        }
+        function checkPuzzleComplete() {
+            if (puzzleSlots.every(s => s !== null)) {
+                const guess = puzzleSlots.join('');
+                const target = puzzleTargets[currentPuzzle].target;
+                if (guess === target) {
+                    playSuccess();
+                    showToast('🎉 恭喜！回答正确！');
+                    setTimeout(() => initPuzzleGame(), 1500);
+                } else {
+                    showToast('❌ 顺序不对，再试试！');
+                }
+            }
+        }
+
+        // Quiz Game
+        const quizQuestions = [
+            { q: '陈永华先生的故里是哪里？', options: ['厦门集美后溪下店', '漳州龙海', '泉州晋江', '福州'], answer: 0,
+                explain: '陈永华先生生于明万历三十四年，故里是现在的厦门市集美区后溪镇下店里。' },
+            { q: '陈永华追随的是谁？', options: ['郑成功', '郑经', '郑克塽', '施琅'], answer: 0,
+                explain: '陈永华是郑成功的重要谋士，郑成功称他为「当今之卧龙」。' },
+            { q: '陈永华在台湾主要推行什么？', options: ['文教', '军事', '商业', '农业'], answer: 0,
+                explain: '陈永华在台湾建孔庙、设学校、推行教化，被誉为「台湾文教之父」。' },
+            { q: '「啃蹄马」印章的寓意是什么？', options: ['脚踏实地，志存高远', '马到成功', '快马加鞭', '千里马'], answer: 0,
+                explain: '蹄者足也，象征脚踏实地；马者千里驹，象征志存高远。啃蹄之意是提醒自己欲行千里必先修其身。' },
+            { q: '金庸笔下的陈近南原型是谁？', options: ['陈永华', '陈近南', '陈胜', '陈平'], answer: 0,
+                explain: '金庸取「永华」二字化名为「近南」，取「永在近南」之意，永远追随郑成功。' },
+            { q: '陈氏家训第一条是什么？', options: ['孝悌为本', '勤学励志', '修身立德', '济世安民'], answer: 0,
+                explain: '百善孝为先，孝悌是为人之本。' },
+            { q: '珠绣是哪里的传统工艺？', options: ['闽南', '江南', '川西', '中原'], answer: 0,
+                explain: '珠绣是闽南地区传统刺绣工艺，是国家级非物质文化遗产。' },
+            { q: '漆线雕是哪里的特色工艺？', options: ['厦门', '泉州', '漳州', '福州'], answer: 0,
+                explain: '漆线雕是厦门独有的民间工艺，源于佛像雕塑的「妆佛」工艺。' },
+            { q: '宋锦是什么朝代开始的？', options: ['宋代', '唐代', '明代', '清代'], answer: 0,
+                explain: '宋锦始产于宋代，有中国「锦绣之冠」之称。' },
+            { q: '剪瓷雕主要用于什么地方的装饰？', options: ['寺庙屋脊', '家具', '服饰', '器皿'], answer: 0,
+                explain: '剪瓷雕常用于寺庙、祠堂等古建筑的屋脊装饰，是闽南传统建筑艺术。' }
+        ];
+        let currentQuiz = 0;
+        let quizScore = 0;
+        let quizStreak = 0;
+        let quizAnswered = false;
+        function initQuizGame() {
+            currentQuiz = 0;
+            quizScore = 0;
+            quizStreak = 0;
+            quizAnswered = false;
+            updateQuizStats();
+            showQuiz();
+        }
+        function updateQuizStats() {
+            document.getElementById('quizNum').textContent = `${currentQuiz + 1} / ${quizQuestions.length}`;
+            document.getElementById('quizScore').textContent = quizScore;
+            document.getElementById('quizStreak').textContent = quizStreak;
+        }
+        function showQuiz() {
+            const q = quizQuestions[currentQuiz];
+            document.getElementById('quizQuestion').textContent = q.q;
+            const optionsDiv = document.getElementById('quizOptions');
+            optionsDiv.innerHTML = '';
+            q.options.forEach((opt, i) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.textContent = opt;
+                div.onclick = () => answerQuiz(i);
+                optionsDiv.appendChild(div);
+            });
+            document.getElementById('quizFeedback').classList.remove('show');
+            document.getElementById('quizNext').style.display = 'none';
+            quizAnswered = false;
+        }
+        function answerQuiz(index) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+            playClick();
+            const q = quizQuestions[currentQuiz];
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach((opt, i) => {
+                if (i === q.answer) opt.classList.add('correct');
+                if (i === index && i !== q.answer) opt.classList.add('wrong');
+                opt.style.cursor = 'default';
+            });
+            const feedback = document.getElementById('quizFeedback');
+            if (index === q.answer) {
+                quizScore += 10;
+                quizStreak++;
+                feedback.innerHTML = `✅ 回答正确！<br><br>${q.explain}`;
+                playSuccess();
+            } else {
+                quizStreak = 0;
+                feedback.innerHTML = `❌ 回答错误。正确答案是：${q.options[q.answer]}<br><br>${q.explain}`;
+            }
+            feedback.classList.add('show');
+            updateQuizStats();
+            document.getElementById('quizNext').style.display = 'block';
+        }
+        function nextQuiz() {
+            playClick();
+            if (currentQuiz < quizQuestions.length - 1) {
+                currentQuiz++;
+                updateQuizStats();
+                showQuiz();
+            } else {
+                playSuccess();
+                showToast(`🏆 答题完成！总得分：${quizScore}分`);
+                setTimeout(() => initQuizGame(), 2000);
+            }
+        }
+
+        // Game Tabs
+        function setGame(type) {
+            playClick();
+            document.querySelectorAll('.game-tab').forEach((t, i) => {
+                t.classList.toggle('active', ['mountain','quiz','memory','puzzle','dianming','calligraphy'][i] === type);
+            });
+            document.getElementById('gameMountain').style.display = type === 'mountain' ? 'block' : 'none';
+            document.getElementById('gameQuiz').style.display = type === 'quiz' ? 'block' : 'none';
+            document.getElementById('gameMemory').style.display = type === 'memory' ? 'block' : 'none';
+            document.getElementById('gamePuzzle').style.display = type === 'puzzle' ? 'block' : 'none';
+            document.getElementById('gameDianming').style.display = type === 'dianming' ? 'block' : 'none';
+            document.getElementById('gameCalligraphy').style.display = type === 'calligraphy' ? 'block' : 'none';
+            if (type === 'memory' && memoryMoves === 0) initMemoryGame();
+            if (type === 'puzzle' && document.getElementById('puzzleChars').children.length === 0) initPuzzleGame();
+            if (type === 'quiz' && quizScore === 0) initQuizGame();
+            if (type === 'dianming' && dianmingCurrent === 0) initDianming();
+        }
+
+        // Dianming Game
+        const dianmingNames = [
+            '陈永华', '郑成功', '沈光文', '徐孚远', '卢若腾',
+            '王忠孝', '辜朝荐', '沈佺期', '郭贞一', '谢元抃'
+        ];
+        let dianmingCurrent = 0;
+        let dianmingCorrect = 0;
+        function initDianming() {
+            dianmingCurrent = 0;
+            dianmingCorrect = 0;
+            updateDianmingStats();
+            nextDianming();
+        }
+        function nextDianming() {
+            if (dianmingCurrent >= dianmingNames.length) {
+                playSuccess();
+                showToast(`🏆 点名完成！正确率：${Math.round(dianmingCorrect / dianmingNames.length * 100)}%`);
+                return;
+            }
+            document.getElementById('dianmingName').textContent = dianmingNames[dianmingCurrent];
+        }
+        function dianmingAnswer(index) {
+            playClick();
+            const correctAnswer = 2;
+            if (index === correctAnswer) {
+                dianmingCorrect++;
+                playSuccess();
+                showToast('✅ 正确！古代应答「喏」');
+            } else {
+                showToast('❌ 不对哦，古代应答应该说「喏」');
+            }
+            dianmingCurrent++;
+            updateDianmingStats();
+            setTimeout(nextDianming, 800);
+        }
+        function updateDianmingStats() {
+            document.getElementById('dianmingCount').textContent = `${dianmingCurrent} / ${dianmingNames.length}`;
+            const rate = dianmingCurrent === 0 ? 100 : Math.round(dianmingCorrect / dianmingCurrent * 100);
+            document.getElementById('dianmingCorrect').textContent = rate + '%';
+        }
+
+        // Calligraphy
+        function setCalligraphy(text) {
+            playClick();
+            document.getElementById('calligraphyText').textContent = text;
+            showToast('🖌️ 开始临摹：' + text);
+        }
+
+        // Wuxia Guessing
+        function wuxiaGuess(index, btn) {
+            playClick();
+            if (index === 1) {
+                btn.style.background = 'rgba(74,140,92,0.3)';
+                btn.style.borderColor = 'var(--jade-light)';
+                playSuccess();
+                showToast('✅ 正确！「风紧扯呼」是江湖黑话，意思是形势不妙，赶快撤退');
+            } else {
+                btn.style.background = 'rgba(196,48,43,0.3)';
+                btn.style.borderColor = 'var(--red-light)';
+                showToast('❌ 不对哦，再想想～');
+            }
+            setTimeout(() => {
+                btn.style.background = '';
+                btn.style.borderColor = '';
+            }, 2000);
+        }
+
+        // Offline cards click
+        document.querySelectorAll('.offline-btn').forEach(btn => {
+            btn.onclick = () => {
+                playClick();
+                showToast('📞 请联系我们了解详情');
+            };
+        });
+
+        // Initialize
+        updateMountainUI();
+        setAigcType('cartoon');
+    </script>
+</body>
+</html>
