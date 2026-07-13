@@ -1,0 +1,2192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈永华非遗文化AI体验馆 · 两岸文化之旅</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --gold-dark: #b8941f;
+            --brown-deep: #1a0f0a;
+            --brown-dark: #2d1810;
+            --brown-medium: #4a2c1a;
+            --brown-light: #7a5230;
+            --cream: #f5e6d3;
+            --cream-dark: #e8d5b7;
+            --red: #8b2500;
+            --blue: #1e3a5f;
+            --blue-light: #3d6a9f;
+        }
+        body {
+            font-family: "Noto Serif SC", "Microsoft YaHei", serif;
+            background: var(--brown-deep);
+            color: var(--cream);
+            overflow-x: hidden;
+            line-height: 1.8;
+        }
+        #particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .music-btn {
+            position: fixed;
+            top: 80px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(212,175,55,0.2);
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+        .music-btn:hover {
+            background: rgba(212,175,55,0.3);
+            transform: scale(1.1);
+        }
+        .music-btn.playing { animation: spin 4s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(26,15,10,0.95) 0%, rgba(26,15,10,0.8) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; }
+        .nav-logo-icon {
+            width: 40px; height: 40px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--gold);
+            font-weight: 900;
+            background: rgba(212,175,55,0.1);
+        }
+        .nav-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .nav-links { display: flex; gap: 6px; flex-wrap: wrap; }
+        .nav-link {
+            padding: 8px 16px;
+            color: var(--cream-dark);
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+        .nav-link:hover, .nav-link.active {
+            color: var(--gold);
+            background: rgba(212,175,55,0.1);
+            border-color: rgba(212,175,55,0.3);
+        }
+        .main { position: relative; z-index: 2; padding-top: 70px; }
+        .page {
+            display: none;
+            min-height: calc(100vh - 70px);
+            animation: fadeIn 0.6s ease;
+        }
+        .page.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero {
+            position: relative;
+            min-height: calc(100vh - 70px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 20px;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: "";
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 700px; height: 700px;
+            background: radial-gradient(circle, rgba(212,175,55,0.12) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content { position: relative; z-index: 2; max-width: 900px; }
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            background: rgba(30,58,95,0.6);
+            border: 1px solid var(--blue-light);
+            border-radius: 20px;
+            font-size: 14px;
+            color: #8ec4ff;
+            margin-bottom: 24px;
+        }
+        .hero-title {
+            font-size: 64px;
+            font-weight: 900;
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-family: "ZCOOL XiaoWei", serif;
+            text-shadow: 0 0 60px rgba(212,175,55,0.3);
+            animation: titleGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes titleGlow {
+            from { text-shadow: 0 0 40px rgba(212,175,55,0.2); }
+            to { text-shadow: 0 0 80px rgba(212,175,55,0.5); }
+        }
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--cream-dark);
+            margin-bottom: 8px;
+            letter-spacing: 6px;
+        }
+        .hero-theme {
+            font-size: 16px;
+            color: var(--blue-light);
+            margin-bottom: 24px;
+        }
+        .hero-desc {
+            font-size: 16px;
+            color: var(--brown-light);
+            margin-bottom: 40px;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 14px 32px;
+            font-size: 15px;
+            font-family: "Noto Serif SC", serif;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: var(--brown-deep);
+            box-shadow: 0 4px 20px rgba(212,175,55,0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212,175,55,0.5);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--gold);
+            border: 2px solid var(--gold);
+        }
+        .btn-secondary:hover {
+            background: rgba(212,175,55,0.1);
+            transform: translateY(-2px);
+        }
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+            color: var(--gold);
+            font-size: 24px;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+        .section {
+            padding: 70px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-size: 32px;
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .section-subtitle {
+            text-align: center;
+            color: var(--brown-light);
+            font-size: 15px;
+            margin-bottom: 50px;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .feature-card {
+            background: linear-gradient(135deg, rgba(45,24,16,0.8) 0%, rgba(26,15,10,0.9) 100%);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 20px;
+            padding: 32px 28px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.1), transparent);
+            transition: left 0.6s;
+        }
+        .feature-card:hover::before { left: 100%; }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(212,175,55,0.2);
+        }
+        .feature-icon {
+            width: 70px; height: 70px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(212,175,55,0.05) 100%);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            border: 1px solid rgba(212,175,55,0.3);
+        }
+        .feature-card h3 {
+            font-size: 20px;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .feature-card p {
+            font-size: 14px;
+            color: var(--brown-light);
+            line-height: 1.8;
+        }
+        .chat-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .chat-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .chat-avatar {
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            border: 3px solid var(--gold);
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            background: linear-gradient(135deg, var(--brown-medium), var(--brown-dark));
+            box-shadow: 0 0 40px rgba(212,175,55,0.3);
+        }
+        .chat-header h2 {
+            font-size: 26px;
+            color: var(--gold);
+            font-family: "ZCOOL XiaoWei", serif;
+            margin-bottom: 6px;
+        }
+        .chat-header p { color: var(--brown-light); font-size: 14px; }
+        .chat-messages {
+            height: 420px;
+            overflow-y: auto;
+            padding: 20px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            margin-bottom: 20px;
+        }
+        .chat-messages::-webkit-scrollbar { width: 6px; }
+        .chat-messages::-webkit-scrollbar-track { background: transparent; }
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: rgba(212,175,55,0.3);
+            border-radius: 3px;
+        }
+        .message { margin-bottom: 16px; display: flex; gap: 10px; animation: msgIn 0.4s ease; }
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .message-avatar {
+            width: 36px; height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--brown-deep);
+        }
+        .message.user .message-avatar { background: var(--brown-medium); color: var(--cream); }
+        .message-bubble {
+            max-width: 75%;
+            padding: 12px 18px;
+            border-radius: 14px;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .message.bot .message-bubble {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            color: var(--cream);
+            border-top-left-radius: 4px;
+        }
+        .message.user { flex-direction: row-reverse; }
+        .message.user .message-bubble {
+            background: var(--gold);
+            color: var(--brown-deep);
+            border-top-right-radius: 4px;
+        }
+        .chat-input-area { display: flex; gap: 12px; }
+        .chat-input {
+            flex: 1;
+            padding: 14px 20px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 12px;
+            color: var(--cream);
+            font-size: 14px;
+            font-family: "Noto Serif SC", serif;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        .chat-input:focus { border-color: var(--gold); }
+        .chat-input::placeholder { color: var(--brown-light); }
+        .quick-questions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 14px;
+        }
+        .quick-q {
+            padding: 7px 14px;
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--gold-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .quick-q:hover {
+            background: rgba(212,175,55,0.2);
+            transform: translateY(-2px);
+        }
+        .aigc-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .aigc-workspace {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 28px;
+            margin-top: 30px;
+        }
+        .aigc-panel {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 28px;
+        }
+        .aigc-panel h4 {
+            color: var(--gold);
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-family: "ZCOOL XiaoWei", serif;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(212,175,55,0.1);
+        }
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .style-item {
+            padding: 12px 10px;
+            text-align: center;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            color: var(--cream-dark);
+        }
+        .style-item:hover { background: rgba(212,175,55,0.1); }
+        .style-item.active {
+            border-color: var(--gold);
+            background: rgba(212,175,55,0.15);
+            color: var(--gold);
+        }
+        .style-item .emoji { font-size: 24px; display: block; margin-bottom: 4px; }
+        .aigc-input {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 10px;
+            color: var(--cream);
+            font-size: 14px;
+            font-family: "Noto Serif SC", serif;
+            outline: none;
+            margin-bottom: 14px;
+            resize: vertical;
+            min-height: 80px;
+        }
+        .aigc-input:focus { border-color: var(--gold); }
+        .aigc-input::placeholder { color: var(--brown-light); }
+        .aigc-preview {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+        .aigc-canvas {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, #2d1810 0%, #1a0f0a 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(212,175,55,0.2);
+        }
+        .aigc-canvas.generating::after {
+            content: "AI创作中...";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--gold);
+            font-size: 18px;
+            z-index: 10;
+        }
+        .aigc-canvas.generating::before {
+            content: "";
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent);
+            animation: shimmer 1.5s infinite;
+            z-index: 5;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        .aigc-artwork {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+        }
+        .aigc-artwork .big-icon {
+            font-size: 100px;
+            margin-bottom: 20px;
+            filter: drop-shadow(0 0 30px rgba(212,175,55,0.5));
+        }
+        .aigc-artwork .art-title {
+            font-size: 24px;
+            color: var(--gold);
+            font-family: "ZCOOL XiaoWei", serif;
+            margin-bottom: 12px;
+        }
+        .aigc-artwork .art-desc {
+            font-size: 14px;
+            color: var(--cream-dark);
+            line-height: 1.8;
+        }
+        .aigc-prompt {
+            width: 100%;
+            max-width: 400px;
+            margin-top: 20px;
+            padding: 14px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            font-size: 13px;
+            color: var(--brown-light);
+        }
+        .story-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .story-scene {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 40px;
+            margin-bottom: 24px;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .story-chapter {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 12px;
+            letter-spacing: 4px;
+        }
+        .story-title {
+            font-size: 28px;
+            color: var(--cream);
+            font-family: "ZCOOL XiaoWei", serif;
+            margin-bottom: 20px;
+        }
+        .story-content {
+            font-size: 16px;
+            color: var(--cream-dark);
+            line-height: 2;
+            margin-bottom: 30px;
+            text-indent: 2em;
+        }
+        .story-choices {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .story-choice {
+            padding: 16px 24px;
+            background: rgba(212,175,55,0.08);
+            border: 1px solid rgba(212,175,55,0.25);
+            border-radius: 12px;
+            color: var(--cream);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-family: "Noto Serif SC", serif;
+        }
+        .story-choice:hover {
+            background: rgba(212,175,55,0.18);
+            border-color: var(--gold);
+            transform: translateX(8px);
+        }
+        .story-progress {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .story-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: rgba(212,175,55,0.2);
+            transition: all 0.3s;
+        }
+        .story-dot.active { background: var(--gold); transform: scale(1.3); }
+        .story-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .games-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .games-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .game-tab {
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 10px;
+            color: var(--cream-dark);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            font-family: "Noto Serif SC", serif;
+        }
+        .game-tab:hover { background: rgba(212,175,55,0.1); }
+        .game-tab.active {
+            background: rgba(212,175,55,0.2);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .game-panel { display: none; }
+        .game-panel.active { display: block; animation: fadeIn 0.4s ease; }
+        .memory-game {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 30px;
+        }
+        .memory-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding: 0 10px;
+        }
+        .memory-stats {
+            display: flex;
+            gap: 30px;
+        }
+        .memory-stat {
+            text-align: center;
+        }
+        .memory-stat .num {
+            font-size: 28px;
+            color: var(--gold);
+            font-weight: 700;
+        }
+        .memory-stat .label {
+            font-size: 13px;
+            color: var(--brown-light);
+        }
+        .memory-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .memory-card {
+            aspect-ratio: 1;
+            background: linear-gradient(135deg, var(--brown-medium), var(--brown-dark));
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            transition: all 0.5s;
+            transform-style: preserve-3d;
+            position: relative;
+            border: 2px solid rgba(212,175,55,0.2);
+        }
+        .memory-card.flipped {
+            background: linear-gradient(135deg, rgba(212,175,55,0.3), rgba(212,175,55,0.1));
+            border-color: var(--gold);
+            transform: rotateY(180deg);
+        }
+        .memory-card.flipped .card-front { transform: rotateY(180deg); opacity: 1; }
+        .memory-card .card-front {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .memory-card.matched {
+            background: linear-gradient(135deg, rgba(76,175,80,0.3), rgba(76,175,80,0.1));
+            border-color: #4caf50;
+            cursor: default;
+        }
+        .quiz-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .quiz-card {
+            background: rgba(0,0,0,0.2);
+            border-radius: 24px;
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 40px;
+        }
+        .quiz-progress {
+            height: 4px;
+            background: rgba(212,175,55,0.2);
+            border-radius: 2px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        .quiz-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+        .quiz-question {
+            font-size: 22px;
+            color: var(--cream);
+            margin-bottom: 28px;
+            line-height: 1.6;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .quiz-option {
+            padding: 16px 22px;
+            background: rgba(255,255,255,0.03);
+            border: 2px solid rgba(212,175,55,0.2);
+            border-radius: 14px;
+            color: var(--cream);
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+            font-family: "Noto Serif SC", serif;
+        }
+        .quiz-option:hover {
+            background: rgba(212,175,55,0.1);
+            border-color: var(--gold);
+            transform: translateX(8px);
+        }
+        .quiz-option.correct {
+            background: rgba(76,175,80,0.2);
+            border-color: #4caf50;
+            color: #81c784;
+        }
+        .quiz-option.wrong {
+            background: rgba(244,67,54,0.2);
+            border-color: #f44336;
+            color: #e57373;
+        }
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212,175,55,0.1);
+        }
+        .quiz-score {
+            color: var(--gold);
+            font-size: 17px;
+            font-weight: 600;
+        }
+        .quiz-result {
+            text-align: center;
+            padding: 30px 0;
+        }
+        .quiz-result-icon { font-size: 70px; margin-bottom: 20px; }
+        .quiz-result h3 {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .quiz-result p {
+            color: var(--brown-light);
+            font-size: 16px;
+            margin-bottom: 28px;
+        }
+        .seal-game {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+        .seal-container {
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
+            gap: 30px;
+            margin-top: 30px;
+            align-items: center;
+        }
+        .seal-side { text-align: center; }
+        .seal-side h3 {
+            color: var(--gold);
+            font-size: 20px;
+            margin-bottom: 16px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .seal-canvas {
+            width: 240px;
+            height: 240px;
+            margin: 0 auto 16px;
+            background: var(--cream);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        .seal-text {
+            font-size: 64px;
+            color: var(--red);
+            font-weight: 900;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .seal-stamp {
+            width: 110px;
+            height: 110px;
+            background: var(--red);
+            border-radius: 12px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cream);
+            font-size: 26px;
+            font-weight: 900;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 6px 20px rgba(139,37,0,0.4);
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .seal-stamp:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(139,37,0,0.5);
+        }
+        .seal-stamp:active { transform: translateY(0) scale(0.95); }
+        .seal-bridge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            padding: 0 10px;
+        }
+        .bridge-icon { font-size: 40px; animation: pulse 2s infinite; }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        .bridge-text {
+            color: var(--gold);
+            font-size: 15px;
+            font-family: "ZCOOL XiaoWei", serif;
+            text-align: center;
+            line-height: 2;
+        }
+        .puzzle-game {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            border: 1px solid rgba(212,175,55,0.15);
+            padding: 30px;
+        }
+        .puzzle-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            max-width: 360px;
+            margin: 0 auto 24px;
+            aspect-ratio: 1;
+            background: rgba(0,0,0,0.3);
+            padding: 6px;
+            border-radius: 12px;
+        }
+        .puzzle-piece {
+            background: linear-gradient(135deg, rgba(212,175,55,0.2), rgba(212,175,55,0.05));
+            border: 2px solid rgba(212,175,55,0.3);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: "ZCOOL XiaoWei", serif;
+            color: var(--gold);
+        }
+        .puzzle-piece:hover {
+            background: rgba(212,175,55,0.3);
+            transform: scale(1.05);
+        }
+        .puzzle-piece.empty {
+            background: transparent;
+            border-color: transparent;
+            cursor: default;
+        }
+        .puzzle-piece.empty:hover { transform: none; }
+        .puzzle-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+        }
+        .footer {
+            text-align: center;
+            padding: 50px 20px 30px;
+            color: var(--brown-light);
+            font-size: 13px;
+            border-top: 1px solid rgba(212,175,55,0.1);
+            margin-top: 60px;
+        }
+        .footer p { margin-bottom: 6px; }
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 18px;
+        }
+        .typing-indicator span {
+            width: 7px; height: 7px;
+            background: var(--gold);
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+        .toast {
+            position: fixed;
+            top: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(-20px);
+            background: rgba(0,0,0,0.9);
+            color: var(--gold);
+            padding: 14px 28px;
+            border-radius: 10px;
+            border: 1px solid var(--gold);
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s;
+            font-size: 14px;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        @media (max-width: 768px) {
+            .nav { padding: 12px 16px; }
+            .nav-links { display: none; }
+            .hero-title { font-size: 36px; }
+            .hero-subtitle { font-size: 16px; letter-spacing: 3px; }
+            .section { padding: 50px 20px; }
+            .section-title { font-size: 26px; }
+            .aigc-workspace { grid-template-columns: 1fr; }
+            .seal-container { grid-template-columns: 1fr; }
+            .seal-bridge { flex-direction: row; padding: 10px 0; }
+            .story-scene { padding: 28px 20px; }
+            .story-title { font-size: 22px; }
+            .memory-grid { gap: 8px; }
+            .memory-card { font-size: 28px; }
+            .quiz-card { padding: 28px 20px; }
+            .quiz-question { font-size: 18px; }
+            .music-btn { top: 70px; right: 16px; width: 42px; height: 42px; font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <button class="music-btn" id="musicBtn" onclick="toggleMusic()" title="播放/暂停背景音乐">🎵</button>
+
+    <nav class="nav">
+        <div class="nav-logo">
+            <div class="nav-logo-icon">陈</div>
+            <div class="nav-logo-text">两岸文化AI体验馆</div>
+        </div>
+        <div class="nav-links">
+            <span class="nav-link active" data-page="home">首页</span>
+            <span class="nav-link" data-page="chat">先贤对话</span>
+            <span class="nav-link" data-page="story">时空穿越</span>
+            <span class="nav-link" data-page="aigc">AI文创</span>
+            <span class="nav-link" data-page="seal">一印连两岸</span>
+            <span class="nav-link" data-page="games">文化游乐</span>
+        </div>
+    </nav>
+
+    <div class="main">
+        <div class="page active" id="page-home">
+            <div class="hero">
+                <div class="hero-content">
+                    <div class="hero-badge">🌊 两岸文化同源 · 共筑中华文脉</div>
+                    <h1 class="hero-title">陈永华文化AI体验馆</h1>
+                    <p class="hero-subtitle">穿越时空 · 对话先贤 · 传承文脉</p>
+                    <p class="hero-theme">—— 从漳州到台南，文脉相连，初心不改 ——</p>
+                    <p class="hero-desc">
+                        以AI活化历史，用科技连接两岸。跟随陈永华先生的足迹，
+                        开启一场跨越时空的文化之旅，感受中华文脉的深厚底蕴。
+                    </p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="navigate('story')">
+                            <span>⚡</span> 开始穿越
+                        </button>
+                        <button class="btn btn-secondary" onclick="navigate('chat')">
+                            <span>🎭</span> 对话先贤
+                        </button>
+                    </div>
+                </div>
+                <div class="scroll-indicator">↓</div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">六大体验模块</h2>
+                <p class="section-subtitle">沉浸式感受两岸文化的独特魅力</p>
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="navigate('chat')">
+                        <div class="feature-icon">🎭</div>
+                        <h3>AI先贤对话</h3>
+                        <p>穿越时空与陈永华先生对话，聆听其教育理念与家国情怀</p>
+                    </div>
+                    <div class="feature-card" onclick="navigate('story')">
+                        <div class="feature-icon">📖</div>
+                        <h3>时空穿越故事</h3>
+                        <p>互动式剧情体验，亲历陈永华渡台施教的历史征程</p>
+                    </div>
+                    <div class="feature-card" onclick="navigate('aigc')">
+                        <div class="feature-icon">🎨</div>
+                        <h3>AI文创生成</h3>
+                        <p>输入创意，AI为你生成专属非遗文化文创作品</p>
+                    </div>
+                    <div class="feature-card" onclick="navigate('seal')">
+                        <div class="feature-icon">💮</div>
+                        <h3>一印连两岸</h3>
+                        <p>以印章为媒，连接两岸文化根脉，体会同根同源</p>
+                    </div>
+                    <div class="feature-card" onclick="navigate('games')">
+                        <div class="feature-icon">🧠</div>
+                        <h3>记忆翻牌</h3>
+                        <p>趣味记忆游戏，在游戏中认识传统文化符号</p>
+                    </div>
+                    <div class="feature-card" onclick="navigate('games')">
+                        <div class="feature-icon">🧩</div>
+                        <h3>字谜拼图</h3>
+                        <p>汉字拼图挑战，感受中华文字的博大精深</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2 class="section-title">两岸文脉 源远流长</h2>
+                <p class="section-subtitle">陈永华——台湾文化教育的奠基人</p>
+                <div class="feature-grid">
+                    <div class="feature-card">
+                        <div class="feature-icon">🏛️</div>
+                        <h3>建孔庙 设学院</h3>
+                        <p>在台南首建文庙，开台湾儒学教育之先河，奠定中华文化根基</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📜</div>
+                        <h3>定礼制 兴教化</h3>
+                        <p>制定礼仪制度，推行儒家教化，让台湾民众知书达礼</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌊</div>
+                        <h3>连两岸 传文脉</h3>
+                        <p>从漳州到台南，中华文化一脉相承，海峡隔不断文化根脉</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🤖</div>
+                        <h3>AI赋能 创新传承</h3>
+                        <p>借助TRAE AI能力，探索传统文化创新传播的新路径</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>陈永华文化AI体验馆 · TRAE AI创造力大赛参赛作品</p>
+                <p>🌊 两岸文化同源 · 共筑中华文脉 · 世界很大，放手去造</p>
+            </div>
+        </div>
+
+        <div class="page" id="page-chat">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">🎭</div>
+                    <h2>与陈永华先生对话</h2>
+                    <p>穿越时空，聆听先贤教诲</p>
+                </div>
+                <div class="quick-questions">
+                    <span class="quick-q" onclick="sendQuick('先生，请讲讲您渡台的经历')">⛵ 渡台经历</span>
+                    <span class="quick-q" onclick="sendQuick('您在台湾如何推行教化？')">📖 在台施教</span>
+                    <span class="quick-q" onclick="sendQuick('您对两岸文化联系有何看法？')">🌊 两岸文化</span>
+                    <span class="quick-q" onclick="sendQuick('先生，您对年轻人有什么期望？')">💡 青年寄语</span>
+                    <span class="quick-q" onclick="sendQuick('您的教育理念是什么？')">🎓 教育理念</span>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message bot">
+                        <div class="message-avatar">陈</div>
+                        <div class="message-bubble">
+                            后生可畏！吾乃陈永华，字复甫，福建漳州府龙溪县人氏。
+                            <br><br>
+                            昔年随延平郡王郑成功渡台，在台推行教化，建孔庙、设学校、定礼制，开启台湾文教之先河。
+                            <br><br>
+                            今日借助AI之术与汝等对话，甚感欣慰。海峡虽宽，文脉相连。汝辈有何疑问，尽管道来。
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="输入你想说的话..." onkeypress="handleKeyPress(event)">
+                    <button class="btn btn-primary" onclick="sendMessage()">发送</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-story">
+            <div class="story-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">📖</div>
+                    <h2>时空穿越·陈永华传</h2>
+                    <p>互动式历史剧情 · 你的选择将影响故事走向</p>
+                </div>
+                <div class="story-progress" id="storyProgress"></div>
+                <div class="story-scene" id="storyScene">
+                    <div class="story-chapter" id="storyChapter">第一章</div>
+                    <div class="story-title" id="storyTitle"></div>
+                    <div class="story-content" id="storyContent"></div>
+                    <div class="story-choices" id="storyChoices"></div>
+                </div>
+                <div class="story-footer">
+                    <button class="btn btn-secondary" onclick="restartStory()">🔄 重新开始</button>
+                    <span style="color: var(--brown-light); font-size:13px;">点击选项推动剧情发展</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-aigc">
+            <div class="aigc-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">🎨</div>
+                    <h2>AI文创生成器</h2>
+                    <p>输入创意，AI为你生成专属文化文创作品</p>
+                </div>
+                <div class="aigc-workspace">
+                    <div class="aigc-panel">
+                        <h4>🎨 选择风格</h4>
+                        <div class="style-grid">
+                            <div class="style-item active" data-style="ink" onclick="setStyle(this)">
+                                <span class="emoji">🖌️</span>水墨丹青
+                            </div>
+                            <div class="style-item" data-style="red" onclick="setStyle(this)">
+                                <span class="emoji">🏮</span>剪纸红印
+                            </div>
+                            <div class="style-item" data-style="jade" onclick="setStyle(this)">
+                                <span class="emoji">💎</span>青玉雕刻
+                            </div>
+                            <div class="style-item" data-style="gold" onclick="setStyle(this)">
+                                <span class="emoji">✨</span>金线描边
+                            </div>
+                        </div>
+                        
+                        <h4>💡 创意描述</h4>
+                        <textarea class="aigc-input" id="aigcInput" placeholder="描述你想生成的文创作品...&#10;例如：陈永华先生讲学图、两岸风光文创、印章设计..."></textarea>
+                        
+                        <h4>⚡ 快速创意</h4>
+                        <div class="quick-questions">
+                            <span class="quick-q" onclick="setPrompt('陈永华先生在台南讲学的场景')">📖 讲学图</span>
+                            <span class="quick-q" onclick="setPrompt('漳州与台南两地风光')">🌊 两岸风光</span>
+                            <span class="quick-q" onclick="setPrompt('中华传统印章设计')">💮 印章设计</span>
+                            <span class="quick-q" onclick="setPrompt('孔庙建筑插画')">🏛️ 孔庙插画</span>
+                        </div>
+                        
+                        <button class="btn btn-primary" style="width:100%; justify-content:center;" onclick="generateArt()">
+                            ✨ 生成文创作品
+                        </button>
+                    </div>
+                    
+                    <div class="aigc-preview">
+                        <div class="aigc-canvas" id="aigcCanvas">
+                            <div class="aigc-artwork" id="aigcArtwork">
+                                <div class="big-icon">🎨</div>
+                                <div class="art-title">等待你的创意</div>
+                                <div class="art-desc">在左侧输入描述<br>AI将为你生成专属文创作品</div>
+                            </div>
+                        </div>
+                        <div class="aigc-prompt" id="aigcPrompt" style="display:none;">
+                            <strong style="color: var(--gold);">作品说明：</strong>
+                            <span id="aigcPromptText"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-seal">
+            <div class="seal-game">
+                <div class="chat-header">
+                    <div class="chat-avatar">💮</div>
+                    <h2>一印连两岸</h2>
+                    <p>以印章为媒，连接两岸文化根脉</p>
+                </div>
+                <div class="seal-container">
+                    <div class="seal-side">
+                        <h3>漳州 · 故里</h3>
+                        <div class="seal-canvas" id="sealLeft">
+                            <div class="seal-text" id="sealLeftText">漳</div>
+                        </div>
+                        <div class="seal-stamp" id="stampLeft" onclick="stampLeft()">
+                            漳州印
+                        </div>
+                        <p style="color: var(--brown-light); font-size:13px; margin-top:12px;">
+                            陈永华先生的故乡<br>闽南文化发源地
+                        </p>
+                    </div>
+                    <div class="seal-bridge">
+                        <div class="bridge-icon">🌊</div>
+                        <div class="bridge-text">
+                            一衣带水<br>
+                            同根同源<br>
+                            文脉相承
+                        </div>
+                        <div class="bridge-icon">🌊</div>
+                    </div>
+                    <div class="seal-side">
+                        <h3>台南 · 传薪</h3>
+                        <div class="seal-canvas" id="sealRight">
+                            <div class="seal-text" id="sealRightText">台</div>
+                        </div>
+                        <div class="seal-stamp" id="stampRight" onclick="stampRight()">
+                            台南印
+                        </div>
+                        <p style="color: var(--brown-light); font-size:13px; margin-top:12px;">
+                            陈永华施教之地<br>台湾文教发源地
+                        </p>
+                    </div>
+                </div>
+                <div style="text-align:center; margin-top:36px;">
+                    <p style="color:var(--brown-light); margin-bottom:18px;">点击两侧印章，共同完成「一印连两岸」</p>
+                    <button class="btn btn-primary" onclick="uniteSeal()">🤝 两岸同心</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="page-games">
+            <div class="games-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">🎮</div>
+                    <h2>文化游乐馆</h2>
+                    <p>边玩边学，感受传统文化魅力</p>
+                </div>
+                <div class="games-tabs">
+                    <button class="game-tab active" onclick="switchGame('memory')">🧠 记忆翻牌</button>
+                    <button class="game-tab" onclick="switchGame('puzzle')">🧩 汉字拼图</button>
+                    <button class="game-tab" onclick="switchGame('quiz')">📝 知识问答</button>
+                </div>
+                
+                <div class="game-panel active" id="game-memory">
+                    <div class="memory-game">
+                        <div class="memory-info">
+                            <div class="memory-stats">
+                                <div class="memory-stat">
+                                    <div class="num" id="memoryMoves">0</div>
+                                    <div class="label">步数</div>
+                                </div>
+                                <div class="memory-stat">
+                                    <div class="num" id="memoryPairs">0</div>
+                                    <div class="label">配对</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="initMemory()">🔄 重新开始</button>
+                        </div>
+                        <div class="memory-grid" id="memoryGrid"></div>
+                    </div>
+                </div>
+                
+                <div class="game-panel" id="game-puzzle">
+                    <div class="puzzle-game">
+                        <div class="memory-info" style="margin-bottom:20px;">
+                            <div class="memory-stats">
+                                <div class="memory-stat">
+                                    <div class="num" id="puzzleMoves">0</div>
+                                    <div class="label">步数</div>
+                                </div>
+                            </div>
+                            <button class="btn btn-secondary" onclick="initPuzzle()">🔄 重新开始</button>
+                        </div>
+                        <p style="text-align:center; color:var(--brown-light); margin-bottom:16px; font-size:14px;">
+                            将「陈永华传文脉」六个字按顺序排列
+                        </p>
+                        <div class="puzzle-board" id="puzzleBoard"></div>
+                        <div class="puzzle-controls">
+                            <button class="btn btn-secondary" onclick="shufflePuzzle()">🔀 打乱重排</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="game-panel" id="game-quiz">
+                    <div class="quiz-container" style="padding:0;">
+                        <div class="quiz-card" id="quizCard">
+                            <div class="quiz-progress">
+                                <div class="quiz-progress-bar" id="quizProgress" style="width: 0%"></div>
+                            </div>
+                            <div id="quizContent">
+                                <div class="quiz-question" id="quizQuestion"></div>
+                                <div class="quiz-options" id="quizOptions"></div>
+                            </div>
+                            <div class="quiz-footer" id="quizFooter">
+                                <div class="quiz-score">得分：<span id="quizScore">0</span> / <span id="quizTotal">0</span></div>
+                                <button class="btn btn-secondary" onclick="nextQuestion()" id="nextBtn" style="display:none;">下一题 →</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const particlesCanvas = document.getElementById('particles');
+        const ctx = particlesCanvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            particlesCanvas.width = window.innerWidth;
+            particlesCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 45; i++) {
+                particles.push({
+                    x: Math.random() * particlesCanvas.width,
+                    y: Math.random() * particlesCanvas.height,
+                    size: Math.random() * 2.5 + 0.5,
+                    speedY: Math.random() * 0.4 + 0.15,
+                    speedX: (Math.random() - 0.5) * 0.15,
+                    opacity: Math.random() * 0.4 + 0.15
+                });
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, particlesCanvas.width, particlesCanvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${p.opacity})`;
+                ctx.fill();
+                p.y -= p.speedY;
+                p.x += p.speedX;
+                if (p.y < -10) {
+                    p.y = particlesCanvas.height + 10;
+                    p.x = Math.random() * particlesCanvas.width;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function navigate(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            const link = document.querySelector(`.nav-link[data-page="${pageId}"]`);
+            if (link) link.classList.add('active');
+            window.scrollTo(0, 0);
+            playClick();
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => navigate(link.dataset.page));
+        });
+
+        let audioCtx = null;
+        let musicPlaying = false;
+        let musicOscillator = null;
+        let musicGain = null;
+
+        function initAudio() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+        }
+
+        function playClick() {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.value = 800;
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.1);
+        }
+
+        function playSuccess() {
+            if (!audioCtx) return;
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.frequency.setValueAtTime(523, audioCtx.currentTime);
+            osc.frequency.setValueAtTime(659, audioCtx.currentTime + 0.1);
+            osc.frequency.setValueAtTime(784, audioCtx.currentTime + 0.2);
+            osc.type = 'sine';
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+            osc.start();
+            osc.stop(audioCtx.currentTime + 0.4);
+        }
+
+        function toggleMusic() {
+            initAudio();
+            const btn = document.getElementById('musicBtn');
+            if (musicPlaying) {
+                stopMusic();
+                btn.classList.remove('playing');
+                showToast('背景音乐已暂停');
+            } else {
+                startMusic();
+                btn.classList.add('playing');
+                showToast('背景音乐已开启');
+            }
+        }
+
+        function startMusic() {
+            if (musicOscillator) return;
+            musicPlaying = true;
+            const notes = [262, 294, 330, 349, 392, 440, 494, 523];
+            const melody = [0, 2, 4, 5, 4, 2, 0, 2, 4, 5, 7, 5, 4, 2, 0];
+            let noteIndex = 0;
+            
+            function playNextNote() {
+                if (!musicPlaying) return;
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.frequency.value = notes[melody[noteIndex % melody.length]];
+                osc.type = 'sine';
+                gain.gain.setValueAtTime(0.04, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5);
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.5);
+                noteIndex++;
+                setTimeout(playNextNote, 500);
+            }
+            playNextNote();
+        }
+
+        function stopMusic() {
+            musicPlaying = false;
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        const chatResponses = {
+            '渡台': '吾生于明万历三十四年，福建漳州府龙溪县人。少时聪慧，喜读书，有大志。\n\n明亡之后，吾不甘做亡国之奴，遂投延平郡王郑成功麾下。延平郡王见吾有才干，甚为器重，军国大事多与吾商议。\n\n永历十五年，吾随延平郡王渡海收复台湾。彼时台湾蛮荒未开，土番杂处，文教未兴。延平郡王命吾主持台湾政务，推行教化。\n\n此乃吾人生之重大转折也。',
+            '在台施教': '吾初到台湾，见民众尚武轻文，不知礼仪，深以为忧。\n\n遂上表延平郡王，力主建孔庙、设学校、开科举。延平郡王纳吾言，命吾全权主持。\n\n吾在承天府（今台南）择地建文庙，设明伦堂，延聘中土儒师前来任教。又令各社设学校，劝子弟入学。\n\n自此，台湾文风渐盛，民众皆知孝悌忠信、礼义廉耻。后人称吾为「台湾文化教育之父」，实不敢当，此乃延平郡王之英明决策，亦众同袍之共同努力也。',
+            '两岸': '台湾与大陆，一水之隔，同文同种，血脉相连。\n\n当年随延平郡王渡台者，皆为闽南、粤东子弟，带去的是中华几千年的文化根脉。\n\n吾在台推行的，亦是孔孟之道、圣贤之学，与中土一脉相承。台湾的语言、风俗、信仰、建筑，无一不源自大陆。\n\n虽说海峡相隔，但文化的根是割不断的。正如这印章，虽分两岸，印出的是同一个「中国」。\n\n希望汝辈年轻人，能多了解历史，珍视这份文化纽带。两岸同胞同根同源，理应携手共进。',
+            '青年': '后生可畏，焉知来者之不如今也？\n\n吾对汝辈年轻人，有三点期望：\n\n一曰「立志」。志不立，天下无可成之事。当立大志，做大事，不为一己之私，而为天下苍生，为民族复兴。\n\n二曰「勤学」。书山有路勤为径，学海无涯苦作舟。今日有AI等新科技辅助学习，条件远胜吾辈，更当珍惜时光，发愤读书。\n\n三曰「担当」。士不可以不弘毅，任重而道远。国家兴亡，匹夫有责。汝辈当以天下为己任，为中华之崛起而读书。\n\n勉之！勉之！',
+            '教育': '吾以为，教育乃立国之本。《礼记》有云：「建国君民，教学为先。」\n\n教育之道，首在「立德」，次在「立言」，再次在「立功」。\n\n对少年子弟，当教以孝悌忠信、礼义廉耻，使其明是非、知善恶、辨美丑。此乃做人之根本。\n\n对成年学子，当教以经世济民之学，使其学有所成，报效国家、造福社会。\n\n教育之法，当因材施教、循序渐进，不可一蹴而就。又当以身作则，言传不如身教。\n\n今日有AI等新技术，教学之法日新月异，但教育的根本之道——立德树人，是永远不会变的。'
+        };
+
+        const defaultResponses = [
+            '善哉善哉，汝之所问，甚有深意。',
+            '此问甚好，容吾细细道来。',
+            '汝能思考此问题，足见汝是有心向学之人。',
+            '哈哈，此话题吾也颇有心得。'
+        ];
+
+        function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addMessage(text, 'user');
+            input.value = '';
+            showTyping();
+            playClick();
+            setTimeout(() => {
+                hideTyping();
+                let response = '';
+                for (const key in chatResponses) {
+                    if (text.includes(key)) {
+                        response = chatResponses[key];
+                        break;
+                    }
+                }
+                if (!response) {
+                    response = defaultResponses[Math.floor(Math.random() * defaultResponses.length)] + '\n\n' +
+                        '关于这个话题，吾也略知一二。想当年在台湾，吾与诸公论学，常常谈到深夜。\n\n' +
+                        '中华文化博大精深，非一言可尽。汝若有兴趣，可多读书、多思考，自然会有心得。\n\n' +
+                        '今日借助AI之术能与汝对话，也是一段奇妙的缘分。希望汝能珍惜时光，学有所成，为传承中华文化尽一份力。';
+                }
+                addMessage(response, 'bot');
+            }, 1200 + Math.random() * 800);
+        }
+
+        function sendQuick(text) {
+            document.getElementById('chatInput').value = text;
+            sendMessage();
+        }
+
+        function addMessage(text, type) {
+            const container = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = `message ${type}`;
+            const avatarText = type === 'bot' ? '陈' : '我';
+            msg.innerHTML = `
+                <div class="message-avatar">${avatarText}</div>
+                <div class="message-bubble">${text.replace(/\n/g, '<br>')}</div>
+            `;
+            container.appendChild(msg);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function showTyping() {
+            const container = document.getElementById('chatMessages');
+            const typing = document.createElement('div');
+            typing.className = 'message bot';
+            typing.id = 'typingIndicator';
+            typing.innerHTML = `
+                <div class="message-avatar">陈</div>
+                <div class="typing-indicator">
+                    <span></span><span></span><span></span>
+                </div>
+            `;
+            container.appendChild(typing);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function hideTyping() {
+            const typing = document.getElementById('typingIndicator');
+            if (typing) typing.remove();
+        }
+
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+
+        const storyScenes = [
+            {
+                chapter: '序章',
+                title: '缘起·漳州故里',
+                content: '明万历三十四年，福建漳州府龙溪县。\n\n陈家宅院内，一声啼哭划破了清晨的宁静。一个男婴降生了，取名永华，字复甫。\n\n谁也不曾想到，这个孩子日后会渡海赴台，开启台湾文教的新篇章。\n\n时光荏苒，少年陈永华聪慧好学，博览群书，立下了济世安民的志向。\n\n此刻，青年陈永华正站在漳州城外的渡口，望着远方的大海。',
+                choices: [
+                    { text: '📚 继续苦读，以待天时', next: 1 },
+                    { text: '⛵ 出海游历，增长见闻', next: 2 }
+                ]
+            },
+            {
+                chapter: '第一章',
+                title: '投笔从戎·追随延平',
+                content: '陈永华隐居读书，静观天下大势。\n\n明亡之后，清兵入关，山河破碎。陈永华痛心疾首，立志抗清复明。\n\n闻延平郡王郑成功在厦门招兵买马，陈永华毅然前往投奔。延平郡王与陈永华一番长谈，大喜过望：「复甫乃当今之卧龙也！」\n\n自此，陈永华成为郑成功的重要谋士，参与军国大事。',
+                choices: [
+                    { text: '⚔️ 协助延平郡王整军备战', next: 3 },
+                    { text: '📜 为延平郡王出谋划策', next: 3 }
+                ]
+            },
+            {
+                chapter: '第一章',
+                title: '游历四方·开阔眼界',
+                content: '陈永华乘船出海，游历了沿海诸地。\n\n一路上，他见识了海上贸易的繁华，也看到了百姓生计的艰难。更听闻台湾岛土地肥沃、尚待开发。\n\n游历归来，陈永华的眼界大为开阔。他意识到，大海之外，还有更广阔的天地。\n\n不久后，他得知延平郡王郑成功在厦门招贤纳士，便欣然前往。',
+                choices: [
+                    { text: '🚪 投奔延平郡王', next: 3 }
+                ]
+            },
+            {
+                chapter: '第二章',
+                title: '渡海复台·开疆拓土',
+                content: '永历十五年，延平郡王郑成功率大军东征，收复被荷兰人占据的台湾。\n\n陈永华随军出征，参与谋划。大军历经艰险，终于登陆台湾，围攻热兰遮城。\n\n经过数月激战，荷兰人投降，台湾重回中华版图。\n\n延平郡王设承天府（今台南），治理台湾。然台湾蛮荒未开，百废待兴。',
+                choices: [
+                    { text: '🏛️ 建议兴文教、建孔庙', next: 4 },
+                    { text: '🌾 建议发展农业生产', next: 4 }
+                ]
+            },
+            {
+                chapter: '第三章',
+                title: '文教兴台·千年基业',
+                content: '延平郡王采纳陈永华的建议，命他主持台湾文教事务。\n\n陈永华在承天府择地建孔庙、设明伦堂，又令各社设学校，劝子弟入学。他还亲自主持考试，选拔人才。\n\n渐渐地，台湾文风日盛，读书向学之风兴起。民众皆知礼义廉耻，民风为之一变。\n\n后人赞曰：「陈永华建学立师，台人自是始知读书。」\n\n这是陈永华一生中最引以为傲的成就。',
+                choices: [
+                    { text: '🌊 眺望海峡，思念故土', next: 5 },
+                    { text: '📖 继续推行教化事业', next: 5 }
+                ]
+            },
+            {
+                chapter: '终章',
+                title: '文脉永存·两岸同心',
+                content: '陈永华晚年，常常登上台南的高处，眺望海峡对岸的方向。\n\n那里是他的故乡漳州，是他生长的地方。\n\n他知道，自己有生之年或许再难回到故土。但他相信，文化的根脉是割不断的。\n\n他在台湾推行的儒家教化，他建立的孔庙学院，都将成为连接两岸的文化纽带。\n\n三百年过去了，陈永华的预言成真——两岸同根同源，文脉相连，从未断绝。\n\n今天，借助AI技术，我们得以与先贤对话，感受这份跨越时空的文化传承。',
+                choices: [
+                    { text: '🎭 与陈永华先生对话', next: -1, action: 'chat' },
+                    { text: '💮 体验一印连两岸', next: -1, action: 'seal' },
+                    { text: '🔄 重新开始故事', next: 0 }
+                ]
+            }
+        ];
+
+        let currentScene = 0;
+
+        function initStory() {
+            currentScene = 0;
+            renderStory();
+            updateStoryProgress();
+        }
+
+        function renderStory() {
+            const scene = storyScenes[currentScene];
+            document.getElementById('storyChapter').textContent = scene.chapter;
+            document.getElementById('storyTitle').textContent = scene.title;
+            document.getElementById('storyContent').textContent = scene.content;
+            
+            const choicesEl = document.getElementById('storyChoices');
+            choicesEl.innerHTML = '';
+            scene.choices.forEach((choice, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'story-choice';
+                btn.textContent = choice.text;
+                btn.onclick = () => makeChoice(choice);
+                choicesEl.appendChild(btn);
+            });
+        }
+
+        function makeChoice(choice) {
+            playClick();
+            if (choice.action) {
+                navigate(choice.action);
+                return;
+            }
+            if (choice.next >= 0) {
+                currentScene = choice.next;
+                renderStory();
+                updateStoryProgress();
+            }
+        }
+
+        function updateStoryProgress() {
+            const progress = document.getElementById('storyProgress');
+            progress.innerHTML = '';
+            const total = storyScenes.length;
+            for (let i = 0; i < total; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'story-dot' + (i === currentScene ? ' active' : '');
+                progress.appendChild(dot);
+            }
+        }
+
+        function restartStory() {
+            currentScene = 0;
+            renderStory();
+            updateStoryProgress();
+            playClick();
+        }
+
+        let currentStyle = 'ink';
+
+        function setStyle(el) {
+            document.querySelectorAll('.style-item').forEach(s => s.classList.remove('active'));
+            el.classList.add('active');
+            currentStyle = el.dataset.style;
+            playClick();
+        }
+
+        function setPrompt(text) {
+            document.getElementById('aigcInput').value = text;
+            playClick();
+        }
+
+        const artTemplates = {
+            ink: { icon: '🖌️', title: '水墨丹青', bg: 'linear-gradient(135deg, #f5f5dc 0%, #d4c4a8 100%)', color: '#2c2c2c' },
+            red: { icon: '🏮', title: '剪纸红印', bg: 'linear-gradient(135deg, #fff5f5 0%, #ffd4d4 100%)', color: '#8b2500' },
+            jade: { icon: '💎', title: '青玉雕刻', bg: 'linear-gradient(135deg, #e8f5e9 0%, #a5d6a7 100%)', color: '#1b5e20' },
+            gold: { icon: '✨', title: '金线描边', bg: 'linear-gradient(135deg, #fffde7 0%, #fff9c4 100%)', color: '#f57f17' }
+        };
+
+        const artContents = [
+            { icon: '🏯', title: '台南孔庙', desc: '红墙黄瓦，古柏参天，文风蔚然' },
+            { icon: '⛵', title: '渡海图', desc: '乘风破浪，直抵台湾，开疆拓土' },
+            { icon: '📚', title: '讲学图', desc: '先生讲学，子弟环坐，弦歌不辍' },
+            { icon: '🌉', title: '两岸情', desc: '一湾海峡，两岸同心，文脉相连' },
+            { icon: '💮', title: '印章艺术', desc: '金石篆刻，朱印丹青，方寸乾坤' },
+            { icon: '🎋', title: '竹林书院', desc: '竹林深处，书声琅琅，清雅脱俗' }
+        ];
+
+        function generateArt() {
+            const input = document.getElementById('aigcInput').value.trim();
+            if (!input) {
+                showToast('请先输入创意描述');
+                return;
+            }
+            
+            const canvas = document.getElementById('aigcCanvas');
+            const artwork = document.getElementById('aigcArtwork');
+            const promptBox = document.getElementById('aigcPrompt');
+            const promptText = document.getElementById('aigcPromptText');
+            
+            canvas.classList.add('generating');
+            playClick();
+            
+            setTimeout(() => {
+                canvas.classList.remove('generating');
+                const template = artTemplates[currentStyle];
+                const content = artContents[Math.floor(Math.random() * artContents.length)];
+                
+                canvas.style.background = template.bg;
+                artwork.innerHTML = `
+                    <div class="big-icon">${content.icon}</div>
+                    <div class="art-title" style="color: ${template.color};">${content.title}</div>
+                    <div class="art-desc" style="color: ${template.color}; opacity: 0.8;">${content.desc}</div>
+                    <div style="margin-top: 20px; padding: 10px 20px; border: 2px solid ${template.color}; border-radius: 8px; font-size: 12px; color: ${template.color};">
+                        ${template.title}风格
+                    </div>
+                `;
+                
+                promptBox.style.display = 'block';
+                promptText.textContent = input;
+                playSuccess();
+                showToast('🎉 文创作品生成成功！');
+            }, 2000);
+        }
+
+        let leftStamped = false;
+        let rightStamped = false;
+
+        function stampLeft() {
+            if (leftStamped) return;
+            leftStamped = true;
+            const stamp = document.getElementById('stampLeft');
+            stamp.style.transform = 'scale(0.9)';
+            setTimeout(() => { stamp.style.transform = ''; }, 200);
+            document.getElementById('sealLeftText').textContent = '漳州';
+            document.getElementById('sealLeft').style.background = '#faf0e6';
+            playClick();
+            checkUnite();
+        }
+
+        function stampRight() {
+            if (rightStamped) return;
+            rightStamped = true;
+            const stamp = document.getElementById('stampRight');
+            stamp.style.transform = 'scale(0.9)';
+            setTimeout(() => { stamp.style.transform = ''; }, 200);
+            document.getElementById('sealRightText').textContent = '台南';
+            document.getElementById('sealRight').style.background = '#faf0e6';
+            playClick();
+            checkUnite();
+        }
+
+        function checkUnite() {
+            if (leftStamped && rightStamped) {
+                setTimeout(() => {
+                    document.getElementById('sealLeftText').style.color = '#8b2500';
+                    document.getElementById('sealRightText').style.color = '#8b2500';
+                    playSuccess();
+                }, 300);
+            }
+        }
+
+        function uniteSeal() {
+            if (!leftStamped || !rightStamped) {
+                showToast('请先点击两侧的印章，盖下漳州印与台南印');
+                return;
+            }
+            
+            const left = document.getElementById('sealLeft');
+            const right = document.getElementById('sealRight');
+            const bridge = document.querySelector('.seal-bridge');
+            
+            left.style.transition = 'all 1s ease';
+            right.style.transition = 'all 1s ease';
+            bridge.style.transition = 'all 1s ease';
+            
+            left.style.transform = 'translateX(50px) scale(1.1)';
+            right.style.transform = 'translateX(-50px) scale(1.1)';
+            bridge.style.opacity = '0';
+            
+            setTimeout(() => {
+                document.getElementById('sealLeftText').textContent = '两岸';
+                document.getElementById('sealRightText').textContent = '同心';
+                
+                setTimeout(() => {
+                    playSuccess();
+                    showToast('🎉 一印连两岸，文化永传承！');
+                    setTimeout(() => {
+                        alert('🌊 一印连两岸，文脉永传承！\n\n漳州与台南，虽隔一湾海峡，却同根同源、文化相连。\n\n陈永华先生当年从漳州渡海到台南，带去的不仅是教化，更是中华文化的根脉。\n\n三百多年过去了，这份文化纽带从未断绝。\n\n愿两岸青年携手传承中华文脉，共创美好未来！');
+                        resetSeal();
+                    }, 500);
+                }, 500);
+            }, 1000);
+        }
+
+        function resetSeal() {
+            leftStamped = false;
+            rightStamped = false;
+            const left = document.getElementById('sealLeft');
+            const right = document.getElementById('sealRight');
+            const bridge = document.querySelector('.seal-bridge');
+            
+            left.style.transform = '';
+            right.style.transform = '';
+            bridge.style.opacity = '';
+            document.getElementById('sealLeftText').textContent = '漳';
+            document.getElementById('sealRightText').textContent = '台';
+            left.style.background = 'var(--cream)';
+            right.style.background = 'var(--cream)';
+            document.getElementById('sealLeftText').style.color = '';
+            document.getElementById('sealRightText').style.color = '';
+        }
+
+        const memoryIcons = ['🏯', '⛵', '📚', '🎋', '💮', '🏮', '🖌️', '🎭'];
+        let memoryCards = [];
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let memoryMoves = 0;
+        let canFlip = true;
+
+        function initMemory() {
+            matchedPairs = 0;
+            memoryMoves = 0;
+            flippedCards = [];
+            canFlip = true;
+            
+            memoryCards = [...memoryIcons, ...memoryIcons]
+                .sort(() => Math.random() - 0.5);
+            
+            const grid = document.getElementById('memoryGrid');
+            grid.innerHTML = '';
+            
+            memoryCards.forEach((icon, i) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.dataset.index = i;
+                card.dataset.icon = icon;
+                card.innerHTML = `<span class="card-front">${icon}</span>`;
+                card.onclick = () => flipCard(card);
+                grid.appendChild(card);
+            });
+            
+            document.getElementById('memoryMoves').textContent = '0';
+            document.getElementById('memoryPairs').textContent = '0';
+            playClick();
+        }
+
+        function flipCard(card) {
+            if (!canFlip || card.classList.contains('flipped') || card.classList.contains('matched')) return;
+            
+            card.classList.add('flipped');
+            flippedCards.push(card);
+            playClick();
+            
+            if (flippedCards.length === 2) {
+                memoryMoves++;
+                document.getElementById('memoryMoves').textContent = memoryMoves;
+                canFlip = false;
+                
+                if (flippedCards[0].dataset.icon === flippedCards[1].dataset.icon) {
+                    setTimeout(() => {
+                        flippedCards.forEach(c => c.classList.add('matched'));
+                        matchedPairs++;
+                        document.getElementById('memoryPairs').textContent = matchedPairs;
+                        flippedCards = [];
+                        canFlip = true;
+                        playSuccess();
+                        
+                        if (matchedPairs === memoryIcons.length) {
+                            setTimeout(() => {
+                                showToast(`🎉 恭喜完成！用了 ${memoryMoves} 步`);
+                            }, 300);
+                        }
+                    }, 500);
+                } else {
+                    setTimeout(() => {
+                        flippedCards.forEach(c => c.classList.remove('flipped'));
+                        flippedCards = [];
+                        canFlip = true;
+                    }, 1000);
+                }
+            }
+        }
+
+        const puzzleChars = ['陈', '永', '华', '传', '文', '脉', ''];
+        let puzzleState = [];
+        let puzzleMoves = 0;
+
+        function initPuzzle() {
+            puzzleState = ['陈', '永', '华', '传', '文', '脉', '', '', ''];
+            shufflePuzzle();
+        }
+
+        function shufflePuzzle() {
+            puzzleMoves = 0;
+            document.getElementById('puzzleMoves').textContent = '0';
+            
+            for (let i = 0; i < 50; i++) {
+                const emptyIndex = puzzleState.indexOf('');
+                const neighbors = getNeighbors(emptyIndex);
+                const randomNeighbor = neighbors[Math.floor(Math.random() * neighbors.length)];
+                swapPuzzle(emptyIndex, randomNeighbor);
+            }
+            
+            renderPuzzle();
+            playClick();
+        }
+
+        function getNeighbors(index) {
+            const neighbors = [];
+            const row = Math.floor(index / 3);
+            const col = index % 3;
+            if (row > 0) neighbors.push(index - 3);
+            if (row < 2) neighbors.push(index + 3);
+            if (col > 0) neighbors.push(index - 1);
+            if (col < 2) neighbors.push(index + 1);
+            return neighbors;
+        }
+
+        function swapPuzzle(i, j) {
+            [puzzleState[i], puzzleState[j]] = [puzzleState[j], puzzleState[i]];
+        }
+
+        function renderPuzzle() {
+            const board = document.getElementById('puzzleBoard');
+            board.innerHTML = '';
+            puzzleState.forEach((char, i) => {
+                const piece = document.createElement('div');
+                piece.className = 'puzzle-piece' + (char === '' ? ' empty' : '');
+                piece.textContent = char;
+                piece.onclick = () => movePuzzlePiece(i);
+                board.appendChild(piece);
+            });
+        }
+
+        function movePuzzlePiece(index) {
+            const emptyIndex = puzzleState.indexOf('');
+            const neighbors = getNeighbors(emptyIndex);
+            
+            if (neighbors.includes(index)) {
+                swapPuzzle(index, emptyIndex);
+                puzzleMoves++;
+                document.getElementById('puzzleMoves').textContent = puzzleMoves;
+                renderPuzzle();
+                playClick();
+                
+                if (checkPuzzleWin()) {
+                    setTimeout(() => {
+                        playSuccess();
+                        showToast('🎉 恭喜完成拼图！');
+                    }, 200);
+                }
+            }
+        }
+
+        function checkPuzzleWin() {
+            const winState = ['陈', '永', '华', '传', '文', '脉', '', '', ''];
+            return puzzleState.every((c, i) => c === winState[i]);
+        }
+
+        const quizQuestions = [
+            {
+                question: '陈永华先生是哪个朝代的历史人物？',
+                options: ['宋朝', '明朝/明末清初', '唐朝', '清朝'],
+                correct: 1,
+                explanation: '陈永华生于明朝万历年间，后随郑成功抗清，是明末清初的重要人物。'
+            },
+            {
+                question: '陈永华在台湾主要推行什么事业？',
+                options: ['商业贸易', '文教教化', '航海探险', '军事征伐'],
+                correct: 1,
+                explanation: '陈永华在台湾建孔庙、设学校，大力推行文教事业，被誉为"台湾文化教育之父"。'
+            },
+            {
+                question: '陈永华先生的籍贯是哪里？',
+                options: ['福建泉州', '福建漳州', '广东潮州', '浙江温州'],
+                correct: 1,
+                explanation: '陈永华是福建漳州府龙溪县（今漳州龙海）人。'
+            },
+            {
+                question: '陈永华在台湾建立的第一座孔庙位于哪里？',
+                options: ['台北', '台中', '台南', '高雄'],
+                correct: 2,
+                explanation: '陈永华在承天府（今台南）建立了台湾第一座孔庙。'
+            },
+            {
+                question: '以下哪项是陈永华的历史贡献？',
+                options: ['发明造纸术', '在台推行教化', '修建大运河', '著《本草纲目》'],
+                correct: 1,
+                explanation: '陈永华最大的历史贡献是在台湾推行文教，开启了台湾文化教育的先河。'
+            },
+            {
+                question: '陈永华追随的延平郡王是谁？',
+                options: ['郑芝龙', '郑成功', '郑经', '郑克塽'],
+                correct: 1,
+                explanation: '陈永华是延平郡王郑成功的重要谋士，后又辅佐郑经。'
+            },
+            {
+                question: '台湾旧称「承天府」是指今天的哪里？',
+                options: ['台北', '台南', '台中', '花莲'],
+                correct: 1,
+                explanation: '明郑时期台湾的政治中心承天府，即今天的台南市。'
+            },
+            {
+                question: '以下哪个称号是后人对陈永华的尊称？',
+                options: ['台湾医祖', '台湾文化教育之父', '台湾开台王', '台湾妈祖'],
+                correct: 1,
+                explanation: '陈永华在台湾首建文庙、推行教化，被后人尊称为「台湾文化教育之父」。'
+            }
+        ];
+
+        let currentQuestion = 0;
+        let quizScore = 0;
+        let quizAnswered = false;
+
+        function startQuiz() {
+            currentQuestion = 0;
+            quizScore = 0;
+            quizAnswered = false;
+            document.getElementById('quizTotal').textContent = quizQuestions.length;
+            showQuizQuestion();
+        }
+
+        function showQuizQuestion() {
+            if (currentQuestion >= quizQuestions.length) {
+                showQuizResult();
+                return;
+            }
+            
+            quizAnswered = false;
+            const q = quizQuestions[currentQuestion];
+            document.getElementById('quizQuestion').textContent = `${currentQuestion + 1}. ${q.question}`;
+            
+            const optionsEl = document.getElementById('quizOptions');
+            optionsEl.innerHTML = '';
+            q.options.forEach((opt, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option';
+                btn.textContent = `${String.fromCharCode(65 + i)}. ${opt}`;
+                btn.onclick = () => selectQuizAnswer(i);
+                optionsEl.appendChild(btn);
+            });
+            
+            document.getElementById('quizProgress').style.width = `${(currentQuestion / quizQuestions.length) * 100}%`;
+            document.getElementById('quizScore').textContent = quizScore;
+            document.getElementById('nextBtn').style.display = 'none';
+        }
+
+        function selectQuizAnswer(index) {
+            if (quizAnswered) return;
+            quizAnswered = true;
+            
+            const q = quizQuestions[currentQuestion];
+            const options = document.querySelectorAll('#game-quiz .quiz-option');
+            
+            options.forEach((opt, i) => {
+                opt.style.pointerEvents = 'none';
+                if (i === q.correct) {
+                    opt.classList.add('correct');
+                } else if (i === index && i !== q.correct) {
+                    opt.classList.add('wrong');
+                }
+            });
+            
+            if (index === q.correct) {
+                quizScore++;
+                document.getElementById('quizScore').textContent = quizScore;
+                playSuccess();
+            } else {
+                playClick();
+            }
+            
+            document.getElementById('nextBtn').style.display = 'inline-block';
+            document.getElementById('nextBtn').textContent = 
+                currentQuestion < quizQuestions.length - 1 ? '下一题 →' : '查看结果 🏆';
+        }
+
+        function nextQuestion() {
+            currentQuestion++;
+            showQuizQuestion();
+            playClick();
+        }
+
+        function showQuizResult() {
+            document.getElementById('quizProgress').style.width = '100%';
+            const content = document.getElementById('quizContent');
+            
+            let icon, title, desc;
+            const percentage = quizScore / quizQuestions.length;
+            
+            if (percentage >= 0.8) {
+                icon = '🏆';
+                title = '博学多才';
+                desc = `你答对了 ${quizScore}/${quizQuestions.length} 题，对陈永华先生和两岸文化了解颇深！`;
+            } else if (percentage >= 0.6) {
+                icon = '🌟';
+                title = '学有所成';
+                desc = `你答对了 ${quizScore}/${quizQuestions.length} 题，文化功底不错，继续加油！`;
+            } else if (percentage >= 0.4) {
+                icon = '📚';
+                title = '初窥门径';
+                desc = `你答对了 ${quizScore}/${quizQuestions.length} 题，已经入门啦，多了解会有更多收获！`;
+            } else {
+                icon = '🌱';
+                title = '后生可畏';
+                desc = `你答对了 ${quizScore}/${quizQuestions.length} 题，文化的大门刚刚为你打开！`;
+            }
+            
+            content.innerHTML = `
+                <div class="quiz-result">
+                    <div class="quiz-result-icon">${icon}</div>
+                    <h3>${title}</h3>
+                    <p>${desc}</p>
+                    <button class="btn btn-primary" onclick="startQuiz()">🔄 再试一次</button>
+                </div>
+            `;
+        }
+
+        function switchGame(gameId) {
+            document.querySelectorAll('.game-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
+            document.querySelector(`.game-tab[onclick="switchGame('${gameId}')"]`).classList.add('active');
+            document.getElementById('game-' + gameId).classList.add('active');
+            playClick();
+            
+            if (gameId === 'memory' && memoryCards.length === 0) initMemory();
+            if (gameId === 'puzzle' && puzzleState.length === 0) initPuzzle();
+            if (gameId === 'quiz') startQuiz();
+        }
+
+        initStory();
+    </script>
+</body>
+</html>

@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>可复制模板演示 - 乡村文化AI体验馆 | TRAE大赛</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=ZCOOL+XiaoWei&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f4d03f;
+            --green: #2d5a27;
+            --green-light: #4a8c3f;
+            --brown-deep: #1a0f0a;
+            --brown-dark: #2d1810;
+            --cream: #f5e6d3;
+            --cream-dark: #e8d5b7;
+            --blue: #3d6a9f;
+        }
+        body {
+            font-family: "Noto Serif SC", "Microsoft YaHei", serif;
+            background: var(--brown-deep);
+            color: var(--cream);
+            line-height: 1.8;
+        }
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            background: linear-gradient(180deg, rgba(26,15,10,0.95) 0%, rgba(26,15,10,0.8) 100%);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+            padding: 14px 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; }
+        .nav-logo-icon {
+            width: 40px; height: 40px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--gold);
+            font-weight: 900;
+            background: rgba(212,175,55,0.1);
+        }
+        .nav-logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .nav-badge {
+            padding: 6px 16px;
+            background: rgba(45,90,39,0.3);
+            border: 1px solid var(--green-light);
+            border-radius: 20px;
+            font-size: 13px;
+            color: #9dd890;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 100px 20px 60px; }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            background: linear-gradient(180deg, rgba(212,175,55,0.08) 0%, transparent 100%);
+            border-radius: 20px;
+            margin-bottom: 40px;
+        }
+        .hero h1 {
+            font-size: 36px;
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .hero .subtitle {
+            font-size: 18px;
+            color: var(--cream-dark);
+            margin-bottom: 20px;
+        }
+        .hero .slogan {
+            font-size: 15px;
+            color: #9dd890;
+            letter-spacing: 1px;
+        }
+
+        .demo-section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 16px;
+            padding: 36px;
+            margin-bottom: 28px;
+        }
+        .demo-section h2 {
+            font-size: 24px;
+            color: var(--gold);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .demo-section h2::before {
+            content: "";
+            width: 5px; height: 24px;
+            background: var(--gold);
+            border-radius: 3px;
+        }
+
+        .template-picker {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .template-btn {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 10px;
+            color: var(--cream-dark);
+            cursor: pointer;
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+        .template-btn:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .template-btn.active {
+            background: rgba(212,175,55,0.15);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .demo-preview {
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+        .demo-frame {
+            padding: 30px;
+            min-height: 400px;
+            transition: all 0.5s;
+        }
+        .demo-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(212,175,55,0.2);
+        }
+        .demo-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .demo-logo-icon {
+            width: 36px; height: 36px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: var(--gold);
+            font-weight: bold;
+            background: rgba(212,175,55,0.1);
+        }
+        .demo-logo-text {
+            font-size: 16px;
+            color: var(--gold);
+            font-family: "ZCOOL XiaoWei", serif;
+            font-weight: 700;
+        }
+        .demo-tags { display: flex; gap: 8px; }
+        .demo-tag {
+            padding: 4px 12px;
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--gold);
+            background: rgba(212,175,55,0.1);
+        }
+
+        .demo-hero {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(180deg, rgba(212,175,55,0.06) 0%, transparent 100%);
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+        .demo-hero h3 {
+            font-size: 28px;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-family: "ZCOOL XiaoWei", serif;
+        }
+        .demo-hero p {
+            color: var(--cream-dark);
+            font-size: 14px;
+        }
+
+        .demo-modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .demo-module {
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+        .demo-module-icon { font-size: 28px; margin-bottom: 8px; }
+        .demo-module h4 {
+            font-size: 14px;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .demo-module p {
+            font-size: 12px;
+            color: var(--cream-dark);
+            margin: 0;
+            opacity: 0.8;
+        }
+
+        .config-panel {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,175,55,0.15);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 24px;
+        }
+        .config-panel h3 {
+            font-size: 18px;
+            color: var(--gold);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .config-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+        .config-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .config-item label {
+            font-size: 13px;
+            color: var(--cream-dark);
+        }
+        .config-item input, .config-item select {
+            padding: 8px 12px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(212,175,55,0.3);
+            border-radius: 8px;
+            color: var(--cream);
+            font-size: 14px;
+            font-family: inherit;
+            outline: none;
+        }
+        .config-item input:focus, .config-item select:focus {
+            border-color: var(--gold);
+        }
+
+        .generate-btn {
+            margin-top: 20px;
+            padding: 14px 40px;
+            background: linear-gradient(135deg, var(--gold), #b8941f);
+            border: none;
+            border-radius: 10px;
+            color: var(--brown-deep);
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: inherit;
+            transition: transform 0.3s, box-shadow 0.3s;
+            width: 100%;
+        }
+        .generate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212,175,55,0.3);
+        }
+
+        .timeline-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 30px 0;
+        }
+        .timeline-steps::before {
+            content: "";
+            position: absolute;
+            top: 30px;
+            left: 10%;
+            right: 10%;
+            height: 3px;
+            background: rgba(212,175,55,0.2);
+        }
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1;
+        }
+        .step-num {
+            width: 60px; height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #b8941f);
+            color: var(--brown-deep);
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+        .step h4 {
+            font-size: 15px;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .step p {
+            font-size: 12px;
+            color: var(--cream-dark);
+            margin: 0;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.15);
+        }
+        .stat-num {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .stat-label {
+            font-size: 13px;
+            color: var(--cream-dark);
+        }
+
+        .compare-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 14px;
+        }
+        .compare-table th, .compare-table td {
+            padding: 12px 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(212,175,55,0.15);
+        }
+        .compare-table th {
+            background: rgba(212,175,55,0.1);
+            color: var(--gold);
+            font-weight: 600;
+        }
+        .compare-table td { color: var(--cream-dark); }
+        .compare-table .old { color: #c97a6b; text-decoration: line-through; opacity: 0.7; }
+        .compare-table .new { color: #9dd890; font-weight: 600; }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px 20px;
+            color: #8b7355;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .nav { padding: 12px 20px; }
+            .nav-logo-text { font-size: 14px; }
+            .container { padding: 80px 16px 40px; }
+            .hero h1 { font-size: 26px; }
+            .demo-modules { grid-template-columns: 1fr; }
+            .config-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .timeline-steps { flex-direction: column; gap: 20px; }
+            .timeline-steps::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav">
+        <div class="nav-logo">
+            <div class="nav-logo-icon">模</div>
+            <div class="nav-logo-text">可复制模板演示中心</div>
+        </div>
+        <div class="nav-badge">🏆 TRAE AI创造力大赛</div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <h1>乡村文化AI体验馆 · 可复制模板演示</h1>
+            <p class="subtitle">7天落地一个村 · 一村一IP · 千村千面</p>
+            <p class="slogan">—— 选择模板 → 填写配置 → 一键生成 ——</p>
+        </div>
+
+        <div class="demo-section">
+            <h2>第一步：选择乡村模板</h2>
+            <div class="template-picker">
+                <button class="template-btn active" onclick="selectTemplate('chenyonghua')">
+                    🏛️ 漳州龙海 · 陈永华文化
+                </button>
+                <button class="template-btn" onclick="selectTemplate('zhuji')">
+                    🏯 浙江诸暨 · 西施故里
+                </button>
+                <button class="template-btn" onclick="selectTemplate('yanan')">
+                    🌟 陕西延安 · 红色文化
+                </button>
+                <button class="template-btn" onclick="selectTemplate('jingdezhen')">
+                    🏺 江西景德镇 · 瓷文化
+                </button>
+                <button class="template-btn" onclick="selectTemplate('custom')">
+                    ✏️ 自定义乡村
+                </button>
+            </div>
+
+            <div class="demo-preview">
+                <div class="demo-frame" id="demoFrame">
+                    <div class="demo-header">
+                        <div class="demo-logo">
+                            <div class="demo-logo-icon" id="previewIcon">陈</div>
+                            <div class="demo-logo-text" id="previewTitle">陈永华文化AI体验馆</div>
+                        </div>
+                        <div class="demo-tags">
+                            <span class="demo-tag" id="previewTag1">两岸文化</span>
+                            <span class="demo-tag" id="previewTag2">非遗传承</span>
+                        </div>
+                    </div>
+                    <div class="demo-hero">
+                        <h3 id="previewHeroTitle">陈永华文化AI体验馆</h3>
+                        <p id="previewHeroSub">从漳州到台南，文脉相连，AI让历史触手可及</p>
+                    </div>
+                    <div class="demo-modules">
+                        <div class="demo-module">
+                            <div class="demo-module-icon">🎭</div>
+                            <h4 id="m1Title">AI先贤对话</h4>
+                            <p id="m1Desc">与陈永华先生对话</p>
+                        </div>
+                        <div class="demo-module">
+                            <div class="demo-module-icon">⏳</div>
+                            <h4>时空穿越故事</h4>
+                            <p id="m2Desc">亲历渡海施教征程</p>
+                        </div>
+                        <div class="demo-module">
+                            <div class="demo-module-icon">🎨</div>
+                            <h4>AI文创生成</h4>
+                            <p id="m3Desc">四大艺术风格</p>
+                        </div>
+                        <div class="demo-module">
+                            <div class="demo-module-icon">💮</div>
+                            <h4 id="m4Title">一印连两岸</h4>
+                            <p id="m4Desc">漳州台南同根同源</p>
+                        </div>
+                        <div class="demo-module">
+                            <div class="demo-module-icon">🎮</div>
+                            <h4>文化小游戏</h4>
+                            <p>记忆翻牌拼图问答</p>
+                        </div>
+                        <div class="demo-module">
+                            <div class="demo-module-icon">🎵</div>
+                            <h4>古风音效</h4>
+                            <p>沉浸式音景体验</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>第二步：自定义配置</h2>
+            <div class="config-panel">
+                <h3>⚙️ 基础信息配置</h3>
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label>乡村名称</label>
+                        <input type="text" id="villageName" value="漳州龙海">
+                    </div>
+                    <div class="config-item">
+                        <label>IP人物名称</label>
+                        <input type="text" id="ipName" value="陈永华">
+                    </div>
+                    <div class="config-item">
+                        <label>核心文化主题</label>
+                        <select id="cultureTheme">
+                            <option value="history">历史名人文化</option>
+                            <option value="red">红色革命文化</option>
+                            <option value="intangible">非遗技艺文化</option>
+                            <option value="folk">民俗风情文化</option>
+                        </select>
+                    </div>
+                    <div class="config-item">
+                        <label>主色调</label>
+                        <select id="mainColor">
+                            <option value="gold">金色（传统文化）</option>
+                            <option value="red">红色（革命文化）</option>
+                            <option value="green">绿色（生态乡村）</option>
+                            <option value="blue">蓝色（海洋文化）</option>
+                        </select>
+                    </div>
+                    <div class="config-item">
+                        <label>功能模块1</label>
+                        <select id="mod1">
+                            <option value="chat">AI人物对话</option>
+                            <option value="story">时空穿越故事</option>
+                            <option value="aigc">AI文创生成</option>
+                        </select>
+                    </div>
+                    <div class="config-item">
+                        <label>功能模块2</label>
+                        <select id="mod2">
+                            <option value="seal">文化互动体验</option>
+                            <option value="game">文化小游戏</option>
+                            <option value="quiz">知识问答</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="generate-btn" onclick="generateVillage()">
+                    ✨ 一键生成乡村文化AI体验馆
+                </button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>7天快速落地流程</h2>
+            <div class="timeline-steps">
+                <div class="step">
+                    <div class="step-num">1</div>
+                    <h4>调研采集</h4>
+                    <p>走访乡村收集<br>历史文化素材</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">2</div>
+                    <h4>内容生产</h4>
+                    <p>AI辅助生成<br>对话故事文创</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">3</div>
+                    <h4>定制开发</h4>
+                    <p>替换模板内容<br>调整风格配色</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">4</div>
+                    <h4>部署上线</h4>
+                    <p>云端部署<br>联调测试</p>
+                </div>
+                <div class="step">
+                    <div class="step-num">5</div>
+                    <h4>运营培训</h4>
+                    <p>培训村民<br>使用维护</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>效率对比：传统定制 VS 模板化复制</h2>
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>对比项</th>
+                        <th>传统定制开发</th>
+                        <th>模板化复制（我们的方案）</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>开发周期</td>
+                        <td class="old">3-6个月</td>
+                        <td class="new">7天</td>
+                    </tr>
+                    <tr>
+                        <td>开发成本</td>
+                        <td class="old">20-50万/村</td>
+                        <td class="new">3千-5万/村</td>
+                    </tr>
+                    <tr>
+                        <td>技术门槛</td>
+                        <td class="old">需要专业开发团队</td>
+                        <td class="new">运营人员即可配置</td>
+                    </tr>
+                    <tr>
+                        <td>功能模块</td>
+                        <td class="old">从零开发，质量不稳定</td>
+                        <td class="new">6大成熟模块，经过验证</td>
+                    </tr>
+                    <tr>
+                        <td>后续维护</td>
+                        <td class="old">依赖原开发团队</td>
+                        <td class="new">SaaS化，自助维护</td>
+                    </tr>
+                    <tr>
+                        <td>可复制性</td>
+                        <td class="old">低，每个村都是新项目</td>
+                        <td class="new">高，标准化流程</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="demo-section">
+            <h2>规模化能力</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-num">6</div>
+                    <div class="stat-label">大功能模块</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">20+</div>
+                    <div class="stat-label">内容模板</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">7天</div>
+                    <div class="stat-label">最快落地</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-num">70万</div>
+                    <div class="stat-label">目标市场（村）</div>
+                </div>
+            </div>
+            <p style="color: var(--cream-dark); text-align: center; margin-top: 16px;">
+                从「一个村」到「千村千面」，模板化架构让规模化复制成为可能
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>乡村文化AI体验馆 · 可复制模板演示 · TRAE AI创造力大赛参赛作品</p>
+            <p style="margin-top:8px;">一村一IP · 千村千面 · 用AI点亮乡村文化</p>
+        </div>
+    </div>
+
+    <script>
+        const templates = {
+            chenyonghua: {
+                icon: '陈',
+                title: '陈永华文化AI体验馆',
+                tag1: '两岸文化',
+                tag2: '非遗传承',
+                heroTitle: '陈永华文化AI体验馆',
+                heroSub: '从漳州到台南，文脉相连，AI让历史触手可及',
+                m1Title: 'AI先贤对话',
+                m1Desc: '与陈永华先生对话',
+                m2Desc: '亲历渡海施教征程',
+                m3Desc: '四大艺术风格',
+                m4Title: '一印连两岸',
+                m4Desc: '漳州台南同根同源',
+                village: '漳州龙海',
+                ip: '陈永华',
+                theme: 'history',
+                color: 'gold'
+            },
+            zhuji: {
+                icon: '西',
+                title: '西施故里文化AI体验馆',
+                tag1: '吴越文化',
+                tag2: '美人故里',
+                heroTitle: '西施故里AI体验馆',
+                heroSub: '浣纱石畔忆西施，吴越文化焕新生',
+                m1Title: 'AI西施对话',
+                m1Desc: '与西施穿越时空对话',
+                m2Desc: '亲历吴越春秋风云',
+                m3Desc: '越女文创风格',
+                m4Title: '浣纱互动',
+                m4Desc: '体验浣纱江边故事',
+                village: '浙江诸暨',
+                ip: '西施',
+                theme: 'history',
+                color: 'gold'
+            },
+            yanan: {
+                icon: '延',
+                title: '延安红色文化AI体验馆',
+                tag1: '红色记忆',
+                tag2: '革命精神',
+                heroTitle: '延安红色文化AI体验馆',
+                heroSub: '传承延安精神，赓续红色血脉',
+                m1Title: 'AI先辈对话',
+                m1Desc: '与革命先辈对话',
+                m2Desc: '亲历延安岁月',
+                m3Desc: '红色文创风格',
+                m4Title: '红色记忆',
+                m4Desc: '重温峥嵘岁月',
+                village: '陕西延安',
+                ip: '革命先辈',
+                theme: 'red',
+                color: 'red'
+            },
+            jingdezhen: {
+                icon: '瓷',
+                title: '景德镇瓷文化AI体验馆',
+                tag1: '千年瓷都',
+                tag2: '非遗传承',
+                heroTitle: '景德镇瓷文化AI体验馆',
+                heroSub: '千年窑火不熄，瓷文化代代相传',
+                m1Title: 'AI窑工对话',
+                m1Desc: '与老瓷工对话',
+                m2Desc: '亲历制瓷工艺流程',
+                m3Desc: '陶瓷艺术风格',
+                m4Title: '虚拟窑房',
+                m4Desc: '体验制瓷乐趣',
+                village: '江西景德镇',
+                ip: '陶瓷工匠',
+                theme: 'intangible',
+                color: 'gold'
+            },
+            custom: {
+                icon: '乡',
+                title: '乡村文化AI体验馆',
+                tag1: '特色文化',
+                tag2: '一村一品',
+                heroTitle: '乡村文化AI体验馆',
+                heroSub: '打造属于你的乡村文化名片',
+                m1Title: 'AI人物对话',
+                m1Desc: '与本地历史人物对话',
+                m2Desc: '亲历乡村发展历程',
+                m3Desc: '本地文创风格',
+                m4Title: '文化互动',
+                m4Desc: '特色文化体验',
+                village: '你的乡村',
+                ip: '本地IP人物',
+                theme: 'folk',
+                color: 'green'
+            }
+        };
+
+        function selectTemplate(name) {
+            document.querySelectorAll('.template-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            const t = templates[name];
+            
+            document.getElementById('previewIcon').textContent = t.icon;
+            document.getElementById('previewTitle').textContent = t.title;
+            document.getElementById('previewTag1').textContent = t.tag1;
+            document.getElementById('previewTag2').textContent = t.tag2;
+            document.getElementById('previewHeroTitle').textContent = t.heroTitle;
+            document.getElementById('previewHeroSub').textContent = t.heroSub;
+            document.getElementById('m1Title').textContent = t.m1Title;
+            document.getElementById('m1Desc').textContent = t.m1Desc;
+            document.getElementById('m2Desc').textContent = t.m2Desc;
+            document.getElementById('m3Desc').textContent = t.m3Desc;
+            document.getElementById('m4Title').textContent = t.m4Title;
+            document.getElementById('m4Desc').textContent = t.m4Desc;
+            
+            document.getElementById('villageName').value = t.village;
+            document.getElementById('ipName').value = t.ip;
+            document.getElementById('cultureTheme').value = t.theme;
+            document.getElementById('mainColor').value = t.color;
+
+            const frame = document.getElementById('demoFrame');
+            frame.style.opacity = '0.5';
+            setTimeout(() => {
+                frame.style.opacity = '1';
+            }, 300);
+        }
+
+        function generateVillage() {
+            const village = document.getElementById('villageName').value;
+            const ip = document.getElementById('ipName').value;
+            
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.textContent = '🚀 正在生成中...';
+            btn.disabled = true;
+            
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 10;
+                btn.textContent = `🚀 生成中... ${progress}%`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    btn.textContent = '✅ 生成完成！点击查看效果';
+                    btn.disabled = false;
+                    
+                    document.getElementById('previewTitle').textContent = `${ip}文化AI体验馆`;
+                    document.getElementById('previewHeroTitle').textContent = `${village}·${ip}文化AI体验馆`;
+                    document.getElementById('previewHeroSub').textContent = `走进${village}，感受${ip}文化魅力`;
+                    
+                    const frame = document.getElementById('demoFrame');
+                    frame.style.transform = 'scale(1.02)';
+                    setTimeout(() => {
+                        frame.style.transform = 'scale(1)';
+                    }, 300);
+                    
+                    setTimeout(() => {
+                        btn.textContent = originalText;
+                    }, 2000);
+                }
+            }, 100);
+        }
+    </script>
+</body>
+</html>
